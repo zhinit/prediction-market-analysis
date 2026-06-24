@@ -17,5 +17,8 @@ wheels/
 .env.*
 keys/
 
+# Raw source archives (large, immutable, not needed in repo)
+raw/
+
 # pybaseball cache
 .pybaseball/

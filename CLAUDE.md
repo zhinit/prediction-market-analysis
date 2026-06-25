@@ -58,6 +58,12 @@ web, official docs, and arxiv for primary sources; archive raw HTML +
 markdown into `raw/`; ingest into the wiki. It is how new knowledge enters
 the project.
 
+## Python
+
+Always use `uv` for Python: `uv run` to execute scripts, `uv add` to install
+packages, `uv venv` for environments. Never use bare `pip`, `python`, or
+`python3` directly.
+
 ---
 
 # Question answering

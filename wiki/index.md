@@ -38,6 +38,54 @@
 - [[mlb-stats-api-seasons]] — Seasons: date windows for regular season, preseason, postseason
 - [[mlb-stats-api-gamepace]] — Game pace, high-low records, Home Run Derby
 
+## Claude Skills
+
+- [[claude-skills]] — What skills are, structure, where they live, progressive disclosure, lifecycle
+- [[claude-skills-writing-guide]] — Description field, instruction writing, 5 skill patterns, common mistakes
+- [[claude-skills-frontmatter]] — Complete frontmatter reference: all fields, substitutions, invocation control
+- [[claude-skills-testing]] — Testing, skill-creator plugin, evaluation loop, iteration signals, debug tips
+
+## Claude for Learning
+
+- [[claude-learning-mode]] — Built-in Socratic tutoring mode: guided questions, study/career/research projects, retention evidence
+- [[claude-as-teacher]] — Techniques for using Claude to learn: tutor vs Socratic roles, 9 prompt patterns, question framing
+- [[claude-code-learning-style]] — Claude Code's Learning output style: TODO(human) markers, learn-by-doing coding
+
+## Exploratory Data Analysis
+
+- [[exploratory-data-analysis]] — Philosophy, history (Tukey 1977), EDA vs classical vs Bayesian, seven objectives
+- [[eda-four-rs]] — Four principles: Revelation, Resistance, Reexpression, Residuals
+- [[eda-assumptions]] — Four underlying assumptions of measurement processes and the 4-Plot diagnostic
+- [[eda-techniques]] — Catalog of 33 graphical techniques and quantitative methods
+- [[eda-workflow]] — Practical process: profiling vs discovery, the analysis cycle, common challenges
+- [[anscombes-quartet]] — Classic demonstration: identical statistics, completely different structures
+
+## Analytical Database Design
+
+- [[analytical-database-design]] — Hub: how to build a structured, self-documenting, presentable analytical database
+- [[dimensional-modeling]] — Star schema, Kimball's four-step process, fact vs dimension tables, SCDs
+- [[database-naming-conventions]] — Table and column naming rules: snake_case, suffixes, foreign keys, temporals
+- [[self-documenting-database]] — DuckDB COMMENT ON, metadata introspection, documentation-as-code
+- [[database-maintenance]] — Data quality checks, schema evolution, deduplication, metadata hygiene
+
+## Data Pipeline Stack
+
+- [[data-pipeline-stack]] — End-to-end pattern: httpx → tenacity → pydantic → polars → duckdb
+- [[httpx]] — Async HTTP client with connection pooling (replaces requests)
+- [[tenacity]] — Retry with exponential backoff and jitter for rate-limited APIs
+- [[pydantic]] — Data validation for API responses using type hints
+- [[polars]] — Fast DataFrame library (Rust-based, lazy API with query optimization)
+- [[duckdb]] — In-process analytical SQL database (persistent storage in db/)
+
+## Presentable Data Analysis
+
+- [[presentable-data-analysis]] — Hub: making analysis portfolio-ready (five principles, core loop)
+- [[data-visualization-principles]] — Tufte + Knaflic + JHU: data-ink ratio, chartjunk, preattentive attributes, color palettes
+- [[chart-selection]] — Question-driven chart picking: 9 question types → chart types (Tableau framework)
+- [[notebook-presentation]] — PLOS ten rules for notebook structure, reproducibility checklist, output formats
+- [[data-storytelling]] — Narrative structure, text's role in visualization, audience awareness, message dimensions
+- [[portfolio-presentation]] — Portfolio design patterns, anti-patterns, project template
+
 ## pybaseball
 
 - [[pybaseball]] — Python package for baseball data analysis (v2.2.7, Baseball Savant / FanGraphs / BRef / Lahman / Retrosheet)

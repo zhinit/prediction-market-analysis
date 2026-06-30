@@ -1,3 +1,4 @@
+import asyncio
 import httpx
 from pydantic import BaseModel
 from tenacity import (
@@ -60,10 +61,22 @@ class TradeResponse(BaseModel):
     cursor: str | None = None
 
 
-base_url = "https://external-api.kalshi.com/trade-api/v2"
-read_timeout = 10.0
-connect_timeout = 2.0
-timeouts = httpx.Timeout(connect=connect_timeout, read=read_timeout)
+async def fetch_all(client, path, params, response_model, result_key, page_size=200):
+    full_content = []
+    cursor = None
+    while True:
+        new_params = {**params, "limit": page_size}
+        if cursor:
+            new_params["cursor"] = cursor
+        raw = await fetch(client, path, new_params)
+
+        response = response_model.model_validate_json(raw)
+        full_content.extend(getattr(response, result_key))
+
+        cursor = response.cursor
+        if not cursor:
+            break
+    return full_content
 
 
 @retry(
@@ -72,14 +85,37 @@ timeouts = httpx.Timeout(connect=connect_timeout, read=read_timeout)
     retry=retry_if_exception_type(httpx.HTTPStatusError),
     reraise=True,
 )
-async def fetch(path, params, client):
+async def fetch(client, path, params):
     r = await client.get(path, params=params)
     r.raise_for_status()
     return r.content
 
 
+base_url = "https://external-api.kalshi.com/trade-api/v2"
+timeouts = httpx.Timeout(connect=2.0, read=10.0, write=5.0, pool=5.0)
+
+
 async def main():
     async with httpx.AsyncClient(base_url=base_url, timeout=timeouts) as client:
-        path = "filler"
-        params = {"a": 1, "b": 2}
-        await fetch(path, params, client)
+        settled = await fetch_all(
+            client,
+            "/events",
+            {"series_ticker": "KXMLBGAME", "status": "settled"},
+            EventResponse,
+            "events",
+        )
+        open_ = await fetch_all(
+            client,
+            "/events",
+            {"series_ticker": "KXMLBGAME", "status": "open"},
+            EventResponse,
+            "events",
+        )
+        events = list({e.event_ticker: e for e in settled + open_}.values())
+        print(f"Found {len(events)} events")
+        for e in events[:5]:
+            print(f"  {e.event_ticker}  {e.title}")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

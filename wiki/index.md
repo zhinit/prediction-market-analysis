@@ -73,7 +73,11 @@
 - [[data-pipeline-stack]] — End-to-end pattern: httpx → tenacity → pydantic → polars → duckdb
 - [[httpx]] — Async HTTP client with connection pooling (replaces requests)
 - [[tenacity]] — Retry with exponential backoff and jitter for rate-limited APIs
-- [[pydantic]] — Data validation for API responses using type hints
+- [[pydantic]] — Data validation for API responses using type hints (hub page)
+- [[pydantic-fields]] — Field(), constraints, aliases, computed fields, annotated pattern
+- [[pydantic-validators]] — Field/model validators (after, before, plain, wrap), validation info, ordering
+- [[pydantic-serialization]] — model_dump, serializers, field inclusion/exclusion, polymorphic serialization
+- [[pydantic-config]] — ConfigDict reference: strict mode, extra fields, propagation rules
 - [[polars]] — Fast DataFrame library (Rust-based, lazy API with query optimization)
 - [[duckdb]] — In-process analytical SQL database (persistent storage in db/)
 

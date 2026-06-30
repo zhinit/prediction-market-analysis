@@ -42,7 +42,7 @@ client = httpx.AsyncClient(
 )
 ```
 
-## Step 2: Define Pydantic models ⬅️ START HERE
+## Step 2: Define Pydantic models ✅ DONE
 
 Validate API responses before they reach the database
 (wiki: [[pydantic]], [[kalshi-market-object]]).
@@ -97,7 +97,7 @@ class TradeResponse(BaseModel):
     cursor: str | None = None
 ```
 
-## Step 3: Build the paginator
+## Step 3: Build the paginator ✅ DONE
 
 Cursor-based pagination, max 1000 per page (wiki: [[kalshi-api-pagination]]).
 
@@ -124,7 +124,7 @@ async def fetch_all(
     return results
 ```
 
-## Step 4: Find the MLB series/events
+## Step 4: Find the MLB series/events ⬅️ START HERE
 
 Events and series stay on live endpoints regardless of age — no historical
 split applies to them (wiki: [[kalshi-api-historical]]).

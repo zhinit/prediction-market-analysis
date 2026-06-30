@@ -1,5 +1,23 @@
 # Wiki Log
 
+## 2026-06-30
+
+- **Source**: Pydantic v2 official documentation (github.com/pydantic/pydantic/tree/main/docs/concepts)
+- **Pages created**: pydantic-fields, pydantic-validators, pydantic-serialization, pydantic-config
+- **Pages updated**: pydantic (major expansion from stub to comprehensive hub page)
+- **Raw sources archived**: pydantic-docs-models.md, pydantic-docs-fields.md, pydantic-docs-validators.md, pydantic-docs-serialization.md, pydantic-docs-config.md, pydantic-docs-types.md, pydantic-docs-json.md, pydantic-docs-unions.md, pydantic-docs-type-adapter.md, pydantic-docs-dataclasses.md, pydantic-docs-strict-mode.md
+- **Coverage**: Full concept documentation surface — Models (BaseModel, core methods, validation modes, extra data, generic/nested/root models, model_construct, ORM mode). Fields (Field(), Annotated pattern, default factories with validated data v2.10+, alias split validation/serialization, constraints, computed_field, frozen, deprecated v2.7+, discriminator). Validators (4 field types: after/before/plain/wrap; 3 model types; ValidationInfo with data/context/mode; ordering rules; PydanticCustomError). Serialization (model_dump/model_dump_json, field/model serializers, polymorphic_serialization v2.13+, SerializeAsAny, field inclusion/exclusion, value-based exclusion). Configuration (ConfigDict options, inheritance/merging, propagation rules). Types (Annotated reusable types, named aliases v2.11+, supported stdlib types). JSON (jiter parser, partial parsing v2.7+, strict JSON vs Python behavior). Unions (smart/left-to-right/discriminated). TypeAdapter (non-BaseModel validation, bytes output). Dataclasses. Strict mode.
+
+- **Source**: Tenacity official documentation (ReadTheDocs, GitHub source, PyPI)
+- **Pages updated**: tenacity (major expansion from stub to full reference)
+- **Raw sources archived**: tenacity-api-reference.md, tenacity-source-callbacks.md, tenacity-source-strategies.md (previously: tenacity-docs.md)
+- **Coverage**: Full API surface for v9.1.4 (Python >=3.10). Stop strategies (5: attempt, delay, before_delay, event, never + combinators). Wait strategies (9: none, fixed, random, incrementing, exponential, random_exponential/Full Jitter, exponential_jitter/Google Cloud pattern, chain, combine + additive operator). Retry conditions (12: exception/type/not_type/unless_type/cause_type/message/not_message, result/not_result, predicate, all, any + boolean operators). Six callback hooks (before, after, before_sleep, retry_error_callback) with built-in logging functions and log message formats. RetryCallState attributes (11 fields + 2 methods). Code block retrying (sync for-loop + async for-loop context managers, set_result for async). Runtime modification (retry_with, Retrying class direct use). Async support (asyncio native, Trio/curio via sleep parameter). Statistics access. TryAgain explicit retry. Generator limitation documented. Complete importable names reference.
+
+- **Source**: HTTPX official documentation (github.com/encode/httpx/tree/master/docs)
+- **Pages updated**: httpx (major expansion)
+- **Raw sources archived**: httpx-api-reference.md, httpx-http2.md, httpx-exceptions.md, httpx-compatibility.md, httpx-environment-variables.md, httpx-logging.md, httpx-advanced-transports.md, httpx-advanced-timeouts.md, httpx-advanced-authentication.md, httpx-advanced-proxies.md, httpx-advanced-ssl.md, httpx-advanced-event-hooks.md, httpx-advanced-extensions.md, httpx-advanced-resource-limits.md, httpx-advanced-text-encodings.md, httpx-third-party-packages.md, httpx-troubleshooting.md
+- **Coverage**: Full documentation surface — API reference (Client, AsyncClient, Response, Request, URL, Headers, Cookies, Proxy), exception hierarchy (full tree), requests compatibility guide (17 behavioral differences), HTTP/2 setup, timeout configuration (4 granular types), connection pool limits, streaming responses, authentication (Basic, Digest, NetRC, custom Auth subclass), proxies (HTTP, SOCKS, mounting), SSL/TLS (verification, custom CA, client certs, truststore), event hooks, extensions (trace, sni_hostname, timeout, target, network_stream), transports (WSGI, ASGI, Mock, Custom, mounting/routing), environment variables, logging, text encoding, third-party packages, troubleshooting.
+
 ## 2026-06-24
 
 - **Source**: Polymarket US API documentation (docs.polymarket.us)

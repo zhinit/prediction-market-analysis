@@ -113,8 +113,34 @@ async def main():
         )
         events = list({e.event_ticker: e for e in settled + open_}.values())
         print(f"Found {len(events)} events")
-        for e in events[:5]:
-            print(f"  {e.event_ticker}  {e.title}")
+        # for e in events[:5]:
+        #    print(f"  {e.event_ticker}  {e.title}")
+
+        r = await client.get("historical/cutoff")
+        cutoff = r.json()
+        print(f"Historical cutoff: {cutoff}")
+
+        hist_markets = await fetch_all(
+            client,
+            "/historical/markets",
+            {"series_ticker": "KXMLBGAME"},
+            MarketResponse,
+            "markets",
+        )
+        print(f"Historical markets: {len(hist_markets)}")
+
+        live_markets = await fetch_all(
+            client,
+            "/markets",
+            {"series_ticker": "KXMLBGAME"},
+            MarketResponse,
+            "markets",
+        )
+        print(f"Live markets: {len(live_markets)}")
+
+        # use a dictionary comprehension to remove duplicate markets
+        markets = list({m.ticker: m for m in hist_markets + live_markets}.values())
+        print(f"Total markets: {len(markets)}")
 
 
 if __name__ == "__main__":

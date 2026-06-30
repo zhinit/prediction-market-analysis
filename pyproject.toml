@@ -5,5 +5,10 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11.8"
 dependencies = [
+    "duckdb>=1.5.4",
+    "httpx>=0.28.1",
+    "polars>=1.42.1",
+    "pydantic>=2.13.4",
     "requests>=2.34.2",
+    "tenacity>=9.1.4",
 ]

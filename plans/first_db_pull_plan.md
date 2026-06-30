@@ -7,15 +7,15 @@ into `db/pma.db` (DuckDB).
 
 ## Step 0: Setup
 
-- [ ] Create `db/` directory
-- [ ] `uv add httpx tenacity pydantic duckdb cryptography`
-- [ ] Verify connectivity: hit `GET /exchange/status` (public, no auth)
-- [ ] Base URL: `https://external-api.kalshi.com/trade-api/v2`
+- [x] Create `db/` directory
+- [x] `uv add httpx tenacity pydantic duckdb polars`
+- [x] Verify connectivity: hit `GET /exchange/status` (public, no auth)
+- [x] Base URL: `https://external-api.kalshi.com/trade-api/v2`
 
 No auth needed for the entire pull — all market data, trade, and event
 endpoints are public (wiki: [[kalshi-api-market-data]]).
 
-## Step 1: Build the HTTP client
+## Step 1: Build the HTTP client ✅ DONE
 
 Use `httpx.AsyncClient` with connection pooling. Wrap fetch calls with
 tenacity for automatic 429 retry with exponential backoff + jitter
@@ -42,7 +42,7 @@ client = httpx.AsyncClient(
 )
 ```
 
-## Step 2: Define Pydantic models
+## Step 2: Define Pydantic models ⬅️ START HERE
 
 Validate API responses before they reach the database
 (wiki: [[pydantic]], [[kalshi-market-object]]).

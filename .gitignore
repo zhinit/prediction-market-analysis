@@ -22,3 +22,6 @@ raw/
 
 # pybaseball cache
 .pybaseball/
+
+# Database files
+*.db

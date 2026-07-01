@@ -124,7 +124,7 @@ async def fetch_all(
     return results
 ```
 
-## Step 4: Find the MLB series/events ⬅️ START HERE
+## Step 4: Find the MLB series/events ✅ DONE
 
 Events and series stay on live endpoints regardless of age — no historical
 split applies to them (wiki: [[kalshi-api-historical]]).
@@ -137,7 +137,7 @@ GET /events?status=open        (browse if the series ticker is wrong)
 Look for the series_ticker that covers MLB game outcomes. Save it once
 found — you'll filter everything else by it.
 
-## Step 5: Pull all MLB markets (live + historical)
+## Step 5: Pull all MLB markets (live + historical) ✅ DONE
 
 The live/historical split applies to markets
 (wiki: [[kalshi-api-historical]]).
@@ -163,7 +163,7 @@ GET /markets?series_ticker=<MLB_TICKER>
 
 **5d.** Merge and deduplicate by `ticker` in memory before inserting.
 
-## Step 6: Pull all MLB trades (live + historical)
+## Step 6: Pull all MLB trades (live + historical) ✅ DONE
 
 Biggest pull. Same two-tier pattern. `trades_created_ts` from the cutoff
 response determines the boundary.
@@ -182,7 +182,7 @@ GET /markets/trades?ticker=<MARKET_TICKER>&limit=1000
 
 **6c.** Merge and deduplicate by `trade_id` in memory.
 
-## Step 7: Load into DuckDB
+## Step 7: Load into DuckDB ✅ DONE (pulled forward into step 6)
 
 Store in `db/pma.db` — the single project database
 (wiki: [[duckdb]]).
@@ -245,7 +245,7 @@ with duckdb.connect("db/pma.db") as con:
     # etc.
 ```
 
-## Step 8: Sanity checks
+## Step 8: Sanity checks ⬅️ START HERE
 
 ```sql
 -- Row counts

@@ -8,6 +8,9 @@ In-process analytical SQL database. No server, no setup — runs inside the Pyth
 uv add duckdb
 ```
 
+Requires Python 3.9 or newer.
+(source: duckdb-python-overview.md)
+
 ## Why DuckDB for this project
 
 - In-process: no database server to manage. A single file in `db/` holds all data.
@@ -15,7 +18,7 @@ uv add duckdb
 - Native Parquet/CSV read and write.
 - Vectorized, multi-core query execution.
 - Persistent storage: data survives between script runs.
-(source: duckdb-python-api.md)
+(source: duckdb-python-overview.md)
 
 ## Basic Usage
 
@@ -32,7 +35,9 @@ con.sql("INSERT INTO markets VALUES ('KXBTC', 0.65)")
 con.table("markets").show()
 con.close()
 ```
-(source: duckdb-python-api.md)
+
+The result of `duckdb.sql()` is a **Relation** — a symbolic representation of the query. Nothing executes until you call `.show()`, `.fetchall()`, `.df()`, `.pl()`, etc.
+(source: duckdb-python-overview.md)
 
 ## Context Manager
 
@@ -40,7 +45,7 @@ con.close()
 with duckdb.connect("db/pma.db") as con:
     con.sql("SELECT * FROM markets WHERE price > 0.5").show()
 ```
-(source: duckdb-python-api.md)
+(source: duckdb-python-overview.md)
 
 ## DataFrame Integration
 
@@ -54,7 +59,7 @@ duckdb.sql("SELECT * FROM markets_df WHERE price > 0.7").show()
 ```
 
 Works with Polars, Pandas, and PyArrow tables.
-(source: duckdb-python-api.md)
+(source: duckdb-python-overview.md)
 
 ## Result Conversion
 
@@ -64,8 +69,9 @@ result.fetchall()       # list of tuples
 result.pl()             # → Polars DataFrame
 result.df()             # → Pandas DataFrame
 result.arrow()          # → PyArrow Table
+result.fetchnumpy()     # → dict of NumPy arrays
 ```
-(source: duckdb-python-api.md)
+(source: duckdb-python-conversion.md)
 
 ## Data Import/Export
 
@@ -82,7 +88,7 @@ con.sql("SELECT * FROM markets").write_csv("out.csv")
 con.read_parquet("data/markets.parquet")
 con.read_csv("data/trades.csv")
 ```
-(source: duckdb-python-api.md)
+(source: duckdb-python-data-ingestion.md)
 
 ## Thread Safety
 
@@ -91,7 +97,9 @@ The global `duckdb.sql()` connection is not thread-safe. For concurrent use, cre
 ```python
 con = duckdb.connect()  # each thread gets its own
 ```
-(source: duckdb-python-api.md)
+
+`cursor()` creates another handle on the same connection, not a new connection — cursors from one connection serialize queries.
+(source: duckdb-python-overview.md)
 
 ## Schema Documentation
 
@@ -111,6 +119,17 @@ con.sql("SELECT * FROM duckdb_columns()").show()   # all columns
 con.sql("SELECT * FROM duckdb_constraints()").show() # keys, constraints
 ```
 (source: duckdb-metadata-functions.md)
+
+## Sub-pages
+
+- [[duckdb-python-connections]] — Connection types, configuration, named in-memory, read-only, extensions
+- [[duckdb-db-api]] — PEP 249 compliant API: execute(), fetchone/fetchall, prepared statements, named parameters
+- [[duckdb-relational-api]] — Lazy query builder: relation creation, transformations, aggregations, output methods
+- [[duckdb-data-ingestion]] — Reading CSV, Parquet, JSON; querying DataFrames; registering virtual tables
+- [[duckdb-result-conversion]] — Python↔DuckDB type mapping; output to Pandas, Polars, Arrow, NumPy
+- [[duckdb-udfs]] — User-defined functions: native and Arrow, type annotations, NULL/exception handling
+- [[duckdb-expression-api]] — Programmatic expression building: Column, Star, Constant, Case, Function, SQL expressions
+- [[duckdb-friendly-sql]] — DuckDB SQL extensions: FROM-first, GROUP BY ALL, EXCLUDE, COLUMNS(), ASOF joins
 
 ## See Also
 

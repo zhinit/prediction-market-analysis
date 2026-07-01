@@ -1,5 +1,7 @@
 import asyncio
 import httpx
+import duckdb
+import polars as pl
 from pydantic import BaseModel
 from tenacity import (
     retry,
@@ -82,13 +84,58 @@ async def fetch_all(client, path, params, response_model, result_key, page_size=
 @retry(
     stop=stop_after_attempt(5),
     wait=wait_random_exponential(multiplier=1, max=60),
-    retry=retry_if_exception_type(httpx.HTTPStatusError),
+    retry=retry_if_exception_type((httpx.HTTPStatusError, httpx.ReadTimeout)),
     reraise=True,
 )
 async def fetch(client, path, params):
     r = await client.get(path, params=params)
     r.raise_for_status()
     return r.content
+
+
+def init_db(path="db/pma.db"):
+    con = duckdb.connect(path)
+    con.sql("""
+        CREATE TABLE IF NOT EXISTS events (
+            event_ticker TEXT PRIMARY KEY,
+            series_ticker TEXT NOT NULL,
+            title TEXT,
+            category TEXT,
+            sub_title TEXT
+        )
+    """)
+    con.sql("""
+        CREATE TABLE IF NOT EXISTS markets (
+            ticker TEXT PRIMARY KEY,
+            event_ticker TEXT NOT NULL,
+            market_type TEXT,
+            yes_sub_title TEXT,
+            no_sub_title TEXT,
+            status TEXT NOT NULL,
+            result TEXT,
+            open_time TEXT,
+            close_time TEXT,
+            settlement_ts TEXT,
+            settlement_value_dollars TEXT,
+            volume_fp TEXT,
+            open_interest_fp TEXT,
+            rules_primary TEXT
+        )
+    """)
+    con.sql("""
+        CREATE TABLE IF NOT EXISTS trades (
+            trade_id TEXT PRIMARY KEY,
+            ticker TEXT NOT NULL,
+            count_fp TEXT,
+            yes_price_dollars TEXT,
+            no_price_dollars TEXT,
+            taker_outcome_side TEXT,
+            taker_book_side TEXT,
+            created_time TEXT,
+            is_block_trade BOOLEAN NOT NULL
+        )
+    """)
+    return con
 
 
 base_url = "https://external-api.kalshi.com/trade-api/v2"
@@ -141,6 +188,48 @@ async def main():
         # use a dictionary comprehension to remove duplicate markets
         markets = list({m.ticker: m for m in hist_markets + live_markets}.values())
         print(f"Total markets: {len(markets)}")
+
+        con = init_db()
+
+        events_df = pl.DataFrame([e.model_dump() for e in events])
+        con.sql("INSERT OR REPLACE INTO events SELECT * FROM events_df")
+        print(f"Saved {len(events)} events to db")
+
+        markets_df = pl.DataFrame([m.model_dump() for m in markets])
+        con.sql("INSERT OR REPLACE INTO markets SELECT * FROM markets_df")
+        print(f"Saved {len(markets)} markets to db")
+
+        for i, m in enumerate(markets):
+            trades = await fetch_all(
+                client,
+                "/historical/trades",
+                {"ticker": m.ticker},
+                TradeResponse,
+                "trades",
+            )
+            if trades:
+                trades_df = pl.DataFrame([t.model_dump() for t in trades])
+                con.sql("INSERT OR REPLACE INTO trades SELECT * FROM trades_df")
+            if (i + 1) % 5 == 0:
+                print(f"  ... {i + 1}/{len(markets)} markets")
+        print("Historical trades done")
+
+        for i, m in enumerate(markets):
+            trades = await fetch_all(
+                client,
+                "/markets/trades",
+                {"ticker": m.ticker},
+                TradeResponse,
+                "trades",
+            )
+            if trades:
+                trades_df = pl.DataFrame([t.model_dump() for t in trades])
+                con.sql("INSERT OR REPLACE INTO trades SELECT * FROM trades_df")
+            if (i + 1) % 5 == 0:
+                print(f"  ... {i + 1}/{len(markets)} live markets")
+        print("Live trades done")
+
+        con.close()
 
 
 if __name__ == "__main__":

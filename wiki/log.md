@@ -2,6 +2,12 @@
 
 ## 2026-06-30
 
+- **Source**: DuckDB official documentation (github.com/duckdb/duckdb-web/tree/main/docs/current/clients/python + duckdb.org/docs/current/sql/dialect/friendly_sql)
+- **Pages created**: duckdb-python-connections, duckdb-db-api, duckdb-relational-api, duckdb-data-ingestion, duckdb-result-conversion, duckdb-udfs, duckdb-expression-api, duckdb-friendly-sql
+- **Pages updated**: duckdb (expanded hub page with sub-page links)
+- **Raw sources archived**: duckdb-python-overview.md, duckdb-python-dbapi.md, duckdb-python-relational-api.md, duckdb-python-data-ingestion.md, duckdb-python-conversion.md, duckdb-python-types.md, duckdb-python-udfs.md, duckdb-python-expression.md, duckdb-python-known-issues.md, duckdb-python-spark-api.md, duckdb-python-client-reference.md, duckdb-friendly-sql.md
+- **Coverage**: Full Python API surface — connections (in-memory, named, persistent, read-only, default, config, threading, extensions). DB API (PEP 249: execute/fetchone/fetchall, prepared statements with ? and $ notation, named parameters, executemany warning). Relational API (lazy evaluation, 14 creation methods, 16 transformation methods, 50+ aggregate functions, 20+ output methods, writing to storage). Data ingestion (CSV/Parquet/JSON with all read_csv parameters, DataFrame replacement scans, register(), name precedence, Pandas object column caveat). Result conversion (Python↔DuckDB type mapping for 18+ types, 10 output format methods, DuckDBPyType with built-in/numpy/nested type mappings, 28 type constants, 6 complex type constructors). UDFs (create_function with 8 parameters, type annotation inference, native vs Arrow mode, NULL/exception/side-effects handling, partial functions). Expression API (Column, Star, Constant, Case, Function, SQL expressions; common operations; ordering). Friendly SQL (FROM-first, GROUP BY ALL, EXCLUDE/REPLACE, COLUMNS(), lateral aliases, count(), UNION BY NAME, prefix aliases, INSERT variants, PIVOT/UNPIVOT, direct file queries, ASOF/POSITIONAL joins, dot operator, numeric separators, trailing commas, Top-N aggregates, FILTER clause, SQL variables).
+
 - **Source**: Pydantic v2 official documentation (github.com/pydantic/pydantic/tree/main/docs/concepts)
 - **Pages created**: pydantic-fields, pydantic-validators, pydantic-serialization, pydantic-config
 - **Pages updated**: pydantic (major expansion from stub to comprehensive hub page)

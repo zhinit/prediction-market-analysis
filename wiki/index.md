@@ -80,6 +80,14 @@
 - [[pydantic-config]] — ConfigDict reference: strict mode, extra fields, propagation rules
 - [[polars]] — Fast DataFrame library (Rust-based, lazy API with query optimization)
 - [[duckdb]] — In-process analytical SQL database (persistent storage in db/)
+- [[duckdb-python-connections]] — Connection types: in-memory, named, persistent, read-only, config, threading
+- [[duckdb-db-api]] — PEP 249 API: execute, fetch, prepared statements, named parameters
+- [[duckdb-relational-api]] — Lazy query builder: creation, transformation, aggregation, output methods
+- [[duckdb-data-ingestion]] — Reading CSV/Parquet/JSON, querying DataFrames, registering virtual tables
+- [[duckdb-result-conversion]] — Python↔DuckDB type mapping, output to Pandas/Polars/Arrow/NumPy
+- [[duckdb-udfs]] — User-defined functions: native and Arrow, type annotations, NULL handling
+- [[duckdb-expression-api]] — Programmatic expression building: Column, Star, Case, Function, SQL
+- [[duckdb-friendly-sql]] — DuckDB SQL extensions: FROM-first, GROUP BY ALL, EXCLUDE, ASOF joins
 
 ## Presentable Data Analysis
 

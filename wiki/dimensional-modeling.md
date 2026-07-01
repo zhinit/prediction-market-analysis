@@ -6,7 +6,7 @@ Organizing analytical data into fact tables (measurements) and dimension tables 
 
 A central fact table connects to multiple dimension tables via foreign keys. The shape resembles a star: fact in the center, dimensions radiating outward.
 
-**Fact tables** hold numeric measures and foreign keys. They grow over time as events accumulate. Every row represents one measurement at a specific grain (e.g., one market snapshot at one point in time).
+**Fact tables** hold numeric measures and foreign keys. They grow over time as events accumulate. Every row represents one measurement at a specific grain.
 
 **Dimension tables** hold descriptive attributes that answer who, what, where, when, why. They are denormalized — all attributes for a concept live in one table, not split across normalized lookups. They change slowly relative to facts.
 (source: motherduck-star-schema-guide.md)
@@ -17,41 +17,25 @@ Ralph Kimball's methodology for designing a dimensional model:
 
 1. **Select the business process.** What are you measuring? Start with the questions analysts want to ask, not the entity structure.
 
-2. **Establish the grain.** Define the most atomic level of data. For market analysis: one row per market per snapshot timestamp. Always go as granular as possible — you can aggregate up but can't disaggregate down.
+2. **Establish the grain.** Define the most atomic level of data. For retail, this means line items rather than orders. Always go as granular as possible — you can aggregate up but can't disaggregate down, and detailed queries later won't require re-architecting.
 
-3. **Choose dimensions.** Ask "how do people describe this data?" For a market snapshot: which market, which event category, what date, which platform. Each becomes a dimension table.
+3. **Choose dimensions.** Ask "how do business people describe this data?" Each answer becomes a dimension table. A date dimension, for example, captures business concepts like fiscal years and selling seasons absent from standard date fields.
 
-4. **Identify facts.** Select numeric measures that align with the grain. For a market snapshot: price, volume, open interest, spread.
+4. **Identify facts.** Select numeric measures answerable to key business questions. Facts must align with the established grain.
 
 The philosophy: "do the hard work now, to make it easy to query later."
 (source: holistics-kimball-dimensional-modeling.md)
 
-## Example: market pricing star schema
+## Example: online sales star schema
 
-```
-                    ┌──────────────┐
-                    │  markets_dim │
-                    │──────────────│
-                    │ market_id    │
-                    │ ticker       │
-                    │ title        │
-                    │ platform     │
-                    │ category     │
-                    └──────┬───────┘
-                           │
-┌──────────────┐    ┌──────┴───────────────┐    ┌──────────────┐
-│  dates_dim   │    │  market_snapshots     │    │  events_dim  │
-│──────────────│    │──────────────────────│    │──────────────│
-│ date_id      ├────┤ date_id (FK)         ├────┤ event_id     │
-│ date         │    │ market_id (FK)       │    │ event_name   │
-│ day_of_week  │    │ event_id (FK)        │    │ event_type   │
-│ month        │    │ snapshot_time        │    │ start_date   │
-│ quarter      │    │ price                │    │ end_date     │
-│ year         │    │ volume               │    └──────────────┘
-│ is_weekend   │    │ open_interest        │
-└──────────────┘    │ spread               │
-                    └──────────────────────┘
-```
+The MotherDuck guide's example models online sales. A central **FactSales** table contains the foreign keys `DateKey`, `CustomerKey`, `ProductKey`, `StoreKey` and the measures `QuantitySold`, `UnitPrice`, `TotalAmount`. Four dimensions radiate from it:
+
+- **DimDate** — temporal attributes (day of week, month, quarter, fiscal periods)
+- **DimCustomer** — purchaser information (name, location, segment)
+- **DimProduct** — merchandise details (category, brand, color, size)
+- **DimStore** — location context (city, region, store type)
+
+(source: motherduck-star-schema-guide.md)
 
 ## Date dimension
 
@@ -74,20 +58,15 @@ WHERE EXTRACT(YEAR FROM snapshot_time) = 2026
 DuckDB uses sequences for auto-incrementing keys (no `AUTOINCREMENT` keyword):
 
 ```sql
-CREATE SEQUENCE market_id_seq START 1;
-CREATE TABLE markets_dim (
-    market_id INTEGER PRIMARY KEY DEFAULT nextval('market_id_seq'),
-    ticker TEXT NOT NULL,
-    title TEXT,
-    platform TEXT,
-    category TEXT
-);
+CREATE SEQUENCE sequence_name START 1;
+-- then, in the table definition:
+column_name INTEGER PRIMARY KEY DEFAULT nextval('sequence_name')
 ```
 (source: motherduck-star-schema-guide.md)
 
 ## Slowly changing dimensions
 
-When dimension attributes change over time (e.g., a market's title or category gets updated):
+When dimension attributes change over time:
 
 - **Type 1 (overwrite)**: Replace the old value. Simple but loses history.
 - **Type 2 (new row)**: Add a new row with a surrogate key, preserving the old version. Maintains full history.
@@ -98,7 +77,7 @@ Modern practice: take periodic snapshots of the entire dimension table rather th
 
 ## Star vs. snowflake
 
-A snowflake schema normalizes dimension tables further (e.g., a separate `categories` table referenced by `markets_dim`). This reduces redundancy but adds joins and complexity. Star schemas typically outperform for analytical workloads and are easier to understand.
+A snowflake schema normalizes dimension tables further (e.g., storing category in a separate `DimCategory` rather than in `DimProduct`). This reduces redundancy but adds joins and complexity. Star schemas typically outperform for analytical workloads and are easier to understand.
 (source: motherduck-star-schema-guide.md)
 
 ## Trade-offs
@@ -107,6 +86,8 @@ A snowflake schema normalizes dimension tables further (e.g., a separate `catego
 - **Write complexity**: Updates to dimension attributes touch more rows. Mitigated by the fact that dimensions change slowly.
 - **Not for OLTP**: Star schemas optimize reads, not writes. They complement transactional systems, not replace them.
 (source: motherduck-star-schema-guide.md)
+
+Project-specific choices are recorded in `docs/project-conventions.md`.
 
 ## See also
 

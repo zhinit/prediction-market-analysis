@@ -21,8 +21,8 @@ from pybaseball import playerid_lookup
 
 data = playerid_lookup('jones')                              # all players named Jones (1,314 rows)
 data = playerid_lookup('jones', 'chipper')                   # exact match
-data = playerid_lookup("martinez", "pedro", fuzzy=True)      # fuzzy: returns 2 Pedro Martinezes
-data = playerid_lookup("molina", "yadi", fuzzy=True)         # fuzzy: closest 5, Yadier Molina first
+data = playerid_lookup("martinez", "pedro", fuzzy=True)
+data = playerid_lookup("molina", "yadi", fuzzy=True)
 ```
 
 ## player_search_list()

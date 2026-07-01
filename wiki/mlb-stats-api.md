@@ -2,6 +2,7 @@
 
 Free, public, unauthenticated JSON API that powers MLB.com and the MLB app.
 Community-documented; MLB provides no official public docs.
+(source: mlb-stats-api-public-docs-readme.md)
 
 ## Base URL
 
@@ -39,6 +40,10 @@ a proxy. (source: mlb-stats-api-public-docs-readme.md)
 | Reference | `/positions`, `/gameTypes`, `/awards`, `/attendance` | [[mlb-stats-api-reference]] |
 | Seasons | `/seasons`, `/seasons/{id}` | [[mlb-stats-api-seasons]] |
 | Game Pace | `/gamePace`, `/highLow/{orgType}` | [[mlb-stats-api-gamepace]] |
+
+(source: mlb-stats-api-public-docs-readme.md; the `/divisions`, `/seasons`,
+`/gamePace`, and `/highLow` endpoint paths from mlb-stats-api-sports-leagues.md,
+mlb-stats-api-seasons.md, and mlb-stats-api-gamepace-highlow.md)
 
 ## Universal Query Parameters
 

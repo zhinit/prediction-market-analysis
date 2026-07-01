@@ -6,7 +6,7 @@ A database where the schema itself explains the data — no external documentati
 
 External documentation (READMEs, wikis, spreadsheets) drifts from reality. The schema is always current. If the documentation lives inside the database, it stays synchronized with the data by construction.
 
-Anyone should be able to connect to `db/pma.db`, run a few metadata queries, and understand every table and column without reading a separate document.
+Anyone should be able to connect to the database, run a few metadata queries, and understand every table and column without reading a separate document.
 (source: techwriter-self-documenting-databases.md)
 
 ## DuckDB's COMMENT ON
@@ -14,14 +14,14 @@ Anyone should be able to connect to `db/pma.db`, run a few metadata queries, and
 DuckDB supports PostgreSQL-style comments on database objects:
 
 ```sql
-COMMENT ON TABLE market_snapshots IS
-    'Point-in-time price and volume captures for prediction market contracts. One row per market per snapshot.';
+COMMENT ON TABLE orders IS
+    'One row per customer order placed through the storefront.';
 
-COMMENT ON COLUMN market_snapshots.price IS
-    'Last traded price as a probability (0.00 to 1.00)';
+COMMENT ON COLUMN orders.total_amount IS
+    'Order total in USD, including tax';
 
-COMMENT ON COLUMN market_snapshots.snapshot_time IS
-    'UTC timestamp when the snapshot was captured';
+COMMENT ON COLUMN orders.create_time IS
+    'UTC timestamp when the order was placed';
 ```
 
 Supported object types: TABLE, COLUMN, VIEW, INDEX, SEQUENCE, TYPE, MACRO.
@@ -29,7 +29,7 @@ Supported object types: TABLE, COLUMN, VIEW, INDEX, SEQUENCE, TYPE, MACRO.
 To remove a comment:
 
 ```sql
-COMMENT ON TABLE market_snapshots IS NULL;
+COMMENT ON TABLE orders IS NULL;
 ```
 (source: duckdb-comment-on.md)
 
@@ -46,7 +46,7 @@ WHERE schema_name = 'main';
 -- All columns for a specific table
 SELECT column_name, data_type, comment
 FROM duckdb_columns()
-WHERE table_name = 'market_snapshots';
+WHERE table_name = 'orders';
 
 -- Full schema catalog
 SELECT t.table_name, t.comment AS table_comment, c.column_name, c.data_type, c.comment AS column_comment
@@ -94,6 +94,8 @@ WHERE schema_name = 'main'
 
 DuckDB's COMMENT ON cannot attach comments to schemas or databases — only to objects within them.
 (source: duckdb-comment-on.md)
+
+Project-specific choices are recorded in `docs/project-conventions.md`.
 
 ## See also
 

@@ -140,10 +140,12 @@ Can also use `@cached_property`. Can be deprecated. Conditional exclusion via `e
 
 - `Field(exclude=True)` — permanently excluded from serialization
 - `Field(exclude_if=lambda v: v == 0)` — conditionally excluded (v2.12+)
+(source: pydantic-docs-fields.md)
 
 ## Frozen Fields
 
 `Field(frozen=True)` — prevent reassignment after creation.
+(source: pydantic-docs-fields.md)
 
 ## Deprecated Fields (v2.7+)
 
@@ -151,6 +153,7 @@ Can also use `@cached_property`. Can be deprecated. Conditional exclusion via `e
 - `Field(deprecated='message')` — custom deprecation message
 
 Sets `deprecated` keyword in JSON Schema.
+(source: pydantic-docs-fields.md)
 
 ## Discriminator
 
@@ -166,6 +169,7 @@ Or with a callable: `Field(discriminator=Discriminator(my_func))`.
 ## JSON Schema Customization
 
 `title`, `description`, `examples`, `json_schema_extra` customize generated JSON Schema.
+(source: pydantic-docs-fields.md)
 
 ## Inspecting Fields
 

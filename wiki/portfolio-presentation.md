@@ -38,27 +38,14 @@ Present analysis as a narrative readers can follow. Blogs enable deeper engageme
 
 ## Anti-Patterns
 
-- Listing skills without demonstrating them
-- Projects without context (what was the question?)
-- Raw notebooks with no narrative markdown
-- Too many projects, none well-presented
-- Charts without titles, labels, or interpretation
-- No clear structure or navigation
+Inverting the article's core recommendations, weak portfolios show (source: careerfoundry-portfolio-examples.md):
 
-## Structure for This Project
+- Listing skills without real-world projects that demonstrate problem-solving ability
+- Projects without clear descriptions or a stated role
+- Too many projects instead of a curated selection ("quality over quantity in project selection")
+- No well-organized, navigable structure
 
-Given that pma is a portfolio-ready analysis project, each analysis should follow this template:
-
-```
-Title: [What we investigated]
-Question: [The specific question, stated plainly]
-Data: [Source, size, time range, any cleaning notes]
-Method: [What we did, briefly]
-Key Findings: [2-3 bullet points with supporting charts]
-Limitations: [What the data can't tell us]
-```
-
-The analysis/ directory holds the work. Each analysis is a self-contained notebook or set of notebooks that runs top-to-bottom.
+Project-specific choices are recorded in `docs/project-conventions.md`.
 
 ## Related Pages
 

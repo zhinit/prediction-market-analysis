@@ -31,6 +31,8 @@ The file must be exactly `SKILL.md` (case-sensitive). The folder name must be ke
 | Project    | `.claude/skills/<name>/SKILL.md`               | This project only       |
 | Plugin     | `<plugin>/skills/<name>/SKILL.md`              | Where plugin is enabled |
 
+(source: claude-code-skills-docs.md)
+
 Enterprise overrides personal, personal overrides project. Any level overrides a bundled skill with the same name. Nested `.claude/skills/` directories support monorepos with directory-qualified names like `apps/web:deploy` (source: claude-code-skills-docs.md).
 
 ## Progressive Disclosure
@@ -38,7 +40,7 @@ Enterprise overrides personal, personal overrides project. Any level overrides a
 Skills use a three-level context system (source: anthropic-complete-guide-building-skills.md):
 
 1. **Frontmatter** (always loaded): ~100 words. Enough for Claude to decide when to use the skill.
-2. **SKILL.md body** (loaded on trigger): Full instructions. Keep under 500 lines / 1,500-2,000 words ideally (source: skill-development-plugin-skill.md).
+2. **SKILL.md body** (loaded on trigger): Full instructions. Keep under 5,000 words (1,500-2,000 ideal) (source: skill-development-plugin-skill.md).
 3. **Bundled files** (loaded as needed): Reference docs, scripts, assets. Claude discovers and reads them on demand.
 
 ## Content Lifecycle

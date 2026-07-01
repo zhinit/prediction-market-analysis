@@ -1,6 +1,6 @@
 # EDA Techniques
 
-[[Exploratory-data-analysis]] techniques divide into graphical and quantitative, with graphical methods taking priority for initial exploration. (source: nist-eda-handbook.md)
+[[exploratory-data-analysis]] techniques divide into graphical and quantitative, with graphical methods taking priority for initial exploration. (source: nist-eda-handbook.md)
 
 ## Graphical Techniques
 

@@ -21,6 +21,12 @@ Returns three ISO 8601 timestamps:
 Resting (active) orders always remain on `GET /portfolio/orders` regardless of
 cutoff. (source: kalshi-api-historical-data.md)
 
+Note: the historical-data documentation references the legacy
+`/portfolio/orders` path (source: kalshi-api-historical-data.md), while the V2
+`/portfolio/events/orders` endpoints are the current standard and the legacy
+path is deprecated (source: kalshi-api-orders-and-portfolio.md,
+kalshi-api-changelog-2026.md). See [[kalshi-api-orders]].
+
 ## Historical Endpoints
 
 All historical endpoints use cursor-based pagination (same as live). See

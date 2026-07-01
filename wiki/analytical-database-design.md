@@ -23,27 +23,12 @@ Use [[database-naming-conventions]] so column names explain themselves. Use Duck
 Don't model everything upfront. Start with raw data, build dimensional models as analytical questions demand them. Kimball's methodology is valuable for its concepts (grain, conformed dimensions), but modern practice builds incrementally rather than waterfall.
 (source: holistics-kimball-dimensional-modeling.md)
 
-## Practical structure for this project
-
-The database lives in `db/pma.db`. Tables follow this organization:
-
-- **Fact tables**: No prefix. Named after the business process they measure. Examples: `market_snapshots`, `trades`, `game_outcomes`.
-- **Dimension tables**: `_dim` suffix. Examples: `markets_dim`, `teams_dim`, `events_dim`, `dates_dim`.
-- **Reference tables**: `ref_` prefix. Small lookup tables. Examples: `ref_market_types`, `ref_game_states`.
-- **Staging/temp tables**: `stg_` prefix. Intermediate pipeline outputs, not for direct analysis.
-
-See [[database-naming-conventions]] for column-level rules.
+Project-specific choices are recorded in `docs/project-conventions.md`.
 
 ## What makes it presentable
 
-A database is presentable when someone unfamiliar with it can:
-
-1. List all tables and understand what each one holds (via table comments)
-2. Look at any table's columns and understand what each means (via column comments and naming)
-3. Write a query without consulting external documentation (via consistent naming and intuitive joins)
-4. Trust the data (via constraints, deduplication, and documented grain)
-
-This is achieved through structure and naming, not through a separate document that inevitably drifts from reality.
+A self-documenting database embeds documentation in the schema itself, using built-in commenting mechanisms that remain maintainable as the structure evolves: table comments describe the real-world objects a table represents, view comments explain the questions those stored queries answer, and column comments describe the properties they store. Consistent naming conventions promote readability, and a defined primary key on every table is "key to understanding the data model." Because the documentation lives inside the database, it stays synchronized with the active database rather than drifting in a separate document.
+(source: techwriter-self-documenting-databases.md)
 
 ## See also
 

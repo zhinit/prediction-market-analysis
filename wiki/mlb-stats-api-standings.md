@@ -59,6 +59,8 @@ The `records` array has one entry per division, each containing:
 }
 ```
 
+(source: mlb-stats-api-standings.md)
+
 ## Team Record Fields
 
 | Field | Description |

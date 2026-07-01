@@ -1,6 +1,6 @@
 # database-naming-conventions
 
-Consistent naming makes a database self-explanatory. These conventions apply to all tables and columns in `db/pma.db`.
+Consistent naming makes a database self-explanatory. Conventions for naming tables and columns in an analytical database.
 
 ## General rules
 
@@ -22,9 +22,10 @@ Consistent naming makes a database self-explanatory. These conventions apply to 
 | Fact table | No prefix/suffix | `market_snapshots`, `trades` |
 | Dimension table | `_dim` suffix | `markets_dim`, `teams_dim`, `dates_dim` |
 | Reference/lookup | `ref_` prefix | `ref_market_types`, `ref_game_states` |
-| Staging/temp | `stg_` prefix | `stg_kalshi_raw`, `stg_polymarket_raw` |
+| Temporary pipeline | `tmp_` prefix | `tmp_daily_load` |
+| Testing (with expiration management) | `test_` prefix | `test_trades` |
 
-Fact tables are unprefixed so they sort first alphabetically and are immediately visible as the core data.
+Fact tables are unprefixed, allowing alphabetical grouping of related tables.
 (source: database-naming-conventions-warehouse-design.md)
 
 ## Column names
@@ -104,6 +105,8 @@ Transform flags (0/1) into booleans. Transform cryptic codes into meaningful lab
 - **Fix inconsistencies** at ingestion — standardize formats before they reach dimension tables.
 - **Remove irrelevant rows** — exclude test data, fraud entries, inactive records at the staging layer.
 (source: database-naming-conventions-warehouse-design.md)
+
+Project-specific choices are recorded in `docs/project-conventions.md`.
 
 ## See also
 

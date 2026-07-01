@@ -32,6 +32,20 @@ primary-source research → `wiki/`;
 results of our analysis → `analysis/`;
 conclusions and project decisions → `docs/`.
 
+## Wiki page format
+
+Every wiki page follows this format:
+
+- H1 title on line 1; content organized into `##` sections of prose.
+- Every factual claim or section carries an inline citation
+  `(source: <file>.md)` naming a file that exists in `raw/md/`. Citations
+  point to raw sources only, never to other wiki pages.
+- Wiki links are `[[page-name]]`, or `[[page-name|display text]]` for custom
+  display text. The target page must exist.
+- A closing **Related pages** section is optional.
+- `wiki/index.md` lists every page with a one-line description;
+  `wiki/log.md` is append-only.
+
 ## Folder structure
 
 ```

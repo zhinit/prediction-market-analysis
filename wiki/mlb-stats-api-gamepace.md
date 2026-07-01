@@ -19,7 +19,7 @@ curl "https://statsapi.mlb.com/api/v1/gamePace?season=2025&sportId=1"
 `GET /highLow/{orgType}` — single-game or single-season high/low statistical
 records.
 
-`orgType` options: `player`, `team`, `division`, `league`, `sport`.
+`orgType` options: `player`, `team`, `division`, `league`, `sport`, `types`.
 
 Required: `sortStat`, `season`. Optional: `statGroup`
 (`hitting`/`pitching`/`fielding`), `gameType`, `teamId`, `limit`.

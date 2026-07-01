@@ -1,6 +1,6 @@
 # httpx
 
-Modern async HTTP client for Python 3.9+. Replacement for `requests` with async support, HTTP/2, connection pooling, and type annotations. Built on [HTTPCore](https://github.com/encode/httpcore).
+Modern async HTTP client for Python. Replacement for `requests` with async support, HTTP/2, connection pooling, and type annotations. Built on [HTTPCore](https://github.com/encode/httpcore).
 
 ## Installation
 

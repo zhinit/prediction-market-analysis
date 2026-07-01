@@ -10,10 +10,14 @@ Cursor-based pagination across list endpoints.
 3. Pass `cursor` as query parameter in next request
 4. `null` cursor = no more pages
 
+(source: kalshi-api-pagination.md)
+
 ## Parameters
 
 - `cursor` (string) — from previous response
 - `limit` (integer) — page size; default 100, max 1000 on some endpoints
+
+(source: kalshi-api-pagination.md)
 
 ## Supported Endpoints
 

@@ -29,7 +29,7 @@ Subsequent connects with the same name share tables, views, macros.
 ### Persistent (File-Based)
 
 ```python
-con = duckdb.connect("db/pma.db")
+con = duckdb.connect("analytics.db")
 ```
 
 Data survives between script runs. File extension is irrelevant (`.db`, `.duckdb`, anything).
@@ -38,7 +38,7 @@ Data survives between script runs. File extension is irrelevant (`.db`, `.duckdb
 ### Read-Only
 
 ```python
-con = duckdb.connect("db/pma.db", read_only=True)
+con = duckdb.connect("analytics.db", read_only=True)
 ```
 
 Required when multiple Python processes access the same database file simultaneously. If the file does not exist, it is not created.
@@ -68,7 +68,7 @@ con = duckdb.connect(config={'storage_compatibility_version': 'latest'})
 ## Context Manager
 
 ```python
-with duckdb.connect("db/pma.db") as con:
+with duckdb.connect("analytics.db") as con:
     con.sql("SELECT * FROM markets").show()
     # connection closed automatically
 ```

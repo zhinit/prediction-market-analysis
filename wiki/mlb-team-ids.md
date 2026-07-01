@@ -42,6 +42,8 @@ All 30 MLB team IDs as used by the Stats API.
 - 103 — American League (AL)
 - 104 — National League (NL)
 
+(source: mlb-stats-api-sports-leagues.md)
+
 ## Division IDs
 
 | ID | Division |

@@ -1,6 +1,6 @@
 # pydantic
 
-Data validation library using Python type hints. Validates API responses against defined schemas, catching format changes and malformed data early. V2 uses a Rust core (`pydantic-core`) for performance.
+Data validation library using Python type hints. Validates API responses against defined schemas, catching format changes and malformed data early. Core validation logic is implemented in Rust for speed (source: pydantic-getting-started.md).
 
 ## Installation
 
@@ -45,7 +45,7 @@ Required fields have no default. Optional fields have defaults.
 | Method | Purpose |
 |--------|---------|
 | `model_validate(data)` | Validate a dict (Python mode) |
-| `model_validate_json(json)` | Validate JSON string/bytes (faster — single Rust pass) |
+| `model_validate_json(json)` | Validate JSON string/bytes |
 | `model_validate_strings(data)` | Validate dict with string values |
 | `model_dump()` | Serialize to dict |
 | `model_dump_json()` | Serialize to JSON string |
@@ -62,7 +62,7 @@ Required fields have no default. Optional fields have defaults.
 - **JSON mode** (`model_validate_json`) — looser rules (strings for dates, lists for tuples) because JSON lacks these types
 - **Strings mode** (`model_validate_strings`) — all values are strings
 
-`model_validate_json()` is faster than parsing JSON then validating — does both in one Rust-optimized pass.
+Pydantic provides builtin JSON parsing, giving significant performance improvements without third-party libraries. `model_validate_json()` accepts strings for dates and lists for tuples even in strict mode, because JSON lacks these types.
 (source: pydantic-docs-json.md)
 
 ## Fields

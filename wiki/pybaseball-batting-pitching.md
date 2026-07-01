@@ -43,6 +43,8 @@ data = batting_stats(2010, 2016)              # per-season rows
 data = batting_stats(2010, 2016, ind=0)       # aggregated
 ```
 
+(The upstream docs' examples still use `ind` despite marking it deprecated.) (source: pybaseball-docs-batting-pitching.md)
+
 ### pitching_stats()
 
 ```python

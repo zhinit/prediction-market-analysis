@@ -32,6 +32,8 @@ curl "https://statsapi.mlb.com/api/v1/transactions?startDate=2025-02-15&endDate=
 curl "https://statsapi.mlb.com/api/v1/transactions?startDate=2024-01-01&endDate=2024-12-31&playerId=660271"
 ```
 
+(source: mlb-stats-api-transactions.md)
+
 ## Response Fields
 
 | Field | Description |

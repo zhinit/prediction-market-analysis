@@ -2,7 +2,7 @@
 
 Polymarket US is a CFTC-regulated prediction market platform, separate from the
 international Polymarket (polymarket.com). The international version runs on
-Polygon blockchain with pUSD; the US version uses USD-denominated accounts with
+the Polygon blockchain; the US version uses USD-denominated accounts with
 traditional financial infrastructure (source: polymarket-us-api-overview.md).
 
 ## Two API Tiers
@@ -120,11 +120,12 @@ $0, guaranteed by Polymarket Clearing (source: polymarket-us-api-collateral-marg
 
 Both are CFTC-regulated US prediction market platforms with REST + WebSocket
 APIs, KYC requirements, and fully collateralized binary contracts settling at
-$0/$1. Key differences in fee structure, authentication method, and institutional
-API support (FIX protocol) warrant direct comparison.
+$0/$1.
+
+Project analysis directions are recorded in `docs/project-conventions.md`.
 
 ## See Also
 
 - [[polymarket-international-api]] — the crypto-based international platform
 - [[polymarket-us-fees]] — detailed fee schedule
-- [[prediction-market-platforms]] — platform comparison
+- Platform comparison: see the Comparison with [[kalshi-api]] section above

@@ -11,14 +11,14 @@ uv add duckdb
 Requires Python 3.9 or newer.
 (source: duckdb-python-overview.md)
 
-## Why DuckDB for this project
+## Strengths
 
-- In-process: no database server to manage. A single file in `db/` holds all data.
-- Queries Polars DataFrames directly via SQL — zero-copy when possible.
-- Native Parquet/CSV read and write.
-- Vectorized, multi-core query execution.
-- Persistent storage: data survives between script runs.
+- Directly queries Pandas DataFrames, Polars DataFrames, and Arrow tables via SQL.
+- Reads and writes CSV and Parquet files natively.
+- Persistent storage: a connection to a database file persists all data written to it, and the data can be reloaded by reconnecting to the same file.
 (source: duckdb-python-overview.md)
+
+Project-specific stack choices are recorded in `docs/project-conventions.md`.
 
 ## Basic Usage
 
@@ -29,7 +29,7 @@ import duckdb
 duckdb.sql("SELECT 42").show()
 
 # Persistent (data survives between runs)
-con = duckdb.connect("db/pma.db")
+con = duckdb.connect("analytics.db")
 con.sql("CREATE TABLE IF NOT EXISTS markets (ticker TEXT, price REAL)")
 con.sql("INSERT INTO markets VALUES ('KXBTC', 0.65)")
 con.table("markets").show()
@@ -42,7 +42,7 @@ The result of `duckdb.sql()` is a **Relation** — a symbolic representation of 
 ## Context Manager
 
 ```python
-with duckdb.connect("db/pma.db") as con:
+with duckdb.connect("analytics.db") as con:
     con.sql("SELECT * FROM markets WHERE price > 0.5").show()
 ```
 (source: duckdb-python-overview.md)

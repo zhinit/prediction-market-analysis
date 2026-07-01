@@ -60,6 +60,6 @@ curl "https://statsapi.mlb.com/api/v1/people/search?names=Ohtani"
 
 Optional filters: `active` (boolean), `sportIds`.
 
-(source: mlb-stats-api-public-docs-readme.md)
+(source: mlb-stats-api-people.md)
 
 See also: [[mlb-stats-api]], [[mlb-stats-api-stats]]

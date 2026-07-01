@@ -32,11 +32,12 @@ The proportion of ink used to present actual data versus total ink in the displa
 
 Tufte's "Lie Factor": the ratio of graphical effect size to actual data effect size. When it exceeds 1, the visualization exaggerates (source: tufte-visualization-principles.md).
 
-Rules:
-- Start scales at zero when showing magnitude
-- Use consistent units
+Six principles ensure integrity (source: tufte-visualization-principles.md):
+- Proportional representation of numbers
+- Clear labeling
+- Avoid removing context
 - Show data variation, not design variation
-- Adjust for inflation/deflation when comparing over time
+- Adjust for deflation and other baselines
 - Don't quote data out of context
 
 ## Chartjunk
@@ -72,11 +73,10 @@ For encoding quantitative data, some visual channels are more precise than other
 
 | Precision | Encoding | Example |
 |-----------|----------|---------|
-| High | Length, position | Bar charts, scatter plots |
-| Medium | Width, area | Bubble charts |
-| Low | Color intensity, angle | Heatmaps, pie charts |
+| Highly precise | Length, position | Bar charts, scatter plots |
+| Less precise | Width, size, intensity | Bubble charts, color-intensity maps |
 
-Implication: bar charts and scatter plots communicate quantities more accurately than bubble charts or pie charts.
+Implication: bar charts (length) and scatter plots (position) communicate quantities more accurately than bubble charts (area) or color-intensity maps.
 
 ## Color Palettes
 

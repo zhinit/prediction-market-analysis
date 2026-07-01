@@ -59,24 +59,11 @@ Tailor complexity to who's reading (source: tableau-visual-best-practices.md):
 
 The PLOS paper's observation: "your future self will likely be your primary reader" (source: plos-ten-rules-jupyter-notebooks.md).
 
-## Communication Factors
-
-Four factors affect how data science results are communicated (from research on data science intermediate communication):
-
-1. **Goals** — what you want the audience to understand or do
-2. **Artifacts** — what you're sharing (chart, table, notebook, dashboard)
-3. **Mode** — how you're sharing (presentation, document, interactive)
-4. **Audience** — who's receiving it and what they know
-
-Breakdowns occur when analytical decisions, assumptions, and uncertainties are not clearly communicated.
-
 ## Practical Rules
 
-1. **Title every chart** with what it shows, not what it is ("Sales declined 12% in Q3" not "Q3 Sales Chart")
-2. **Annotate the insight** directly on the visualization when possible
-3. **State limitations** explicitly — what the data can't tell you
-4. **One chart, one message** — if a chart makes two points, split it into two charts
-5. **Lead with the conclusion** — don't make the reader work to find the answer
+1. **Title every chart.** Effective dashboards incorporate titles, captions, units, and commentary (source: tableau-visual-best-practices.md).
+2. **Don't assume the chart speaks for itself.** Textual elements reshape what readers take away, so make the intended message explicit in the text around the chart (source: arxiv-visual-data-communication.md).
+3. **Plan the message early.** Producers who plan messages early use them as central design guides (source: arxiv-visual-data-communication.md).
 
 ## Related Pages
 

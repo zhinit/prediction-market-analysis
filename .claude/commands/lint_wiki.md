@@ -14,13 +14,14 @@ Start from `wiki/index.md`, then walk the pages and check:
 2. **Orphan pages** — pages with no inbound `[[wiki-link]]` from any other page.
 3. **Missing pages** — concepts referenced or linked (`[[...]]`) that have no
    page of their own.
-4. **Broken links** — `[[wiki-links]]` pointing to nonexistent pages, plus
-   pipe-syntax or otherwise malformed links.
+4. **Broken links** — `[[wiki-links]]` whose target page doesn't exist
+   (for pipe links `[[target|display]]`, check the target), plus otherwise
+   malformed links.
 5. **Stale claims** — claims that may be outdated given newer sources in
    `raw/md/` or newer entries in `wiki/log.md`.
 6. **Format violations** — pages that don't follow the page format in CLAUDE.md
-   (missing **Summary** / **Sources** / **Last updated** headers, or no
-   **Related pages** section).
+   (missing H1 title, citations pointing to wiki pages instead of `raw/md/`
+   files, or citations naming files that don't exist in `raw/md/`).
 7. **Uncited claims** — factual claims with no `(source: ...)` reference.
 8. **Separation-of-concerns violations** — project conclusions, recommendations,
    or our own analysis results in wiki pages. Red flags: "for this project",

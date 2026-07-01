@@ -108,7 +108,7 @@ Common causes (source: anthropic-complete-guide-building-skills.md):
 - **Too verbose**: keep concise, use bullet points and numbered lists
 - **Instructions buried**: put critical instructions at the top with `##` headers
 - **Ambiguous language**: "Make sure to validate things properly" -> specify exactly what to validate
-- **Context too large**: move detailed docs to `references/`, keep SKILL.md under 5,000 words
+- **Context too large**: move detailed docs to `references/`, keep SKILL.md under 5,000 words (1,500-2,000 ideal) (source: skill-development-plugin-skill.md)
 
 Advanced technique: for critical validations, bundle a deterministic script rather than relying on language instructions. Code is deterministic; language interpretation is not.
 
@@ -132,7 +132,6 @@ Advanced technique: for critical validations, bundle a deterministic script rath
 - Users don't need to prompt Claude about next steps
 - Workflows complete without user correction
 - Consistent results across sessions
-- New user can accomplish the task on first try with minimal guidance
 
 ## See Also
 

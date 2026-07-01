@@ -1,13 +1,19 @@
 # Polymarket International API
 
-The international Polymarket platform (polymarket.com) is the original
-crypto-based prediction market. It operates on the Polygon blockchain using
-pUSD as collateral. It is separate from [[polymarket-us-api]], which is
-CFTC-regulated and USD-denominated (source: polymarket-us-api-overview.md).
+> Note: no dedicated raw source for the international Polymarket platform has
+> been archived yet. Sections below without a citation are tagged as
+> unverified pending /research.
+
+The international Polymarket platform (polymarket.com) operates on the Polygon
+blockchain. It is separate from [[polymarket-us-api]], which is CFTC-regulated
+and USD-denominated (source: polymarket-us-api-overview.md). It reportedly
+uses pUSD as collateral (unverified — no archived source; pending /research).
 
 ## Architecture
 
-Three API services (source: polymarket-us-api-overview.md):
+(unverified — no archived source; pending /research)
+
+Three API services plus a bridge:
 
 1. **Gamma API** (`https://gamma-api.polymarket.com`) — markets, events, tags,
    series, comments, sports, search, profiles. Public, no auth.
@@ -25,6 +31,8 @@ Three API services (source: polymarket-us-api-overview.md):
 
 ## Authentication
 
+(unverified — no archived source; pending /research)
+
 Two-level system:
 - **L1**: EIP-712 signatures using private key to derive API credentials
 - **L2**: HMAC-SHA256 for trading operations
@@ -34,11 +42,15 @@ New users use deposit wallets (type 3).
 
 ## SDKs
 
+(unverified — no archived source; pending /research)
+
 - TypeScript: `@polymarket/clob-client-v2`
 - Python: `py-clob-client-v2` (archived; migrate to `py-sdk`)
 - Rust: `polymarket_client_sdk_v2`
 
 ## WebSocket Channels
+
+(unverified — no archived source; pending /research)
 
 - Market channel — orderbook, price, market lifecycle updates (public)
 - User channel — order and trade updates (authenticated)
@@ -46,6 +58,11 @@ New users use deposit wallets (type 3).
 - RFQ/Quoter gateway — combinatorial RFQ for market makers (authenticated)
 
 ## Key Differences from [[polymarket-us-api]]
+
+The US platform is CFTC-regulated, USD-denominated, and offers FIX and gRPC
+for its Exchange API (source: polymarket-us-api-overview.md). The
+international-side entries in this table are unverified — no archived source;
+pending /research.
 
 | Aspect | International | US |
 |--------|--------------|-----|
@@ -59,6 +76,8 @@ New users use deposit wallets (type 3).
 
 ## Documentation
 
+(unverified — no archived source; pending /research)
+
 - Docs: https://docs.polymarket.com
 - LLM index: https://docs.polymarket.com/llms.txt
 - OpenAPI specs available for all services
@@ -66,4 +85,4 @@ New users use deposit wallets (type 3).
 ## See Also
 
 - [[polymarket-us-api]] — the CFTC-regulated US platform
-- [[prediction-market-platforms]] — platform comparison
+- Platform comparison: see the Key Differences table above

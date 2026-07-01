@@ -46,9 +46,9 @@ Students using Learning Mode show improved problem-solving confidence, better ex
 
 ## Claude for Education Program
 
-Anthropic offers institutional plans providing students free access equivalent to Claude Pro ($20/month). Partner institutions include Northeastern University (50,000 users across 13 campuses), LSE, Champlain College, University of San Francisco, Dartmouth, Syracuse, University of Virginia, and University of Pittsburgh (source: anthropic-claude-for-education.md).
+Anthropic has full access agreements with Northeastern University (50,000 users across 13 global campuses), LSE, and Champlain College (source: anthropic-claude-for-education.md). University of San Francisco is also a partner institution (source: claude-education-solutions.md).
 
-Ecosystem integrations: Canvas LMS, Wiley, Panopto, Internet2 (source: claude-education-solutions.md).
+Ecosystem integrations: Canvas LMS, Wiley, Panopto (source: claude-education-solutions.md); Anthropic also partners with Internet2 (source: anthropic-claude-for-education.md).
 
 Anthropic Academy offers free courses: AI Fluency for students, AI Fluency for educators, Teaching AI Fluency, and AI Fluency: Framework & Foundations (source: claude-education-solutions.md).
 

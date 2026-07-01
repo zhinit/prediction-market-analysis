@@ -40,14 +40,19 @@ and conditionally `average_fill_price` and `average_fee_paid`.
 - `PATCH /portfolio/events/orders/{order_id}` — amend
 - Batch operations for multiple orders
 
+(source: kalshi-api-orders-and-portfolio.md)
+
 ## Portfolio Endpoints
 
 - `GET /portfolio/positions` — market and event positions
 - `GET /portfolio/balance` — account balance
 
+(source: kalshi-api-orders-and-portfolio.md)
+
 ## Order Groups
 
 Order groups set contract limits and auto-cancel across related orders.
+(source: kalshi-api-orders-and-portfolio.md)
 
 ## Fractional Contracts
 

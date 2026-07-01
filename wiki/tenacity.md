@@ -1,6 +1,6 @@
 # tenacity
 
-General-purpose retry library for Python. v9.1.4 (Feb 2026), Apache 2.0 license, Python >=3.10. Fork of the abandoned `retrying` library.
+General-purpose retry library for Python. Apache 2.0 license. Evolved from a maintained fork of the `retrying` library.
 (source: tenacity-api-reference.md, tenacity-docs.md)
 
 ## Installation

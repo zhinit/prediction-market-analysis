@@ -39,21 +39,23 @@ HAVING count(*) > 1;
 
 ## Deduplication
 
-Deduplicate at ingestion, not at query time. The staging layer (`stg_` tables) is where duplicates are detected and removed before data moves into fact and dimension tables.
+Deduplicate at ingestion, not at query time. The staging layer (temporary pipeline tables) is where duplicates are detected and removed before data moves into fact and dimension tables.
 (source: database-naming-conventions-warehouse-design.md)
 
 ## Dimension management
 
 When dimension attributes change (a market's title is updated, a team changes division):
 
-- For this project, **Type 1 (overwrite)** is the default. Most dimension attributes reflect current state.
-- If historical tracking matters for a specific attribute, take periodic snapshots of the dimension table.
-- Don't implement complex SCD logic unless there's a concrete analytical need for it.
+- **Type 1 (overwrite)** replaces the old value — simplest, but breaks historical reporting.
+- If historical tracking matters, take periodic snapshots of the dimension table.
+- Don't implement complex SCD logic unless there's a concrete analytical need for it — snapshots of entire dimension tables prove more efficient.
 (source: holistics-kimball-dimensional-modeling.md)
+
+See [[dimensional-modeling]] for the full Type 1/2/3 taxonomy.
 
 ## Backups
 
-DuckDB stores everything in a single file (`db/pma.db`). Backing up is copying the file. Do this before destructive schema changes (dropping tables, altering columns).
+A persistent DuckDB database lives in a single file: data written to a connection is persisted and can be reloaded by reconnecting to the same file (source: duckdb-python-overview.md). Backing up is copying the file. Do this before destructive schema changes (dropping tables, altering columns).
 
 ## Metadata hygiene
 
@@ -78,6 +80,8 @@ WHERE comment IS NULL
   AND column_name NOT IN ('id')
   AND column_name NOT LIKE '%_id';
 ```
+
+Project-specific choices are recorded in `docs/project-conventions.md`.
 
 ## See also
 

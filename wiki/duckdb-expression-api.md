@@ -94,6 +94,8 @@ rel.filter(SQLExpression("price > 0.5")).select(
 | `.isnull()` | Check if NULL |
 | `.isnotnull()` | Check if not NULL |
 
+(source: duckdb-python-expression.md)
+
 ## Ordering
 
 For use with `rel.order()`:

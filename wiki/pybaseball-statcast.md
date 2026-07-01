@@ -136,11 +136,11 @@ All fielding functions accept a year parameter (YYYY) and a minimum attempts/opp
 statcast_outs_above_average(year, pos, min_att="q", view="Fielder")
 ```
 
-Outs Above Average (OAA) — the cumulative effect of all individual plays a fielder has been credited or debited with.
+Outs Above Average (OAA) — the cumulative effect of all individual plays a fielder has been credited or debited with. (source: pybaseball-docs-statcast.md)
 
 - `pos` — "all", "IF", "OF", position names, numbers, or abbreviations. Pitchers and catchers excluded.
 - `min_att` — minimum fielding attempts. Default "q" (qualified: 1 per game for 2B/SS/3B/OF, 1 per every other game for 1B).
-- `view` — "Fielder" (default), "Pitcher" (defense behind pitcher), "Fielding_Team", "Batter" (defense when player at bat), "Batting_Team". `min_att` ignored on team views.
+- `view` — "Fielder" (default), "Pitcher" (defense behind pitcher), "Fielding_Team", "Batter" (defense when player at bat), "Batting_Team". `min_att` ignored on team views. (source: pybaseball-docs-statcast.md)
 
 ### statcast_outfield_directional_oaa()
 
@@ -148,7 +148,7 @@ Outs Above Average (OAA) — the cumulative effect of all individual plays a fie
 statcast_outfield_directional_oaa(year, min_opp="q")
 ```
 
-Directional OAA across six zones: Back Left, Back, Back Right, In Left, In, In Right.
+Directional OAA across six zones: Back Left, Back, Back Right, In Left, In, In Right. (source: pybaseball-docs-statcast.md)
 
 ### statcast_outfield_catch_prob()
 
@@ -156,7 +156,7 @@ Directional OAA across six zones: Back Left, Back, Back Right, In Left, In, In R
 statcast_outfield_catch_prob(year, min_opp="q")
 ```
 
-Outfielder performance aggregated into five-star difficulty categories.
+Outfielder performance aggregated into five-star difficulty categories. (source: pybaseball-docs-statcast.md)
 
 ### statcast_outfielder_jump()
 
@@ -164,7 +164,7 @@ Outfielder performance aggregated into five-star difficulty categories.
 statcast_outfielder_jump(year, min_att="q")
 ```
 
-Jump performance on plays with 90% or lower catch probability (two-star or harder).
+Jump performance on plays with 90% or lower catch probability (two-star or harder). (source: pybaseball-docs-statcast.md)
 
 ### statcast_catcher_poptime()
 
@@ -172,7 +172,7 @@ Jump performance on plays with 90% or lower catch probability (two-star or harde
 statcast_catcher_poptime(year, min_2b_att=5, min_3b_att=0)
 ```
 
-Time from ball hitting catcher's mitt to arrival at projected receiving point at center of base. Not available for 2020.
+Time from ball hitting catcher's mitt to arrival at projected receiving point at center of base. Not available for 2020. `min_2b_att` / `min_3b_att` are minimum SB attempts at 2B and 3B. (source: pybaseball-docs-statcast.md)
 
 ### statcast_catcher_framing()
 
@@ -180,7 +180,7 @@ Time from ball hitting catcher's mitt to arrival at projected receiving point at
 statcast_catcher_framing(year, min_called_p="q")
 ```
 
-Strike-call percentage in eight zones around the strike zone (shadow zone). Default minimum: 6 called pitches in shadow zone per team game.
+Strike-call percentage in eight zones around the strike zone (shadow zone). Default minimum: 6 called pitches in shadow zone per team game. (source: pybaseball-docs-statcast.md)
 
 ### statcast_fielding_run_value()
 
@@ -188,7 +188,7 @@ Strike-call percentage in eight zones around the strike zone (shadow zone). Defa
 statcast_fielding_run_value(year, pos, min_inn=100)
 ```
 
-Total Fielding Run Value (FRV) by season and position. Pitchers excluded. Minimum 100 innings at position.
+Total Fielding Run Value (FRV) by season and position. Pitchers excluded. Minimum 100 innings at position. (source: pybaseball-docs-statcast.md)
 
 ## Running Functions
 
@@ -210,7 +210,7 @@ Sprinting opportunities defined as:
 statcast_running_splits(year, min_opp=5, raw_splits=True)
 ```
 
-90-foot sprint splits at five-foot intervals. `raw_splits=True` returns raw times; `raw_splits=False` returns percentile rankings.
+90-foot sprint splits at five-foot intervals. `raw_splits=True` returns raw times; `raw_splits=False` returns percentile rankings. (source: pybaseball-docs-statcast.md)
 
 ## Utility Functions
 

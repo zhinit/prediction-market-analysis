@@ -37,6 +37,8 @@ amateur/independent baseball. (source: mlb-stats-api-sports-leagues.md)
 | 103 | American League |
 | 104 | National League |
 
+(source: mlb-stats-api-sports-leagues.md)
+
 ## Division IDs
 
 | ID | Division |

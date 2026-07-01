@@ -31,4 +31,4 @@ Despite identical statistics, scatter plots show completely different structures
 
 Quantitative statistics are not wrong per se, but they are incomplete. Numerical summaries filter data, necessarily omitting and screening out other sometimes crucial information. (source: nist-eda-handbook.md)
 
-This is the strongest argument for the [[eda-four-rs|Revelation]] principle: always plot data before computing summaries. A mean, slope, or correlation coefficient tells you nothing about whether the model generating those numbers is appropriate. Only a plot can show that.
+The EDA approach of postponing model selection and using graphics first leads to better insights and more valid conclusions. (source: nist-eda-handbook.md) See [[eda-four-rs|Revelation]].

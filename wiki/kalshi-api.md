@@ -18,7 +18,8 @@ event-contract (Predictions) and perpetual futures (Perps/Margin) exchanges.
 
 Current REST path prefix: `/trade-api/v2`. The V2 order endpoints use
 fixed-point dollar strings for prices and fixed-point count strings for
-quantities. Legacy integer-based fields are deprecated.
+quantities. Legacy integer-based fields were scheduled for removal on
+March 12, 2026.
 (source: kalshi-api-changelog-2026.md)
 
 ## Environments

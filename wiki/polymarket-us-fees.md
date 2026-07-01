@@ -46,8 +46,9 @@ Effective April 3, 2026, 3pm ET (source: polymarket-us-api-fees.md).
 ## Comparison with [[kalshi-api]] Fees
 
 Both platforms use price-dependent fee formulas that peak at p=$0.50 and
-decline toward extremes. Direct coefficient comparison is relevant for
-mispricing analysis.
+decline toward extremes.
+
+Project analysis directions are recorded in `docs/project-conventions.md`.
 
 ## See Also
 

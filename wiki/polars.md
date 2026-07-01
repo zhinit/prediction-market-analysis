@@ -59,7 +59,7 @@ df.group_by("category").agg(
 
 ## Lazy API
 
-Prefer the lazy API for production code. It defers execution and optimizes the query plan:
+The Polars docs state the lazy API should be preferred unless you need intermediate results or are doing exploratory work. It defers execution and optimizes the query plan:
 
 ```python
 q = (

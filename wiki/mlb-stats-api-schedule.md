@@ -38,6 +38,9 @@ curl "https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=2025-04-01&hydrate
 curl "https://statsapi.mlb.com/api/v1/schedule?sportId=1&season=2025&gameType=P"
 ```
 
+(source: mlb-stats-api-schedule.md; the `/schedule/games` alias from
+mlb-stats-api-public-docs-readme.md)
+
 ## Response
 
 Top-level keys: `copyright`, `totalItems`, `totalEvents`, `totalGames`,
@@ -73,8 +76,11 @@ Each date contains a `games` array. Key game fields:
 | L | League Championship |
 | W | World Series |
 | C | Championship |
+| N | Nineteenth Century |
 | A | All-Star Game |
 | P | All Postseason |
+
+(source: mlb-stats-api-schedule.md; code A from mlb-stats-api-reference.md)
 
 ## Coded Game States
 

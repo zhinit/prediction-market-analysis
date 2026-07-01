@@ -68,8 +68,6 @@ Available in skill content (source: claude-code-skills-docs.md):
 | `${CLAUDE_EFFORT}`     | Current effort level (low/medium/high/xhigh/max)      |
 | `${CLAUDE_SKILL_DIR}`  | Directory containing the SKILL.md file                |
 
-Escape literal `$` before digits or argument names with backslash: `\$1.00`.
-
 ## Invocation Control
 
 | Setting                          | User can invoke | Claude can invoke | Description loaded |

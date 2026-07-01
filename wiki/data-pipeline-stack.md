@@ -1,6 +1,8 @@
 # Data Pipeline Stack
 
-The recommended stack for pulling prediction market and sports data into this project. Five layers, each with a single responsibility.
+A five-layer pattern for pulling data from HTTP APIs into an analytical store. Each layer has a single responsibility.
+
+Project-specific stack choices are recorded in `docs/project-conventions.md`.
 
 ```
 httpx (fetch) → tenacity (retry) → pydantic (validate) → polars (transform) → duckdb (store)
@@ -8,12 +10,12 @@ httpx (fetch) → tenacity (retry) → pydantic (validate) → polars (transform
 
 ## Layer 1: Fetch — [[httpx]]
 
-`httpx.AsyncClient` makes HTTP requests with connection pooling. One client per API (Kalshi, Polymarket, MLB). `base_url` eliminates repeated URL construction.
+`httpx.AsyncClient` makes HTTP requests with connection pooling. `base_url` eliminates repeated URL construction.
 
 ```python
 async with httpx.AsyncClient(
     base_url="https://trading-api.kalshi.com/trade-api/v2",
-    timeout=httpx.Timeout(connect=2.0, read=10.0),
+    timeout=httpx.Timeout(10.0, connect=2.0),
 ) as kalshi:
     ...
 ```
@@ -68,10 +70,10 @@ result = (
 
 ## Layer 5: Store — [[duckdb]]
 
-Persistent analytical database in `db/pma.db`. Queries Polars DataFrames directly. Data survives between runs.
+Persistent analytical database in a single file. Queries Polars DataFrames directly. Data survives between runs.
 
 ```python
-with duckdb.connect("db/pma.db") as con:
+with duckdb.connect("analytics.db") as con:
     con.sql("CREATE TABLE IF NOT EXISTS markets AS SELECT * FROM df")
     # Or append
     con.sql("INSERT INTO markets SELECT * FROM df")
@@ -98,16 +100,17 @@ async def fetch_all_markets(client: httpx.AsyncClient) -> list[Market]:
         cursor = response.cursor
     return markets
 ```
+(source: kalshi-api-pagination.md)
 
-Kalshi uses cursor-based pagination (source: [[kalshi-api-pagination]]). Polymarket US uses similar patterns.
+Kalshi uses cursor-based pagination (source: kalshi-api-pagination.md). Polymarket US uses limit/offset pagination with `orderBy`/`orderDirection` sorting (source: polymarket-us-api-markets.md).
 
 ## Rate Limit Awareness
 
-Kalshi's token bucket system has per-tier budgets (source: [[kalshi-api-rate-limits]]). The tenacity retry layer handles 429 responses automatically, but for sustained high-volume pulls, track the `X-RateLimit-Remaining` header and throttle proactively rather than relying solely on retries.
+Kalshi's token bucket system has per-tier budgets; a rate-limited request returns `429 Too Many Requests`, and exponential backoff is recommended (source: kalshi-api-rate-limits.md). The tenacity retry layer above handles 429 responses with exponential backoff.
 
 ## File Format Choice
 
-Parquet is the default storage format for intermediate data. It is columnar, compressed, and Polars reads/writes it faster than CSV. Use CSV only for human-inspectable exports.
+Parquet uses columnar storage, enabling better compression and faster data retrieval compared to CSV. Polars reads and writes Parquet quickly because the in-memory layout of a DataFrame mirrors the Parquet layout on disk.
 (source: polars-io-parquet.md)
 
 ## See Also

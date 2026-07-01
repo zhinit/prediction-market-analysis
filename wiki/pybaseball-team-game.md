@@ -17,6 +17,8 @@ Team-level batting stats from FanGraphs. (source: pybaseball-docs-team-game.md)
 - `league` — "all", "nl", "al", or "mnl". Default: "all"
 - `ind` — 1 = one row per team per year, 0 = aggregate across seasons. Default: 1
 
+The team functions document `ind` as a regular parameter with no deprecation notice, unlike the individual-stats functions where it is deprecated in favor of `split_seasons` (see [[pybaseball-batting-pitching]]). (source: pybaseball-docs-team-game.md)
+
 ```python
 from pybaseball import team_batting
 

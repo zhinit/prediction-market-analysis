@@ -27,35 +27,25 @@ How to structure computational notebooks (Jupyter, Quarto, etc.) so they are rea
 **Rule 8: Share and explain your data.** Make data publicly available (Zenodo, Figshare) or provide tiered access for sensitive/large datasets. Document upstream processing. Provide DOIs.
 
 **Rule 9: Design notebooks to be read, run, and explored.** Provide:
-- Static versions (HTML, PDF via nbconvert)
+- Static versions (HTML, PDF)
 - Online viewing (Nbviewer)
 - Cloud execution (Binder)
 - Interactive widgets (ipywidgets) for parameter exploration
 
 **Rule 10: Advocate for open research.** Promote reproducible practices. Collaborative notebook review. Transparent computational workflows.
 
-## Practical Checklist
-
-For this project's analysis notebooks:
-
-- [ ] Clear title and one-sentence summary at the top
-- [ ] Problem statement before any code
-- [ ] One step per cell with markdown transitions
-- [ ] Parameters and configuration in the first code cell
-- [ ] Dependencies listed (requirements.txt or inline)
-- [ ] Every chart has a title, labeled axes, and a one-sentence interpretation
-- [ ] Conclusions section at the end restating key findings
-- [ ] Runs top-to-bottom without error (restart kernel and run all)
+Project-specific choices are recorded in `docs/project-conventions.md`.
 
 ## Output Formats
 
-| Format | Tool | Use Case |
-|--------|------|----------|
-| HTML | nbconvert | Portfolio display, sharing |
-| PDF | nbconvert + LaTeX | Formal reports |
-| Slides | nbconvert --to slides | Presentations |
-| Interactive | Voilà | Dashboard-style apps |
-| Executable | Binder | Letting others run your analysis |
+Ways to deliver a notebook beyond the raw `.ipynb` (source: plos-ten-rules-jupyter-notebooks.md):
+
+| Format | Use Case |
+|--------|----------|
+| Static HTML / PDF | Readable versions for sharing |
+| Nbviewer | Online viewing |
+| Binder | Cloud execution — letting others run your analysis |
+| ipywidgets | Interactive parameter exploration |
 
 ## Related Pages
 

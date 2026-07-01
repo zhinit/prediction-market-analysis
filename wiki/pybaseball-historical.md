@@ -14,7 +14,7 @@ from pybaseball.lahman import download_lahman
 download_lahman()
 ```
 
-Downloads the entire Lahman database to the current working directory.
+Downloads the entire Lahman database to the current working directory. (source: pybaseball-docs-historical.md)
 
 ### Available Tables
 

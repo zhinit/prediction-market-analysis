@@ -23,6 +23,7 @@ All prices are US dollar amounts as fixed-point decimal strings with up to
 ## Volume Fields (FixedPointCount)
 
 Contract counts as fixed-point strings with 2 decimal places.
+(source: kalshi-api-market-data-endpoints.md)
 
 | Field | Description |
 |-------|-------------|
@@ -42,17 +43,21 @@ Contract counts as fixed-point strings with 2 decimal places.
 | `status` | initialized, inactive, active, closed, determined, disputed, amended, finalized |
 | `result` | yes, no, scalar, or empty string |
 
+(source: kalshi-api-market-data-endpoints.md)
+
 ## Timing
 
 `created_time`, `updated_time`, `open_time`, `close_time`,
 `latest_expiration_time`, `settlement_timer_seconds`. Optional:
 `expected_expiration_time`, `settlement_ts`, `occurrence_datetime`.
+(source: kalshi-api-market-data-endpoints.md)
 
 ## Strike Information
 
 `strike_type`: greater, greater_or_equal, less, less_or_equal, between,
 functional, custom, structured. Optional: `floor_strike`, `cap_strike`,
 `functional_strike`, `custom_strike`.
+(source: kalshi-api-market-data-endpoints.md)
 
 ## Other Fields
 

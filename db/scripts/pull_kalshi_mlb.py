@@ -101,9 +101,10 @@ async def fetch_all(
     return full_content
 
 
-# Retry timeouts, 429s, and 5xx. Other 4xx fail immediately.
+# Retry network errors (all requests are idempotent GETs), 429s, and 5xx.
+# Other 4xx fail immediately.
 def is_retryable(exc: BaseException) -> bool:
-    if isinstance(exc, httpx.ReadTimeout):
+    if isinstance(exc, httpx.TransportError):
         return True
     return isinstance(exc, httpx.HTTPStatusError) and (
         exc.response.status_code == 429 or exc.response.status_code >= 500
@@ -189,6 +190,14 @@ def init_db(path: str = "db/pma.db") -> duckdb.DuckDBPyConnection:
             taker_book_side TEXT,
             created_time TEXT,
             is_block_trade BOOLEAN NOT NULL
+        )
+    """)
+    # resume bookkeeping: a row means the market was finalized and its
+    # trades fully pulled. Written only after both trade phases of a run
+    # complete, so a crash mid-run can never mark a market done
+    con.sql("""
+        CREATE TABLE IF NOT EXISTS kalshi_trade_pulls (
+            ticker TEXT PRIMARY KEY
         )
     """)
     # typed views over the raw TEXT tables; analyses query these
@@ -293,10 +302,10 @@ async def main() -> None:
                 "SELECT ticker, max(created_time) FROM trades GROUP BY ticker"
             ).fetchall()
         }
-        finalized_tickers = {
+        pulled_tickers = {
             ticker
             for (ticker,) in con.sql(
-                "SELECT ticker FROM markets WHERE status = 'finalized'"
+                "SELECT ticker FROM kalshi_trade_pulls"
             ).fetchall()
         }
 
@@ -308,12 +317,8 @@ async def main() -> None:
         con.sql("INSERT OR REPLACE INTO markets BY NAME SELECT * FROM markets_df")
         print(f"Saved {len(markets)} markets to db")
 
-        # finalized markets with stored trades are complete; skip them
-        todo = [
-            m
-            for m in markets
-            if not (m.ticker in finalized_tickers and m.ticker in last_trade_time)
-        ]
+        # markets whose trades a previous run pulled to completion; skip them
+        todo = [m for m in markets if m.ticker not in pulled_tickers]
         print(f"Markets to fetch trades for: {len(todo)}/{len(markets)}")
 
         # trades before the cutoff are on /historical/trades, the rest on
@@ -345,6 +350,17 @@ async def main() -> None:
             client, con, post_cutoff, last_trade_time, "/markets/trades", "live markets"
         )
         print("Live trades done")
+
+        # both phases done: finalized markets are now complete. Marked here,
+        # not per-market, because a market can need both endpoints in one run
+        done = [m.ticker for m in markets if m.status == "finalized"]
+        if done:
+            done_df = pl.DataFrame({"ticker": done})
+            con.sql(
+                "INSERT OR REPLACE INTO kalshi_trade_pulls BY NAME "
+                "SELECT * FROM done_df"
+            )
+        print(f"Marked {len(done)} finalized markets as fully pulled")
 
         con.close()
 

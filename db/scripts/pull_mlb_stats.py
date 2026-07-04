@@ -27,6 +27,9 @@ SCHEDULE_START = date(2025, 4, 16)  # first day of Kalshi MLB data
 # excludes spring training (S), exhibition (E), all-star (A)
 GAME_TYPES = {"R", "F", "D", "L", "W"}
 GAME_CONCURRENCY = 5
+# a 404'd game is retried on later runs until it is this old, in case the
+# data was just published late
+RETRY_404_DAYS = 14
 
 
 class Team(BaseModel):
@@ -125,9 +128,10 @@ class LiveFeedResponse(BaseModel):
     game_data: LiveFeedGameData | None = Field(default=None, alias="gameData")
 
 
-# Retry timeouts, 429s, and 5xx. Other 4xx fail immediately.
+# Retry network errors (all requests are idempotent GETs), 429s, and 5xx.
+# Other 4xx fail immediately.
 def is_retryable(exc: BaseException) -> bool:
-    if isinstance(exc, httpx.ReadTimeout):
+    if isinstance(exc, httpx.TransportError):
         return True
     return isinstance(exc, httpx.HTTPStatusError) and (
         exc.response.status_code == 429 or exc.response.status_code >= 500
@@ -220,11 +224,18 @@ def init_db(path: str = "db/pma.db") -> duckdb.DuckDBPyConnection:
             wind TEXT
         )
     """)
-    # resume bookkeeping: a row means per-game data was fully pulled
+    # resume bookkeeping: a row means per-game data was pulled. not_found
+    # marks a 404; those are retried while the game is recent (the data may
+    # just not be published yet), then permanently skipped
     con.sql("""
         CREATE TABLE IF NOT EXISTS mlb_game_pulls (
-            game_pk BIGINT PRIMARY KEY
+            game_pk BIGINT PRIMARY KEY,
+            not_found BOOLEAN NOT NULL DEFAULT FALSE
         )
+    """)
+    con.sql("""
+        ALTER TABLE mlb_game_pulls
+        ADD COLUMN IF NOT EXISTS not_found BOOLEAN DEFAULT FALSE
     """)
     con.sql("""
         CREATE OR REPLACE VIEW mlb_games_typed AS
@@ -376,15 +387,18 @@ async def fetch_game_data(
 async def pull_game_data(
     client: httpx.AsyncClient, con: duckdb.DuckDBPyConnection
 ) -> None:
-    already_pulled = {
-        pk for (pk,) in con.sql("SELECT game_pk FROM mlb_game_pulls").fetchall()
-    }
+    pulled = dict(
+        con.sql("SELECT game_pk, not_found FROM mlb_game_pulls").fetchall()
+    )
+    retry_floor = (date.today() - timedelta(days=RETRY_404_DAYS)).isoformat()
     todo = [
         pk
-        for (pk,) in con.sql(
-            "SELECT game_pk FROM mlb_games WHERE coded_game_state = 'F' ORDER BY game_date"
+        for pk, game_date in con.sql(
+            "SELECT game_pk, game_date FROM mlb_games "
+            "WHERE coded_game_state = 'F' ORDER BY game_date"
         ).fetchall()
-        if pk not in already_pulled
+        # never pulled, or 404'd recently enough to be worth retrying
+        if pk not in pulled or (pulled[pk] and game_date >= retry_floor)
     ]
     print(f"Games to fetch per-game data for: {len(todo)}")
 
@@ -401,7 +415,10 @@ async def pull_game_data(
                     raise
                 # endpoint missing for this game: record and move on
                 print(f"  ! game {game_pk}: 404 on {exc.request.url.path}")
-                con.sql(f"INSERT OR REPLACE INTO mlb_game_pulls VALUES ({game_pk})")
+                con.sql(
+                    "INSERT OR REPLACE INTO mlb_game_pulls "
+                    f"VALUES ({game_pk}, TRUE)"
+                )
                 return
         if plays_df is not None:
             con.sql("INSERT OR REPLACE INTO mlb_plays BY NAME SELECT * FROM plays_df")
@@ -413,7 +430,7 @@ async def pull_game_data(
             con.sql(
                 "INSERT OR REPLACE INTO mlb_weather BY NAME SELECT * FROM weather_df"
             )
-        con.sql(f"INSERT OR REPLACE INTO mlb_game_pulls VALUES ({game_pk})")
+        con.sql(f"INSERT OR REPLACE INTO mlb_game_pulls VALUES ({game_pk}, FALSE)")
         done += 1
         if done % 100 == 0:
             print(f"  ... {done}/{len(todo)} games")

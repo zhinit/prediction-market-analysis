@@ -19,6 +19,7 @@
 - [[kalshi-api-sdks]] — Official Python (sync/async) and TypeScript SDKs
 - [[kalshi-api-pagination]] — Cursor-based pagination across list endpoints
 - [[kalshi-api-historical]] — Historical data tier: cutoff timestamps, archived markets/trades/orders/candlesticks
+- [[kalshi-fees]] — Probability-weighted taker/maker fee formula, fee schedule by price point, deposit/withdrawal fees
 
 ## MLB Stats API
 
@@ -95,6 +96,7 @@
 - [[data-visualization-principles]] — Tufte + Knaflic + JHU: data-ink ratio, chartjunk, preattentive attributes, color palettes
 - [[chart-selection]] — Question-driven chart picking: 9 question types → chart types (Tableau framework)
 - [[notebook-presentation]] — PLOS ten rules for notebook structure, reproducibility checklist, output formats
+- [[notebook-code-quality]] — Clean notebook code: modularization, packaging, testing, linting, refactoring cycle, 1.4M-notebook reproducibility evidence
 - [[data-storytelling]] — Narrative structure, text's role in visualization, audience awareness, message dimensions
 - [[portfolio-presentation]] — Portfolio design patterns, anti-patterns, project template
 

@@ -23,5 +23,9 @@ raw/
 # pybaseball cache
 .pybaseball/
 
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
 # Database files
 *.db
+.gstack/

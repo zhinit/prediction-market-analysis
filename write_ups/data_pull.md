@@ -110,6 +110,19 @@ After the pull worked end to end, I wrote a set of reasonability checks as pytes
 
 The checks caught the missing-events bug and also surfaced a fun quirk: about 3,000 trades have timestamps up to 60 seconds after their market's official close time. Trading apparently runs slightly past the scheduled close. Harmless, but the kind of thing you want to know about your data before building analysis on top of it.
 
+## From mirrors to analysis-ready tables
+
+The database so far is a faithful mirror. An analysis wants one more layer: tables prepared for it specifically, so its notebook loads data with a straightforward read and does no cleaning of its own. For the MLB calibration analysis that layer is `db/scripts/prepare_mlb_calibration.py`, which builds tables namespaced `mlb_calib_*`: pre-game snapshots, entering-inning snapshots, and the full 24-hour pre-start trade window.
+
+The script owns the dataset definition, including three cleanups that would otherwise clutter the analysis:
+
+- **What the universe filter drops.** Only markets that settled yes or no are kept: 7,028 markets across 3,514 events. Excluded are 88 markets that had not settled at pull time, 20 that settled at an intermediate value instead of 0 or 100, and 8 All-Star markets.
+- **Duplicate listings.** Seven games on 2025-04-18 were listed twice on Kalshi, so the 3,514 events cover 3,507 distinct games. The snapshot tables keep one row per game and side, last trade wins, so each real game counts once.
+- **A label fix.** One market is labeled "Chicago W". The script renames it to "Chicago WS" so it groups with the rest of the White Sox markets.
+- **Simultaneous trades.** The snapshot is defined as "the last trade before" some moment, but in 749 snapshots several trades share the last timestamp down to the microsecond, usually one taker order filling against several resting orders at once. In 211 of them the tied trades have different prices (one tick apart in the vast majority). There is no meaningful "last" among simultaneous trades, and letting the database pick one arbitrarily made builds nondeterministic. An earlier version re-picked on every query, so two tables in the same notebook could disagree by a few markets. The snapshot price is the average of the tied trades instead: deterministic, and at worst half a tick from any single print. The averaging sums integer cents and divides once, because averaging floats accumulates in whatever order the parallel aggregation happens to use, and that alone made rebuilds differ in the last decimal places.
+
+Every run rebuilds from scratch, prints the accounting above, and asserts invariants: one row per game and side, prices strictly between 0 and 1, exactly 30 team labels. And one deliberate omission: the tables are never rebuilt automatically when new raw data arrives. A finished analysis's prepared tables are the exact dataset its write-up was computed from, and refreshing raw data must not silently change them. A single-row `mlb_calib_build_info` table records when the tables were built and what date range they cover, so a table frozen on old data can't be mistaken for a current one.
+
 ## Takeaways
 
 - Validate API responses at the boundary. Errors at fetch time are cheap, errors in analysis are expensive.

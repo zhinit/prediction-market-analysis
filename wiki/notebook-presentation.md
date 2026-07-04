@@ -36,6 +36,14 @@ How to structure computational notebooks (Jupyter, Quarto, etc.) so they are rea
 
 Project-specific choices are recorded in `docs/project-conventions.md`.
 
+## Why the rules matter: reproducibility in practice
+
+A study of 1.4 million Jupyter notebooks on GitHub found that of 863,878 attempted executions, only 24.11% ran without errors and only 4.03% reproduced their stored results; 30.93% of notebooks had no markdown at all, and markdown thins out toward the bottom of notebooks (source: pimentel-2019-quality-reproducibility-jupyter-notebooks.md). See [[notebook-code-quality]] for the full findings and the eight best practices the study derives from them.
+
+## Section skeleton
+
+One published per-notebook structure: import statements, then configuration (e.g., database connections), then data loading, then content sections — each content section consisting of a markdown header, a one-to-two-line description, takeaway bullets, and then the code (source: ploomber-clean-jupyter-notebooks.md). Structuring the document like a scientific paper — title, preamble, table of contents, ordered sections, conclusion, references — is a documented alternative framing of the same idea (source: domino-notebook-structure-coding-style-refactoring.md).
+
 ## Output Formats
 
 Ways to deliver a notebook beyond the raw `.ipynb` (source: plos-ten-rules-jupyter-notebooks.md):
@@ -50,6 +58,7 @@ Ways to deliver a notebook beyond the raw `.ipynb` (source: plos-ten-rules-jupyt
 ## Related Pages
 
 - [[presentable-data-analysis]] — hub page
+- [[notebook-code-quality]] — code-level practices: modularization, testing, linting, refactoring
 - [[data-visualization-principles]] — chart design within notebooks
 - [[data-storytelling]] — narrative structure
 - [[eda-workflow]] — the analysis process

@@ -87,3 +87,19 @@
 ## 2026-07-01
 
 - **Lint pass** (`/lint_wiki`, all findings fixed): removed unsourced claims (Claude-for-Education pricing and four partner universities, tenacity version/date/Python floor, httpx Python floor, pydantic Rust-core phrasing, pUSD, Tufte "zero-scale" rules, data-storytelling "Communication Factors" section, pybaseball fuzzy-lookup annotations); tagged polymarket-international-api sections "(unverified — no archived source; pending /research)" pending a real raw source; corrected mis-citations (MLB game-type code A, people search filters, Internet2, USF) and stale claims (Kalshi legacy-field removal date, `stg_` vs the source's `tmp_`/`test_` prefixes, Polymarket US limit/offset pagination); added missing `(source:)` citations across Kalshi, MLB, pybaseball, pydantic, DuckDB, and presentation pages; fixed the invalid `httpx.Timeout` example, the `[[Exploratory-data-analysis]]` case-mismatched link, and the two wiki-page-as-source citations; moved all project-specific content ("for this project" sections, `db/pma.db` paths, table roster, SCD Type 1 default, Parquet policy, notebook checklist, portfolio template, mispricing-analysis framing) to `docs/project-conventions.md`, leaving one-line pointers; documented the actual wiki page format in CLAUDE.md and aligned the lint_wiki checks to it.
+
+## 2026-07-03
+
+- **Source**: Kalshi fee schedule (help center / fee schedule page captures)
+- **Pages created**: kalshi-fees
+- **Raw sources archived**: kalshi-fees.md, kalshi-fee-schedule-2026-detailed.md (markdown-only captures copied from the poka-arb archive; no HTML versions existed there)
+- **Coverage**: Taker fee formula (7¢ × C × (1−C), capped at 2¢), maker fee (25% of taker), fee schedule by price point with fee-as-%-of-cost, fee properties (symmetric around 50c, charged on expected earnings, free cancels), per-market variation caveat (elections and major sporting events named as having different schedules; source discrepancy on incentive programs noted), deposit/withdrawal fees (ACH free, wire $25, debit ~2%).
+
+## 2026-07-04
+
+- **Source**: Clean notebook analysis practices (multiple sources)
+- **Pages created**: notebook-code-quality
+- **Pages updated**: notebook-presentation (Pimentel reproducibility numbers, section skeleton, cross-link), index
+- **Raw sources archived**: pimentel-2019-quality-reproducibility-jupyter-notebooks.md (PDF), arxiv-ten-simple-rules-reproducible-jupyter.md (PDF; preprint of the already-archived PLOS ten rules paper), arxiv-notebook-quality-exploration-to-production.md, ploomber-clean-jupyter-notebooks.md (via Wayback Machine; ploomber.io DNS failed locally), domino-notebook-structure-coding-style-refactoring.md
+- **Not archived**: johnloewen.substack.com data-storytelling post (paywalled preview only); docs.jupyter.org narrative-notebook page (stub with no content). A duplicate re-fetch of the PLOS paper was deleted rather than kept alongside the existing plos-ten-rules-jupyter-notebooks.md.
+- **Coverage**: Empirical evidence on notebook quality from 1.4M GitHub notebooks (24.11% execute without error, 4.03% reproduce results, 30.93% lack markdown, 36.36% out-of-order cells, 1.54% import testing modules) and the study's eight best practices. Code-level clean-notebook practices: keep control structures out of cells (cyclomatic complexity checks), define functions in installable packages instead of cells, autoreload, per-notebook section skeleton (imports/config/data-loading/content with header-description-takeaways-code sections), shorter notebooks split by dataset and stage, mutable-DataFrame pitfalls, unit testing with pytest at the smallest data unit, linting/formatting via jupytext-paired .py files, the six-step refactoring cycle, dependency locking.

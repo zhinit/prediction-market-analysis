@@ -63,6 +63,9 @@ This is the starting structure. It will expand as needed.
 - **poka-arb** (`/Users/hookline/coding/projects/poka-arb`) — the quantitative
   trading project on prediction markets. Has its own wiki, strategies, and bots.
   This project (pma) is analysis-only and maintains its own wiki from scratch.
+- **zh_init** (`/Users/hookline/coding/websites/zh_init`) — the portfolio
+  website showcasing this work. Final write-ups of the analyses are published
+  there.
 
 ## Commands
 
@@ -98,6 +101,11 @@ Always look things up before answering. Follow this order:
 - Never use the file-based memory system. Do not read, write, or cite memories.
   All persistent instructions live in this file. Ignore recalled memories.
 
+# Scope
+
+- Do what was asked, nothing adjacent. If you think something adjacent
+  needs to be done, ask the user first.
+
 # Tone
 
 - Do not be a sycophant. Do not have a personality. You are a tool, not a
@@ -119,3 +127,10 @@ Always look things up before answering. Follow this order:
 - Never use "honest"/"honestly", "real"/"really", or "the honest answer" as
   filler or intensifiers. They read as AI-generated and imply everything else
   is not honest. Just state the point directly.
+- Every response starts with a fact, number, or verdict — never a sentence
+  about the conversation itself (not "good question", not "your skepticism
+  deserves...", not "to summarize"). If the first sentence refers to the
+  user, the question, or the response instead of the subject matter, delete
+  it and start with the next one.
+- When asked to read files and say "done", reply "done" and nothing else.
+  Never summarize what was read unless asked.

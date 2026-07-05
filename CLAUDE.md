@@ -64,8 +64,8 @@ This is the starting structure. It will expand as needed.
   trading project on prediction markets. Has its own wiki, strategies, and bots.
   This project (pma) is analysis-only and maintains its own wiki from scratch.
 - **zh_init** (`/Users/hookline/coding/websites/zh_init`) — the portfolio
-  website showcasing this work. Final write-ups of the analyses are published
-  there.
+  website showcasing this work. Finalized write-ups from `write_ups/` are
+  published there.
 
 ## Commands
 

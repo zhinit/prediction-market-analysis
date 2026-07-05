@@ -1,7 +1,7 @@
 """Reasonability checks for the MLB tables in db/pma.db after
 pull_mlb_stats.py and build_kalshi_mlb_map.py runs.
 
-Run with: uv run pytest tests/
+Run with: uv run pytest db/tests/
 """
 
 from pathlib import Path
@@ -9,7 +9,7 @@ from pathlib import Path
 import duckdb
 import pytest
 
-DB_PATH = Path(__file__).parent.parent / "db" / "pma.db"
+DB_PATH = Path(__file__).parent.parent / "pma.db"
 
 
 @pytest.fixture(scope="module")

@@ -1,6 +1,6 @@
 """Reasonability checks for db/pma.db after a pull_kalshi_mlb.py run.
 
-Run with: uv run pytest tests/
+Run with: uv run pytest db/tests/
 """
 
 from datetime import datetime, timedelta
@@ -9,7 +9,7 @@ from pathlib import Path
 import duckdb
 import pytest
 
-DB_PATH = Path(__file__).parent.parent / "db" / "pma.db"
+DB_PATH = Path(__file__).parent.parent / "pma.db"
 
 # from wiki/kalshi-market-object.md
 KNOWN_MARKET_STATUSES = {

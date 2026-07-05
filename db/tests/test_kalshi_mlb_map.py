@@ -1,6 +1,6 @@
 """Unit tests for the pure functions in build_kalshi_mlb_map.py.
 
-Run with: uv run pytest tests/
+Run with: uv run pytest db/tests/
 """
 
 from datetime import date, datetime, timezone

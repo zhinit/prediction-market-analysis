@@ -146,9 +146,19 @@ def create_tables(con: duckdb.DuckDBPyConnection) -> None:
                w.condition,
                CAST(w.temp AS INT) AS temp_f,
                CAST(regexp_extract(w.wind, '(\d+) mph', 1) AS INT)
-                   AS wind_mph
+                   AS wind_mph,
+               CASE WHEN s.side = 'home' THEN owp.mlb_home_wp
+                    ELSE owp.mlb_away_wp END AS mlb_wp
         FROM snap s
         LEFT JOIN mlb_weather w ON w.game_pk = s.game_pk
+        LEFT JOIN (
+            SELECT game_pk,
+                   home_wp / 100.0 AS mlb_home_wp,
+                   away_wp / 100.0 AS mlb_away_wp
+            FROM mlb_win_probability
+            QUALIFY at_bat_index = min(at_bat_index)
+                OVER (PARTITION BY game_pk)
+        ) owp ON owp.game_pk = s.game_pk
     """)
     # inning start times come from play-by-play wall clock timestamps;
     # entering = 10 is the price entering extras. Same tie handling as
@@ -175,17 +185,41 @@ def create_tables(con: duckdb.DuckDBPyConnection) -> None:
               AND t.created_time < b.inning_start
             QUALIFY t.created_time = max(t.created_time) OVER (
                 PARTITION BY cm.game_pk, cm.side, b.inning)
+        ),
+        snap AS (
+            SELECT game_pk,
+                   min(ticker) AS ticker,
+                   min(team) AS team,
+                   side,
+                   entering,
+                   sum(p_cents) / (100.0 * count(*)) AS p,
+                   min(y) AS y,
+                   min(created_time) AS created_time
+            FROM last_trades
+            GROUP BY game_pk, side, entering
+        ),
+        entering_wp AS (
+            SELECT wp.game_pk, p.inning + 1 AS entering,
+                   wp.home_wp / 100.0 AS mlb_home_wp,
+                   wp.away_wp / 100.0 AS mlb_away_wp
+            FROM mlb_win_probability wp
+            JOIN mlb_plays p USING (game_pk, at_bat_index)
+            QUALIFY wp.at_bat_index = max(wp.at_bat_index)
+                OVER (PARTITION BY wp.game_pk, p.inning)
         )
-        SELECT game_pk,
-               min(ticker) AS ticker,
-               min(team) AS team,
-               side,
-               entering,
-               sum(p_cents) / (100.0 * count(*)) AS p,
-               min(y) AS y,
-               min(created_time) AS created_time
-        FROM last_trades
-        GROUP BY game_pk, side, entering
+        SELECT s.game_pk,
+               s.ticker,
+               s.team,
+               s.side,
+               s.entering,
+               s.p,
+               s.y,
+               s.created_time,
+               CASE WHEN s.side = 'home' THEN ew.mlb_home_wp
+                    ELSE ew.mlb_away_wp END AS mlb_wp
+        FROM snap s
+        LEFT JOIN entering_wp ew
+            ON ew.game_pk = s.game_pk AND ew.entering = s.entering
     """)
     # a prepared table pinned to old data must not be mistaken for a
     # current one; this row makes the freeze visible

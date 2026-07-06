@@ -180,9 +180,10 @@ No mispricings were found in the dimensions checked here. Across 3,507 games, ev
 
 Across these dimensions, Kalshi MLB Game Winner prices do accurately reflect real world probabilities. The market knows about home field advantage, it prices in weather, and it doesn't systematically misprice any particular team. When it says a team has a 55% chance of winning, that team wins about 55% of the time.
 
+**If a mispricing exists on these markets, you will need to more creative 😉.**
+
 But this is a handful of cuts out of a much larger search space. For example, you could look at additional breakdowns by day vs night games, rest days between games, doubleheader game order, starting pitcher stats, bullpen usage, umpire tendencies, travel schedules, yada, yada, yada, the list goes on.
 
-If a mispricing exists on these markets, you will need to more creative 😉.
 
 ## Appendix A: no-arbitrage check
 

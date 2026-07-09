@@ -1,6 +1,7 @@
 # MLB Stats API — Teams
 
 Team listings, rosters, stats, leaders, history, affiliates, and personnel.
+(source: mlb-stats-api-teams.md)
 
 ## Endpoints
 

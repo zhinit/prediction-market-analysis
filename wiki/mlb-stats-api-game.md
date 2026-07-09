@@ -2,6 +2,7 @@
 
 Endpoints for live game feeds, boxscores, linescores, play-by-play, and win
 probability. All use the `gamePk` identifier obtained from the schedule endpoint.
+(source: mlb-stats-api-game.md)
 
 ## Endpoints
 

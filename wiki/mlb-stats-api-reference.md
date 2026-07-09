@@ -1,6 +1,7 @@
 # MLB Stats API — Reference Endpoints
 
 Lightweight endpoints returning static or semi-static lookup data.
+(source: mlb-stats-api-reference.md)
 
 ## Endpoints
 

@@ -1,6 +1,6 @@
 # duckdb
 
-In-process analytical SQL database. No server, no setup — runs inside the Python process. Designed for OLAP queries on columnar data.
+In-process analytical SQL database. No server, no setup — runs inside the Python process. Designed for OLAP queries on columnar data. (source: duckdb-python-overview.md)
 
 ## Installation
 
@@ -17,8 +17,6 @@ Requires Python 3.9 or newer.
 - Reads and writes CSV and Parquet files natively.
 - Persistent storage: a connection to a database file persists all data written to it, and the data can be reloaded by reconnecting to the same file.
 (source: duckdb-python-overview.md)
-
-Project-specific stack choices are recorded in `docs/project-conventions.md`.
 
 ## Basic Usage
 
@@ -131,7 +129,7 @@ con.sql("SELECT * FROM duckdb_constraints()").show() # keys, constraints
 - [[duckdb-expression-api]] — Programmatic expression building: Column, Star, Constant, Case, Function, SQL expressions
 - [[duckdb-friendly-sql]] — DuckDB SQL extensions: FROM-first, GROUP BY ALL, EXCLUDE, COLUMNS(), ASOF joins
 
-## See Also
+## Related pages
 
 - [[polars]] — DataFrame library that DuckDB queries directly
 - [[data-pipeline-stack]] — how DuckDB fits in the pipeline

@@ -4,7 +4,7 @@ Question-driven framework for choosing chart types. Based on Tableau's chart sel
 
 ## The Rule
 
-"Form follows function." The visualization depends on three factors:
+"Form follows function." The visualization depends on three factors (source: tableau-chart-type-selection.md):
 1. The question you're asking
 2. Your data's properties
 3. How you want to communicate the insight

@@ -1,6 +1,7 @@
 # dimensional-modeling
 
 Organizing analytical data into fact tables (measurements) and dimension tables (context) so that queries are fast and intuitive. The dominant pattern is the **star schema**.
+(source: motherduck-star-schema-guide.md)
 
 ## Star schema
 
@@ -86,8 +87,6 @@ A snowflake schema normalizes dimension tables further (e.g., storing category i
 - **Write complexity**: Updates to dimension attributes touch more rows. Mitigated by the fact that dimensions change slowly.
 - **Not for OLTP**: Star schemas optimize reads, not writes. They complement transactional systems, not replace them.
 (source: motherduck-star-schema-guide.md)
-
-Project-specific choices are recorded in `docs/project-conventions.md`.
 
 ## See also
 

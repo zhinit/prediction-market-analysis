@@ -1,6 +1,6 @@
 # Presentable Data Analysis
 
-Hub page for making data analysis portfolio-ready: clear, honest, and compelling.
+Hub page for making data analysis portfolio-ready: clear, honest, and compelling (source: storytelling-with-data-knaflic.md, plos-ten-rules-jupyter-notebooks.md).
 
 This page synthesizes principles from data visualization theory, notebook presentation research, and portfolio design into a practical framework. Sub-pages cover each area in depth.
 

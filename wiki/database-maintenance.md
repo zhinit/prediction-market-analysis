@@ -1,6 +1,7 @@
 # database-maintenance
 
 Practices for keeping an analytical database reliable, understandable, and trustworthy over time.
+(source: holistics-kimball-dimensional-modeling.md)
 
 ## Schema evolution
 
@@ -80,8 +81,6 @@ WHERE comment IS NULL
   AND column_name NOT IN ('id')
   AND column_name NOT LIKE '%_id';
 ```
-
-Project-specific choices are recorded in `docs/project-conventions.md`.
 
 ## See also
 

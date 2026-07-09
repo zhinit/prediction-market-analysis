@@ -1,10 +1,13 @@
 # MLB Stats API — Schedule
 
 Retrieves games filtered by date, team, league, or sport.
+(source: mlb-stats-api-schedule.md)
 
 ## Endpoint
 
 `GET /schedule` (also available as `GET /schedule/games`, identical behavior)
+(source: mlb-stats-api-schedule.md; the `/schedule/games` alias from
+mlb-stats-api-public-docs-readme.md)
 
 ## Parameters
 
@@ -21,6 +24,8 @@ Retrieves games filtered by date, team, league, or sport.
 | `gameType` | no | Game type code (R, S, F, D, L, W, etc.) |
 | `hydrate` | no | e.g. `team,linescore,probablePitcher` |
 | `fields` | no | Selective response fields |
+
+(source: mlb-stats-api-schedule.md)
 
 ## Examples
 

@@ -1,5 +1,33 @@
 # Wiki Log
 
+## 2026-07-08 (lint pass)
+
+- **Lint pass** (`/lint_wiki`, all findings fixed): renamed `## See Also` → `## Related pages` across 32 pages; added missing `(source:)` citations to intro sentences (~40 pages), uncited content sections (mlb-stats-api-schedule, mlb-stats-api-standings, kalshi-api-websocket, claude-skills-testing, claude-learning-mode, claude-as-teacher, claude-code-learning-style, analytical-database-design, chart-selection, data-pipeline-stack), and uncited comparative claims (polymarket-us-api, polymarket-us-market-object, polymarket-us-historical-data, polymarket-us-fees); removed project-specific pointer lines from 9 pages (data-pipeline-stack, duckdb, analytical-database-design, dimensional-modeling, database-naming-conventions, self-documenting-database, database-maintenance, notebook-presentation, portfolio-presentation) and polymarket-us-api; collapsed multi-line citations in kalshi-api-market-data and kalshi-api-historical; fixed non-standard citation suffix in polymarket-us-fees; removed external markdown link from httpx; renamed tenacity heading from "Recommended Pattern" to "Pattern"; removed unsourceable claim from duckdb-friendly-sql.
+
+## 2026-07-08 (market object)
+
+- **Source**: Polymarket US official docs (docs.polymarket.us/api-reference/markets/get-market-by-id, docs.polymarket.us/api-reference/market/overview, docs.polymarket.us/api-reference/sdks/python/markets, docs.polymarket.us/api-reference/events/overview, docs.polymarket.us/api-reference/sdks/typescript/events, docs.polymarket.us/api-reference/websocket/markets)
+- **Pages created**: polymarket-us-market-object
+- **Pages updated**: polymarket-us-api (link added)
+- **Raw sources archived**: polymarket-us-api-market-object.md, polymarket-us-api-events-overview.md, polymarket-us-api-websocket-markets.md
+- **Coverage**: Complete Market object schema (40+ fields): identity/display (id, slug, question, title, titleShort, image, color), classification (category, tags, sportsMarketType), status (active, closed, hidden, comboEnabled, ep3Status), timestamps (startDate, endDate, createdAt, updatedAt), pricing (orderPriceMinTickSize, minimumTradeQty, lastTradePrice, bestBid/Ask, spread, feeCoefficient, oneDayPriceChange), volume/liquidity (volume, volume24hr/1wk/1mo/1yr, liquidity/Num), sports (gameId, line, spreadTotalSuffix, subject). MarketSide sub-object (id, marketSideType ERC1155|INSTRUMENT, identifier, price, long, tradable, quote). Order book response (/book): bids/offers with px+qty, stats (open/high/low/close/lastTrade/settlement/current Px, sharesTraded, notionalTraded, openInterest), 7 market states. BBO response (/bbo): lightweight with bidDepth/askDepth. Settlement response. 20+ query parameters for GET /v1/markets (pagination, status, category, volume/liquidity ranges, date ranges, ID filters). Events API: events contain markets array; event schema with sports fields (sportradarGameId, score, period, live, eventState). WebSocket markets stream: 3 subscription types (full book, lite, trade), max 100 slugs, trade messages include maker/taker side+intent.
+
+## 2026-07-08 (historical data)
+
+- **Source**: Polymarket US official docs (docs.polymarket.us/api-reference/report/download-trades-csv, docs.polymarket.us/api-reference/portfolio/overview, docs.polymarket.us/trader-guide/positions-risk, docs.polymarket.us/institutional/introduction, docs.polymarket.us/grpc-api/overview, docs.polymarket.us/changelog, docs.polymarket.us/data-guide/market-data)
+- **Pages created**: polymarket-us-historical-data
+- **Pages updated**: polymarket-us-api (added Report, Ledger, and historical positions sections)
+- **Raw sources archived**: polymarket-us-api-report-trades-csv.md, polymarket-us-api-portfolio-overview.md, polymarket-us-api-positions-risk.md, polymarket-us-api-institutional-overview.md, polymarket-us-api-grpc-overview.md, polymarket-us-api-changelog-data.md, polymarket-us-api-market-data-guide.md
+- **Coverage**: Retail API activities endpoint (trade history by type/market, cursor-paginated). Exchange API Report endpoints (SearchOrders, SearchExecutions, DownloadTrades CSV with time range + account filters). Ledger endpoints added May 2026 (position ledger + balance ledger, paginated + CSV download, hard historical floor May 1 2026). gRPC DropCopyAPI streams (execution reports, trade capture, position changes with resume tokens). Historical positions (as_of_time/as_of_date since Jan 2026). Key finding: no public market-wide trade tape — all trade data is account-scoped and authenticated, unlike Kalshi's public trades endpoint.
+
+## 2026-07-08
+
+- **Source**: Polymarket official docs (docs.polymarket.us/fees, docs.polymarket.us/api-reference/authentication, docs.polymarket.us/api-reference/orders/create-order), Polymarket international docs (docs.polymarket.com/api-reference/introduction, docs.polymarket.com/api-reference/geoblock), parlay.run developer guide, GitHub py-sdk, startpolymarket.com, polymarketexchange.com
+- **Pages created**: polymarket-us-geographic-restrictions
+- **Pages updated**: polymarket-us-fees (theta taker 0.05→0.06, effective July 1 2026; added volume-based taker rebate tiers), polymarket-us-api (fee update, SDK note, geographic restrictions link), polymarket-international-api (verified all sections — architecture, auth, endpoints, rate limits, order types, WebSocket, pagination, geographic restrictions, SDKs; removed "unverified" tags)
+- **Raw sources archived**: polymarket-us-fees-july-2026.md, polymarket-international-api-parlay-guide.md, polymarket-international-geoblock.md, polymarket-international-docs-intro.md, polymarket-py-sdk.md, polymarket-us-state-restrictions.md
+- **Coverage**: Polymarket US fee increase (taker theta 0.06, max $1.50/100 contracts at p=$0.50, volume rebate tiers at $250K/$1M/$5M). US state-level restrictions (Minnesota ban Aug 1 2026, 11+ cease-and-desist states). International API fully sourced: three-service architecture (Gamma/Data/CLOB), EIP-712 + HMAC auth, CLOB V2 order structure (GTC/FOK/GTD/FAK), rate limits (15K/10s global, per-endpoint limits), WebSocket (market + user channels, 10s heartbeat), keyset pagination, geographic restriction tiers (OFAC block / close-only / frontend-only). New unified Python SDK (polymarket-client, beta, replaces archived py-clob-client).
+
 ## 2026-06-30
 
 - **Source**: DuckDB official documentation (github.com/duckdb/duckdb-web/tree/main/docs/current/clients/python + duckdb.org/docs/current/sql/dialect/friendly_sql)

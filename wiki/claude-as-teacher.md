@@ -1,6 +1,6 @@
 # Claude as Teacher
 
-Techniques and prompting strategies for using Claude as a learning tool. Covers both the built-in [[claude-learning-mode]] and manual approaches using standard Claude or Claude Projects.
+Techniques and prompting strategies for using Claude as a learning tool. Covers both the built-in [[claude-learning-mode]] and manual approaches using standard Claude or Claude Projects (source: northeastern-ai-personal-tutor.md).
 
 ## Two Core Roles
 
@@ -27,6 +27,8 @@ Guides discovery through questioning:
 - **Tutor** for unfamiliar material (you need the foundation)
 - **Socratic** once you have partial knowledge (you need to solidify it)
 - **Back to tutor** for consolidation after Socratic exploration
+
+(source: northeastern-ai-personal-tutor.md)
 
 "Concepts stick better when they're explained in multiple ways and when you discover insights through guided questioning." (source: northeastern-ai-personal-tutor.md)
 
@@ -61,6 +63,8 @@ Ask for visual/textual maps of relationships between interconnected ideas in a s
 ### 9. Practice Exams
 Have Claude role-play as a professor or interviewer conducting a simulated exam with real-time feedback.
 
+(source: claude-prompts-for-learning.md)
+
 ## How to Frame Questions
 
 The key principle is specificity — more context produces more tailored output (source: claude-prompts-for-learning.md).
@@ -79,13 +83,13 @@ Share partial attempts and confused thinking rather than asking for clean answer
 
 Claude Projects allow uploading resource documents and setting custom system prompts for persistent context. This creates a dedicated tutor that knows your course materials and maintains consistency across sessions (source: northeastern-claude-learning-mode.md).
 
-Setup:
+Setup (source: northeastern-claude-learning-mode.md):
 1. Create a new Project
 2. Upload course materials (PDFs, articles, notes)
 3. Set a custom system prompt defining the teaching approach (tutor, Socratic, or hybrid)
 4. Use the project for all study sessions on that subject
 
-## See Also
+## Related pages
 
 - [[claude-learning-mode]] — the built-in Learning Mode feature and Claude for Education program
 - [[claude-code-learning-style]] — the Claude Code output style for learn-by-doing coding

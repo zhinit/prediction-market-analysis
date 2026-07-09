@@ -88,7 +88,7 @@ The command you type comes from the file/directory location, not the `name` fiel
 
 (source: claude-code-skills-docs.md)
 
-## See Also
+## Related pages
 
 - [[claude-skills]] — what skills are, structure, where they live
 - [[claude-skills-writing-guide]] — how to write a good skill

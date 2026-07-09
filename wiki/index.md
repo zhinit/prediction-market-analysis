@@ -3,7 +3,10 @@
 ## Polymarket US
 
 - [[polymarket-us-api]] — CFTC-regulated US prediction market API (REST, WebSocket, gRPC, FIX)
-- [[polymarket-us-fees]] — Fee formula and schedule (Theta x C x p x (1-p))
+- [[polymarket-us-market-object]] — Market object schema: 40+ fields, marketSides, order book, BBO, query params
+- [[polymarket-us-historical-data]] — Historical trade data: activities, report endpoints, ledger CSVs (no public trade tape)
+- [[polymarket-us-fees]] — Fee formula and schedule (Theta x C x p x (1-p), updated July 2026)
+- [[polymarket-us-geographic-restrictions]] — US state-level access: Minnesota ban, 11+ cease-and-desist states
 - [[polymarket-international-api]] — Crypto-based international Polymarket API (Polygon/pUSD)
 
 ## Kalshi

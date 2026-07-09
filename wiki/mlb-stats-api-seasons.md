@@ -1,6 +1,7 @@
 # MLB Stats API — Seasons
 
 Season date windows: regular season, preseason, postseason, All-Star.
+(source: mlb-stats-api-seasons.md)
 
 ## Endpoints
 

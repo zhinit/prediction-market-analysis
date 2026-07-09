@@ -50,6 +50,8 @@ Sign: `timestamp + "GET" + "/trade-api/ws/v2"` and pass the three
 }
 ```
 
+(source: kalshi-api-websocket.md)
+
 ## Message Types
 
 `ticker`, `orderbook_snapshot`, `orderbook_delta`, `error`.

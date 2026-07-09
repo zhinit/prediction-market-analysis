@@ -1,6 +1,7 @@
 # database-naming-conventions
 
 Consistent naming makes a database self-explanatory. Conventions for naming tables and columns in an analytical database.
+(source: database-naming-conventions-warehouse-design.md)
 
 ## General rules
 
@@ -105,8 +106,6 @@ Transform flags (0/1) into booleans. Transform cryptic codes into meaningful lab
 - **Fix inconsistencies** at ingestion — standardize formats before they reach dimension tables.
 - **Remove irrelevant rows** — exclude test data, fraud entries, inactive records at the staging layer.
 (source: database-naming-conventions-warehouse-design.md)
-
-Project-specific choices are recorded in `docs/project-conventions.md`.
 
 ## See also
 

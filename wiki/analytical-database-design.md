@@ -1,10 +1,12 @@
 # analytical-database-design
 
 How to build an analytical database that is structured for querying, self-documenting, and presentable to someone who didn't build it.
+(source: motherduck-star-schema-guide.md, holistics-kimball-dimensional-modeling.md)
 
 ## The core idea
 
 An analytical database exists to answer questions, not to record transactions. Every design decision follows from that: denormalize for read performance, organize by business concepts, embed documentation in the schema itself.
+(source: motherduck-star-schema-guide.md)
 
 ## Three pillars
 
@@ -22,8 +24,6 @@ Use [[database-naming-conventions]] so column names explain themselves. Use Duck
 
 Don't model everything upfront. Start with raw data, build dimensional models as analytical questions demand them. Kimball's methodology is valuable for its concepts (grain, conformed dimensions), but modern practice builds incrementally rather than waterfall.
 (source: holistics-kimball-dimensional-modeling.md)
-
-Project-specific choices are recorded in `docs/project-conventions.md`.
 
 ## What makes it presentable
 

@@ -1,6 +1,6 @@
 # Claude Skills Testing
 
-How to test, evaluate, and iterate on [[claude-skills|skills]].
+How to test, evaluate, and iterate on [[claude-skills|skills]] (source: anthropic-complete-guide-building-skills.md).
 
 ## Testing Levels
 
@@ -37,7 +37,7 @@ Should NOT trigger:
 
 ### 2. Functional Output
 
-Does the skill produce correct results?
+Does the skill produce correct results? (source: anthropic-complete-guide-building-skills.md)
 
 - Valid outputs generated
 - API/tool calls succeed
@@ -110,7 +110,7 @@ Common causes (source: anthropic-complete-guide-building-skills.md):
 - **Ambiguous language**: "Make sure to validate things properly" -> specify exactly what to validate
 - **Context too large**: move detailed docs to `references/`, keep SKILL.md under 5,000 words (1,500-2,000 ideal) (source: skill-development-plugin-skill.md)
 
-Advanced technique: for critical validations, bundle a deterministic script rather than relying on language instructions. Code is deterministic; language interpretation is not.
+Advanced technique: for critical validations, bundle a deterministic script rather than relying on language instructions. Code is deterministic; language interpretation is not (source: anthropic-complete-guide-building-skills.md).
 
 ## Debug Tips
 
@@ -128,12 +128,12 @@ Advanced technique: for critical validations, bundle a deterministic script rath
 - Completes workflow in X tool calls (compare with/without)
 - 0 failed API calls per workflow
 
-**Qualitative**:
+**Qualitative** (source: anthropic-complete-guide-building-skills.md):
 - Users don't need to prompt Claude about next steps
 - Workflows complete without user correction
 - Consistent results across sessions
 
-## See Also
+## Related pages
 
 - [[claude-skills]] — what skills are, structure, where they live
 - [[claude-skills-writing-guide]] — how to write a good skill

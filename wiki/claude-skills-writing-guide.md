@@ -1,6 +1,6 @@
 # Claude Skills Writing Guide
 
-How to write a good [[claude-skills|skill]]. Covers the description field, writing instructions, patterns, and common mistakes.
+How to write a good [[claude-skills|skill]]. Covers the description field, writing instructions, patterns, and common mistakes (source: anthropic-complete-guide-building-skills.md).
 
 ## The Description Field
 
@@ -135,7 +135,7 @@ Add `context: fork` to run the skill in an isolated subagent. The skill content 
 6. **Critical instructions buried** -- put them at the top with ## Important headers (source: anthropic-complete-guide-building-skills.md)
 7. **Ambiguous language** -- "Make sure to validate things properly" vs specific validation checks (source: anthropic-complete-guide-building-skills.md)
 
-## See Also
+## Related pages
 
 - [[claude-skills]] — what skills are, structure, where they live
 - [[claude-skills-frontmatter]] — complete frontmatter reference

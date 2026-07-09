@@ -1,6 +1,6 @@
 # httpx
 
-Modern async HTTP client for Python. Replacement for `requests` with async support, HTTP/2, connection pooling, and type annotations. Built on [HTTPCore](https://github.com/encode/httpcore).
+Modern async HTTP client for Python. Replacement for `requests` with async support, HTTP/2, connection pooling, and type annotations. Built on HTTPCore. (source: httpx-api-reference.md)
 
 ## Installation
 
@@ -551,7 +551,7 @@ Useful plugins:
 - **httpx-ws** — WebSocket support
 (source: httpx-third-party-packages.md)
 
-## See Also
+## Related pages
 
 - [[tenacity]] — retry failed requests with backoff
 - [[kalshi-api-auth]] — Kalshi RSA-PSS authentication

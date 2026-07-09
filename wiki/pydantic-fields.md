@@ -1,6 +1,6 @@
 # pydantic-fields
 
-The `Field()` function and the `Annotated` pattern for customizing Pydantic model fields.
+The `Field()` function and the `Annotated` pattern for customizing Pydantic model fields (source: pydantic-docs-fields.md).
 
 ## Field() Function
 
@@ -181,7 +181,7 @@ Model.model_fields['name']  # FieldInfo instance
 Only accessible from the class, not from instances (deprecated in v2.11, removed in v3).
 (source: pydantic-docs-fields.md)
 
-## See Also
+## Related pages
 
 - [[pydantic]] — hub page
 - [[pydantic-validators]] — custom validation logic

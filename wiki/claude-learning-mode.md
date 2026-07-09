@@ -6,7 +6,7 @@ Claude Learning Mode is a built-in Socratic tutoring feature that asks guiding q
 
 Learning Mode uses Socratic questioning to guide learners toward insights. Instead of answering "What's the derivative of sin(x)cos(x)?", Claude asks "What rule would you apply when differentiating a product of two functions?" (source: northeastern-claude-learning-mode.md).
 
-Response patterns:
+Response patterns (source: northeastern-claude-learning-mode.md):
 - Guided discovery (questions before answers)
 - Scaffolding for complex problems (breaking into steps)
 - Connections to previous learning
@@ -26,6 +26,8 @@ Learning Mode is accessed through Claude Projects. Three pre-built templates (so
 2. Select Study Project (or Career/Research)
 3. Enter a project title
 4. Click Create Project
+
+(source: northeastern-claude-learning-mode.md)
 
 ## Learning Mode vs Chat vs Projects
 
@@ -52,7 +54,7 @@ Ecosystem integrations: Canvas LMS, Wiley, Panopto (source: claude-education-sol
 
 Anthropic Academy offers free courses: AI Fluency for students, AI Fluency for educators, Teaching AI Fluency, and AI Fluency: Framework & Foundations (source: claude-education-solutions.md).
 
-## See Also
+## Related pages
 
 - [[claude-as-teacher]] — techniques and prompting strategies for learning with Claude
 - [[claude-code-learning-style]] — the Claude Code output style for learn-by-doing coding

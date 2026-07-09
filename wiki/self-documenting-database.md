@@ -1,6 +1,7 @@
 # self-documenting-database
 
 A database where the schema itself explains the data — no external documentation needed. Achieved through naming conventions, embedded comments, and metadata introspection.
+(source: techwriter-self-documenting-databases.md)
 
 ## Why it matters
 
@@ -94,8 +95,6 @@ WHERE schema_name = 'main'
 
 DuckDB's COMMENT ON cannot attach comments to schemas or databases — only to objects within them.
 (source: duckdb-comment-on.md)
-
-Project-specific choices are recorded in `docs/project-conventions.md`.
 
 ## See also
 

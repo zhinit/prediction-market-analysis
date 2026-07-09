@@ -1,6 +1,7 @@
 # MLB Stats API — Transactions
 
 Player transactions: trades, signings, DFA, IL placements, call-ups, options.
+(source: mlb-stats-api-transactions.md)
 
 ## Endpoint
 

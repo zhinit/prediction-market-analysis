@@ -1,10 +1,12 @@
 # MLB Stats API — Standings
 
 Division standings for the American and National Leagues.
+(source: mlb-stats-api-standings.md)
 
 ## Endpoint
 
 `GET /standings`
+(source: mlb-stats-api-standings.md)
 
 ## Parameters
 
@@ -16,6 +18,8 @@ Division standings for the American and National Leagues.
 | `date` | no | Historical standings as of date (YYYY-MM-DD) |
 | `hydrate` | no | e.g. `team,league,division` |
 | `fields` | no | Selective response fields |
+
+(source: mlb-stats-api-standings.md)
 
 ## Examples
 
@@ -29,6 +33,8 @@ curl "https://statsapi.mlb.com/api/v1/standings?leagueId=103,104&season=2025&sta
 # With team and division details hydrated
 curl "https://statsapi.mlb.com/api/v1/standings?leagueId=103&season=2025&standingsTypes=regularSeason&hydrate=team,division"
 ```
+
+(source: mlb-stats-api-standings.md)
 
 ## Standings Types
 

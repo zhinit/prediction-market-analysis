@@ -1,6 +1,6 @@
 # polars
 
-Fast DataFrame library written in Rust with Python bindings. Handles data transformation, aggregation, and I/O. Alternative to pandas with better performance and a more expressive API.
+Fast DataFrame library written in Rust with Python bindings. Handles data transformation, aggregation, and I/O. Alternative to pandas with better performance and a more expressive API. (source: polars-getting-started.md)
 
 ## Installation
 
@@ -111,7 +111,7 @@ df.write_database(table_name="markets", connection=uri)
 `read_database_uri` with ConnectorX is faster than `read_database` with SQLAlchemy.
 (source: polars-io-database.md)
 
-## See Also
+## Related pages
 
 - [[duckdb]] — SQL engine that queries Polars DataFrames directly
 - [[data-pipeline-stack]] — how polars fits in the pipeline

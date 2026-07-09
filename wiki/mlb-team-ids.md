@@ -1,6 +1,7 @@
 # MLB Team IDs
 
 All 30 MLB team IDs as used by the Stats API.
+(source: mlb-stats-api-public-docs-readme.md)
 
 | ID | Team | Abbr |
 |----|------|------|

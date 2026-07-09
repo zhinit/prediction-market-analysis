@@ -1,6 +1,7 @@
 # duckdb-friendly-sql
 
-DuckDB extends standard SQL with syntactic sugar that makes queries more concise. These features are unique to DuckDB or were popularized by it.
+DuckDB extends standard SQL with syntactic sugar that makes queries more concise.
+(source: duckdb-friendly-sql.md)
 
 ## FROM-First Syntax
 
@@ -184,7 +185,7 @@ RESET VARIABLE my_threshold;
 ```
 (source: duckdb-friendly-sql.md)
 
-## See Also
+## Related pages
 
 - [[duckdb]] — hub page
 - [[duckdb-relational-api]] — Python API for building queries programmatically

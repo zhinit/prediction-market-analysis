@@ -55,7 +55,7 @@ When invoked, rendered SKILL.md enters the conversation as a message and stays f
 
 Claude Code ships with: `/code-review`, `/batch`, `/debug`, `/loop`, `/claude-api`, `/run`, `/verify`, `/run-skill-generator` (source: claude-code-skills-docs.md).
 
-## See Also
+## Related pages
 
 - [[claude-skills-writing-guide]] — how to write a good skill
 - [[claude-skills-frontmatter]] — complete frontmatter reference

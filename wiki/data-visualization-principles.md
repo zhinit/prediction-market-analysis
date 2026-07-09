@@ -1,6 +1,6 @@
 # Data Visualization Principles
 
-Consolidated framework from Tufte, Knaflic, and the Johns Hopkins visualization guide. These are the rules for making charts that communicate honestly and clearly.
+Consolidated framework from Tufte, Knaflic, and the Johns Hopkins visualization guide. These are the rules for making charts that communicate honestly and clearly (source: tufte-visualization-principles.md).
 
 ## Tufte's Three Themes
 

@@ -1,6 +1,7 @@
 # MLB Stats API — People (Players)
 
 Player profiles, statistics, game logs, and search.
+(source: mlb-stats-api-people.md)
 
 ## Endpoints
 

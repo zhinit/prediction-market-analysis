@@ -68,11 +68,25 @@ via Auth0; tokens refresh every 3 minutes (source: polymarket-us-api-authenticat
 (source: polymarket-us-api-orders.md)
 
 ### Portfolio (authenticated)
-- `GET /v1/portfolio/positions` — positions by market slug
-- `GET /v1/portfolio/activities` — transaction history (cursor-paginated)
+- `GET /v1/portfolio/positions` — positions by market slug (supports `as_of_time`/`as_of_date` for historical snapshots)
+- `GET /v1/portfolio/activities` — transaction history (cursor-paginated, filterable by type/market)
 - `GET /v1/account/balances` — balance, buying power, margin
 
-(source: polymarket-us-api-portfolio.md)
+(source: polymarket-us-api-portfolio.md, polymarket-us-api-portfolio-overview.md)
+
+### Report (Exchange API only, authenticated)
+- `POST /v1/report/orders/search` — search historical orders
+- `POST /v1/report/executions/search` — search historical executions
+- `POST /v1/report/trades/csv` — download trades as CSV stream (time range + account filters)
+
+(source: polymarket-us-api-institutional-overview.md, polymarket-us-api-report-trades-csv.md)
+
+### Ledger (authenticated, added May 2026)
+- `GET /v1/positions/ledger` + `/download` — position change log (paginated + CSV)
+- `GET /v1/funding/balance-ledger` + `/download` — cash flow log (paginated + CSV)
+- Hard historical floor: May 1, 2026
+
+(source: polymarket-us-api-positions-risk.md)
 
 ## Order Mechanics
 
@@ -96,11 +110,14 @@ Fee = Theta x C x p x (1 - p), symmetric around p = $0.50.
 
 | Role | Theta | Max at p=$0.50 (per 100 contracts) |
 |------|-------|------------------------------------|
-| Taker | 0.05 | $1.25 |
+| Taker | 0.06 | $1.50 |
 | Maker | -0.0125 | -$0.31 (rebate) |
 
-Maker rebate = 25% of taker fees. No fees on unfilled orders. Effective April
-3, 2026 (source: polymarket-us-api-fees.md).
+Maker rebate = 25% of taker fees (20% on Crypto). Volume-based taker rebate
+tiers: 10% at $250K+, 25% at $1M+, 50% at $5M+. No fees on unfilled orders.
+Effective July 1, 2026 (source: polymarket-us-fees-july-2026.md). Previous
+schedule (theta taker = 0.05) was effective April 3–June 30, 2026 (source:
+polymarket-us-api-fees.md).
 
 ## Collateral Model
 
@@ -116,16 +133,20 @@ $0, guaranteed by Polymarket Clearing (source: polymarket-us-api-collateral-marg
 
 (source: polymarket-us-api-overview.md)
 
+The international platform's legacy Python client (`py-clob-client`) is
+archived; the replacement is `polymarket-client` from `py-sdk` (beta, supports
+sync and async) (source: polymarket-py-sdk.md).
+
 ## Comparison with [[kalshi-api]]
 
-Both are CFTC-regulated US prediction market platforms with REST + WebSocket
-APIs, KYC requirements, and fully collateralized binary contracts settling at
-$0/$1.
+Both are US prediction market platforms offering REST and WebSocket APIs
+(source: polymarket-us-api-overview.md, kalshi-api-overview-and-environments.md).
 
-Project analysis directions are recorded in `docs/project-conventions.md`.
+## Related pages
 
-## See Also
-
+- [[polymarket-us-market-object]] — market object schema, order book, BBO, query params
+- [[polymarket-us-historical-data]] — historical trade data, report endpoints, ledger CSVs
 - [[polymarket-international-api]] — the crypto-based international platform
 - [[polymarket-us-fees]] — detailed fee schedule
+- [[polymarket-us-geographic-restrictions]] — state-level access restrictions
 - Platform comparison: see the Comparison with [[kalshi-api]] section above

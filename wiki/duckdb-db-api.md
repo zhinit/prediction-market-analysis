@@ -1,6 +1,7 @@
 # duckdb-db-api
 
 PEP 249 (DB-API 2.0) compliant SQL interface, similar to the SQLite Python API.
+(source: duckdb-python-dbapi.md)
 
 ## Querying
 
@@ -71,7 +72,7 @@ conn.sql("SELECT * FROM df WHERE y > 0").order("y").show()
 ```
 (source: duckdb-python-known-issues.md)
 
-## See Also
+## Related pages
 
 - [[duckdb]] — hub page
 - [[duckdb-python-connections]] — connection types and configuration

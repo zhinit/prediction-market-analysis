@@ -1,6 +1,7 @@
 # MLB Stats API — Venues
 
 Stadium details including location, field dimensions, and capacity.
+(source: mlb-stats-api-venues.md)
 
 ## Endpoints
 

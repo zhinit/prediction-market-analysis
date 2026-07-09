@@ -1,6 +1,7 @@
 # duckdb-udfs
 
 Register Python functions as DuckDB user-defined functions (UDFs) for use in SQL queries.
+(source: duckdb-python-udfs.md)
 
 ## Creating a UDF
 
@@ -105,7 +106,7 @@ con.create_function("my_logger",
 ```
 (source: duckdb-python-udfs.md)
 
-## See Also
+## Related pages
 
 - [[duckdb]] — hub page
 - [[duckdb-result-conversion]] — type mapping between Python and DuckDB

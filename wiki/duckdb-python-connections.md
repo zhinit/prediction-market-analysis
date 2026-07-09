@@ -1,6 +1,7 @@
 # duckdb-python-connections
 
 Connection types, configuration options, and threading model for the DuckDB Python API.
+(source: duckdb-python-dbapi.md)
 
 ## Connection Types
 
@@ -113,7 +114,7 @@ con = duckdb.connect(config={"allow_unsigned_extensions": "true"})
 Only load from trusted sources. Avoid loading over HTTP.
 (source: duckdb-python-overview.md)
 
-## See Also
+## Related pages
 
 - [[duckdb]] — hub page
 - [[duckdb-db-api]] — PEP 249 query interface

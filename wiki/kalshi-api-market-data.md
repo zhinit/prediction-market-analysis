@@ -62,8 +62,7 @@ instead of the regular endpoints. This split took effect February 19, 2026.
 The live API serves a rolling ~3-month window; older trades, markets, and
 candlesticks require the historical endpoints. See [[kalshi-api-historical]]
 for the full historical API reference.
-(source: kalshi-api-market-data-endpoints.md, kalshi-api-changelog-2026.md,
-kalshi-api-historical-data.md)
+(source: kalshi-api-market-data-endpoints.md, kalshi-api-changelog-2026.md, kalshi-api-historical-data.md)
 
 ## Pagination
 

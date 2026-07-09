@@ -291,7 +291,7 @@ class Box(BaseModel):
 ```
 (source: pydantic-docs-fields.md)
 
-## See Also
+## Related pages
 
 - [[pydantic-fields]] — Field(), constraints, aliases, computed fields, annotated pattern
 - [[pydantic-validators]] — field/model validators, validation info, ordering

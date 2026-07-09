@@ -1,6 +1,7 @@
 # duckdb-result-conversion
 
 Type mapping between Python and DuckDB, and output format methods.
+(source: duckdb-python-conversion.md)
 
 ## Python → DuckDB Type Mapping
 
@@ -70,7 +71,7 @@ Available in `duckdb.sqltypes`:
 Complex type constructors: `list_type(child)`, `struct_type(fields)`, `map_type(key, value)`, `decimal_type(width, scale)`, `union_type(members)`, `string_type(collation)`.
 (source: duckdb-python-types.md)
 
-## See Also
+## Related pages
 
 - [[duckdb]] — hub page
 - [[duckdb-data-ingestion]] — reading data in

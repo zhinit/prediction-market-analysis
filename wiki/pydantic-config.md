@@ -1,6 +1,6 @@
 # pydantic-config
 
-`ConfigDict` controls Pydantic model behavior: validation strictness, extra field handling, serialization defaults, and more.
+`ConfigDict` controls Pydantic model behavior: validation strictness, extra field handling, serialization defaults, and more (source: pydantic-docs-config.md).
 
 ## Setting Configuration
 
@@ -157,7 +157,7 @@ class Model(TypedDict):
 ```
 (source: pydantic-docs-config.md)
 
-## See Also
+## Related pages
 
 - [[pydantic]] — hub page
 - [[pydantic-fields]] — Field() options that complement config

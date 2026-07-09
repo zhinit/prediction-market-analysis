@@ -8,6 +8,8 @@ The Learning output style is a built-in Claude Code mode for learn-by-doing codi
 - Inserts `TODO(human)` markers at strategic points for you to implement
 - Produces longer responses than the Default style (more educational context)
 
+(source: claude-code-output-styles.md)
+
 ## Setup
 
 Run `/config` and select **Output style** > **Learning**.
@@ -41,7 +43,7 @@ You can create custom teaching styles as markdown files in:
 
 Frontmatter fields: `name`, `description`, `keep-coding-instructions` (boolean — set true to retain Claude Code's engineering instructions alongside your custom teaching instructions) (source: claude-code-output-styles.md).
 
-## See Also
+## Related pages
 
 - [[claude-learning-mode]] — the Socratic tutoring mode in claude.com
 - [[claude-as-teacher]] — general techniques for learning with Claude

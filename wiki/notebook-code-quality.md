@@ -1,6 +1,6 @@
 # Notebook Code Quality
 
-How to keep the code inside computational notebooks clean, testable, and free of bloat. Complements [[notebook-presentation]], which covers narrative structure and sharing; this page covers the code itself: modularization, packaging, testing, linting, refactoring, and the empirical evidence for why these practices matter.
+How to keep the code inside computational notebooks clean, testable, and free of bloat (source: pimentel-2019-quality-reproducibility-jupyter-notebooks.md). Complements [[notebook-presentation]], which covers narrative structure and sharing; this page covers the code itself: modularization, packaging, testing, linting, refactoring, and the empirical evidence for why these practices matter.
 
 ## Empirical state of notebook quality
 

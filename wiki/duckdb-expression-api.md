@@ -1,6 +1,7 @@
 # duckdb-expression-api
 
 Programmatic expression building for dynamically constructing queries without SQL strings.
+(source: duckdb-python-expression.md)
 
 ## Expression Types
 
@@ -112,7 +113,7 @@ rel.order(duckdb.ColumnExpression('price').desc().nulls_last())
 ```
 (source: duckdb-python-expression.md)
 
-## See Also
+## Related pages
 
 - [[duckdb]] — hub page
 - [[duckdb-relational-api]] — transformations that use expressions

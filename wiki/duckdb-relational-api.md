@@ -1,6 +1,7 @@
 # duckdb-relational-api
 
 Lazy query builder centered around `DuckDBPyRelation` nodes. Relations are symbolic representations of SQL queries — nothing executes until an output method is called.
+(source: duckdb-python-relational-api.md)
 
 ## Lazy Evaluation
 
@@ -142,7 +143,7 @@ rel.to_table("markets_archive")
 ```
 (source: duckdb-python-relational-api.md)
 
-## See Also
+## Related pages
 
 - [[duckdb]] — hub page
 - [[duckdb-db-api]] — PEP 249 alternative

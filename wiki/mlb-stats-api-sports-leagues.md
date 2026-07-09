@@ -1,6 +1,7 @@
 # MLB Stats API — Sports, Leagues & Divisions
 
 Organizational hierarchy: sports → leagues → divisions.
+(source: mlb-stats-api-sports-leagues.md)
 
 ## Endpoints
 

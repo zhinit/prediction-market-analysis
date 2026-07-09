@@ -61,7 +61,7 @@ The "feel" for a data set comes almost exclusively from graphical techniques. No
 
 Tukey's work influenced the development of S, S-PLUS, and R at Bell Labs. (source: wikipedia-exploratory-data-analysis.md)
 
-## See Also
+## Related pages
 
 - [[eda-four-rs]] — The four principles: Revelation, Resistance, Reexpression, Residuals
 - [[eda-assumptions]] — The four underlying assumptions of measurement processes

@@ -1,6 +1,7 @@
 # MLB Stats API — Stats & Leaders
 
 Aggregated statistics, leaderboards, and active streaks.
+(source: mlb-stats-api-stats.md)
 
 ## Endpoints
 

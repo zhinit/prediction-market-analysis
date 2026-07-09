@@ -1,8 +1,6 @@
 # Data Pipeline Stack
 
-A five-layer pattern for pulling data from HTTP APIs into an analytical store. Each layer has a single responsibility.
-
-Project-specific stack choices are recorded in `docs/project-conventions.md`.
+A five-layer pattern for pulling data from HTTP APIs into an analytical store. Each layer has a single responsibility. (source: httpx-quickstart.md, httpx-advanced-clients.md)
 
 ```
 httpx (fetch) → tenacity (retry) → pydantic (validate) → polars (transform) → duckdb (store)
@@ -82,7 +80,7 @@ with duckdb.connect("analytics.db") as con:
 
 ## Pagination Pattern
 
-Most APIs return paginated results. The cursor loop lives between fetch and validate:
+Most APIs return paginated results. The cursor loop lives between fetch and validate: (source: kalshi-api-pagination.md)
 
 ```python
 async def fetch_all_markets(client: httpx.AsyncClient) -> list[Market]:
@@ -113,7 +111,7 @@ Kalshi's token bucket system has per-tier budgets; a rate-limited request return
 Parquet uses columnar storage, enabling better compression and faster data retrieval compared to CSV. Polars reads and writes Parquet quickly because the in-memory layout of a DataFrame mirrors the Parquet layout on disk.
 (source: polars-io-parquet.md)
 
-## See Also
+## Related pages
 
 - [[kalshi-api]] — Kalshi API overview
 - [[polymarket-us-api]] — Polymarket US API overview

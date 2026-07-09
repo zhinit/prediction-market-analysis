@@ -1,6 +1,7 @@
 # MLB Stats API — Draft
 
 MLB Draft results and live draft tracking.
+(source: mlb-stats-api-draft.md)
 
 ## Endpoints
 

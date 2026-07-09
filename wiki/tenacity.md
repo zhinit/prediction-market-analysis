@@ -374,7 +374,7 @@ async def my_async_function():
 ```
 (source: tenacity-docs.md)
 
-## Recommended Pattern for API Rate Limits
+## Pattern for API Rate Limits
 
 ```python
 from tenacity import (
@@ -435,7 +435,7 @@ from tenacity import (
 ```
 (source: tenacity-api-reference.md)
 
-## See Also
+## Related pages
 
 - [[httpx]] — HTTP client that tenacity wraps
 - [[kalshi-api-rate-limits]] — Kalshi token bucket rate limits

@@ -1,6 +1,6 @@
 # pydantic-serialization
 
-Serialization (dumping) of Pydantic models to dicts and JSON.
+Serialization (dumping) of Pydantic models to dicts and JSON (source: pydantic-docs-serialization.md).
 
 ## Core Methods
 
@@ -194,7 +194,7 @@ for name, value in model:
 ```
 (source: pydantic-docs-serialization.md)
 
-## See Also
+## Related pages
 
 - [[pydantic]] — hub page
 - [[pydantic-fields]] — Field(exclude=True), computed_field

@@ -1,6 +1,6 @@
 # Data Storytelling
 
-How to communicate data analysis results so they land with an audience. Covers narrative structure, the role of text in visualization, and audience awareness.
+How to communicate data analysis results so they land with an audience. Covers narrative structure, the role of text in visualization, and audience awareness (source: arxiv-visual-data-communication.md).
 
 ## Text Carries the Message
 

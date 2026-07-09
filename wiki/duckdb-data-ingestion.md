@@ -1,6 +1,7 @@
 # duckdb-data-ingestion
 
 Reading data into DuckDB from files and Python objects.
+(source: duckdb-python-data-ingestion.md)
 
 ## CSV
 
@@ -95,7 +96,7 @@ duckdb.execute("SET GLOBAL pandas_analyze_sample = 100_000")
 ```
 (source: duckdb-python-data-ingestion.md)
 
-## See Also
+## Related pages
 
 - [[duckdb]] — hub page
 - [[duckdb-result-conversion]] — converting results back to Python types

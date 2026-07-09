@@ -45,8 +45,6 @@ Inverting the article's core recommendations, weak portfolios show (source: care
 - Too many projects instead of a curated selection ("quality over quantity in project selection")
 - No well-organized, navigable structure
 
-Project-specific choices are recorded in `docs/project-conventions.md`.
-
 ## Related Pages
 
 - [[presentable-data-analysis]] — hub page

@@ -1,0 +1,872 @@
+[
+  {
+    "kalshi_event_ticker": "KXIMPEACH",
+    "polymarket_slug": "pic-congress-trump-2026-06-30",
+    "reason": "No Kalshi date window aligns with Poly slug date. K subs: ['Before Mar 1, 2027', 'Before Jun 1, 2026', 'Before Jan 1, 2027', 'Before Jan 1, 2028', 'Before Sep 1, 2026']"
+  },
+  {
+    "kalshi_event_ticker": "KXBTCMAX150-25",
+    "polymarket_slug": "cpc-btc-150k-11-30-2026",
+    "reason": "No Kalshi date window aligns with Poly slug date. K subs: ['Before August 2026', 'Before June 2026', 'Before July 2026', 'Before January 2027', 'Before September 2026']"
+  },
+  {
+    "kalshi_event_ticker": "KXBTCMAX150-25",
+    "polymarket_slug": "cpc-btc-150k-10-31-2026",
+    "reason": "No Kalshi date window aligns with Poly slug date. K subs: ['Before August 2026', 'Before June 2026', 'Before July 2026', 'Before January 2027', 'Before September 2026']"
+  },
+  {
+    "kalshi_event_ticker": "KXBTCMAX150-25",
+    "polymarket_slug": "cpc-btc-150k-09-30-2026",
+    "reason": "No Kalshi date window aligns with Poly slug date. K subs: ['Before August 2026', 'Before June 2026', 'Before July 2026', 'Before January 2027', 'Before September 2026']"
+  },
+  {
+    "kalshi_event_ticker": "KXKASHOUT-26APR",
+    "polymarket_slug": "apdc-kashpatel-2026-12-31",
+    "reason": "No Kalshi date window aligns with Poly slug date. K subs: ['Before Aug 1, 2026', 'Before Jul 1, 2026', 'Before Jun 1, 2026']"
+  },
+  {
+    "kalshi_event_ticker": "KXKASHOUT-26APR",
+    "polymarket_slug": "apdc-kashpatel-2026-08-31",
+    "reason": "No Kalshi date window aligns with Poly slug date. K subs: ['Before Aug 1, 2026', 'Before Jul 1, 2026', 'Before Jun 1, 2026']"
+  },
+  {
+    "kalshi_event_ticker": "KXTOPARTIST-26B",
+    "polymarket_slug": "ccrc-sptfy-1-artst-glbl-yr-2026-sabcar",
+    "reason": "No matching Kalshi sub-market for slug name 'sabcar' (Jaccard=0.00). K subs: ['Taylor Swift', 'Drake', 'Bruno Mars', 'Bad Bunny', 'Chappell Roan']..."
+  },
+  {
+    "kalshi_event_ticker": "GOVPARTYSD-26",
+    "polymarket_slug": "enwc-usgubp-sd-2026-06-02-rep-larrho",
+    "reason": "General election matched to party primary. K: South Dakota Governor winner?. P: South Dakota Governor Republican Primary Winner"
+  },
+  {
+    "kalshi_event_ticker": "KXWTASETWINNER-26JUL11HODCHA-1",
+    "polymarket_slug": "asc-wta-minhod-haocha-2026-07-11-gs-neg-1pt5",
+    "reason": "Kalshi is set 1 winner; Poly is game spread -1.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXATPSETWINNER-26JUL11MONHER-1",
+    "polymarket_slug": "asc-atp-thimon-pieher-2026-07-11-gs-neg-1pt5",
+    "reason": "Kalshi is set 1 winner; Poly is game spread -1.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "SENATEAK-28",
+    "polymarket_slug": "ewc-usse-ak-2026-11-03-rep",
+    "reason": "Kalshi is 2028 Alaska Senate; Poly is 2026 \u2014 different election year"
+  },
+  {
+    "kalshi_event_ticker": "KXPHILIPPINESSENATE-28",
+    "polymarket_slug": "ewc-usse-me-2026-11-03-rep",
+    "reason": "Philippine Senate matched to Maine Senate \u2014 different country"
+  },
+  {
+    "kalshi_event_ticker": "GOVPARTYOK-26",
+    "polymarket_slug": "enwc-usgubp-ok-2026-06-16-rep-mikmaz",
+    "reason": "General election matched to party primary. K: Oklahoma Governor winner?. P: Oklahoma Governor Republican Primary Winner"
+  },
+  {
+    "kalshi_event_ticker": "GOVPARTYFL-26",
+    "polymarket_slug": "enwc-usgubp-fl-2026-08-18-rep-jaycol",
+    "reason": "General election matched to party primary. K: Florida Governor winner?. P: Florida Governor Republican Primary Winner"
+  },
+  {
+    "kalshi_event_ticker": "SENATEMN-26",
+    "polymarket_slug": "enwc-ussep-mn-2026-08-11-dem-pegfla",
+    "reason": "General election matched to party primary. K: Minnesota Senate winner?. P: Minnesota Senate Democratic Primary Winner"
+  },
+  {
+    "kalshi_event_ticker": "SENATEMI-26",
+    "polymarket_slug": "enwc-ussep-mi-2026-08-04-dem-malmcm",
+    "reason": "General election matched to party primary. K: Michigan Senate winner?. P: Michigan Senate Democratic Primary Winner"
+  },
+  {
+    "kalshi_event_ticker": "KXSAVEACT-27",
+    "polymarket_slug": "lawec-saveact-2026-08-31",
+    "reason": "No Kalshi date window aligns with Poly slug date. K subs: ['Before Jan 4, 2027']"
+  },
+  {
+    "kalshi_event_ticker": "KXCODINGMODEL-26DEC",
+    "polymarket_slug": "aimrc-company1-2026-12-31-anthro",
+    "reason": "Kalshi is best coding model; Poly is overall #1 AI model \u2014 different question"
+  },
+  {
+    "kalshi_event_ticker": "KXRENOMAYOR-26",
+    "polymarket_slug": "ewc-usmayor-losang-2026-11-03-karbas",
+    "reason": "Reno mayoral matched to LA mayoral \u2014 different city"
+  },
+  {
+    "kalshi_event_ticker": "KXWTASETWINNER-26JUL11TANNEP-1",
+    "polymarket_slug": "asc-wta-qiatan-elinep-2026-07-11-gs-neg-1pt5",
+    "reason": "Kalshi is set 1 winner; Poly is game spread -1.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXWTASETWINNER-26JUL11PANKUL-1",
+    "polymarket_slug": "asc-wta-alepan-anakul-2026-07-11-gs-neg-1pt5",
+    "reason": "Kalshi is set 1 winner; Poly is game spread -1.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXWTASETWINNER-26JUL11MORSZI-1",
+    "polymarket_slug": "asc-wta-vikmor-fraszi-2026-07-11-gs-neg-1pt5",
+    "reason": "Kalshi is set 1 winner; Poly is game spread -1.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXWTASETWINNER-26JUL11YASGLU-1",
+    "polymarket_slug": "asc-wta-ekayas-linglu-2026-07-11-gs-neg-1pt5",
+    "reason": "Kalshi is set 1 winner; Poly is game spread -1.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXWTASETWINNER-26JUL11RENTON-1",
+    "polymarket_slug": "asc-wta-marren-mirton-2026-07-11-gs-neg-1pt5",
+    "reason": "Kalshi is set 1 winner; Poly is game spread -1.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXWTASETWINNER-26JUL11MICNIN-1",
+    "polymarket_slug": "asc-wta-elemic-maknin-2026-07-11-gs-neg-1pt5",
+    "reason": "Kalshi is set 1 winner; Poly is game spread -1.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXWTASETWINNER-26JUL11TSEMAN-1",
+    "polymarket_slug": "asc-wta-eletse-yasman-2026-07-11-gs-neg-1pt5",
+    "reason": "Kalshi is set 1 winner; Poly is game spread -1.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXWTASETWINNER-26JUL11ASLSIE-1",
+    "polymarket_slug": "asc-wta-artasl-madsie-2026-07-11-gs-neg-1pt5",
+    "reason": "Kalshi is set 1 winner; Poly is game spread -1.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXATPSETWINNER-26JUL11VIRDIE-1",
+    "polymarket_slug": "asc-atp-ottvir-dyldie-2026-07-11-gs-neg-1pt5",
+    "reason": "Kalshi is set 1 winner; Poly is game spread -1.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXATPSETWINNER-26JUL11SKACHA-1",
+    "polymarket_slug": "asc-atp-timska-anicha-2026-07-11-gs-neg-1pt5",
+    "reason": "Kalshi is set 1 winner; Poly is game spread -1.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-dwajoh",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-jonoss",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-bersan",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-micoba",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-zohmam",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-nikhal",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-hilcli",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-elomus",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-robken",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-oprwin",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-jossha",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-dontrujr",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-krinoe",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-erikir",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-hunbid",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-dontru",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-betoro",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-vivram",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-stesmi",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-marrub",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-andyan",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-corboo",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-tedcru",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-steban",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-aleoca",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-tuccar",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-petbut",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-margre",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-markel",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-gavnew",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-jdvan",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-kamhar",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXDESANTISRUN-28",
+    "polymarket_slug": "cranc-uspres28-12-31-2026-rahema",
+    "reason": "Kalshi is DeSantis-specific; Poly markets are for other candidates \u2014 no matching outcome"
+  },
+  {
+    "kalshi_event_ticker": "KXALASKAHOUSE-26",
+    "polymarket_slug": "paccc-usho-midterms-2026-11-03-dem",
+    "reason": "Alaska House specific matched to US House Midterm general \u2014 different scope"
+  },
+  {
+    "kalshi_event_ticker": "KXHEGSETHOUT-26APR",
+    "polymarket_slug": "apdc-petehegseth-2026-12-31",
+    "reason": "No Kalshi date window aligns with Poly slug date. K subs: ['Before Aug 1, 2026', 'Before Sep 1, 2026', 'Before Jun 1, 2026', 'Before Jul 1, 2026']"
+  },
+  {
+    "kalshi_event_ticker": "KXATPSETWINNER-26JUL11DHASAC-1",
+    "polymarket_slug": "asc-atp-manman-vitsac-2026-07-11-gs-neg-1pt5",
+    "reason": "Kalshi is set 1 winner; Poly is game spread -1.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXIPOOPENAI",
+    "polymarket_slug": "ipcc-openai-2027-06-30",
+    "reason": "No Kalshi date window aligns with Poly slug date. K subs: ['Before Sep 1, 2026', 'Before Apr 1, 2027', 'Before Jan 1, 2027', 'Before Dec 1, 2026', 'Before Mar 1, 2027', 'Before Jul 1, 2026', 'Before Jun 1, 2026', 'Before Oct 1, 2026', 'Before Feb 1, 2027', 'Before Nov 1, 2026', 'Before May 1, 2027', 'Before Jun 1, 2027', 'Before Aug 1, 2026']"
+  },
+  {
+    "kalshi_event_ticker": "KXIPOANTHROPIC-DATE",
+    "polymarket_slug": "ipcc-anthropic-2027-06-30",
+    "reason": "No Kalshi date window aligns with Poly slug date. K subs: ['Before Dec 1, 2026', 'Before Jul 1, 2026', 'Before Jun 1, 2026', 'Before Oct 1, 2026', 'Before Nov 1, 2026', 'Before Jan 1, 2027', 'Before Apr 1, 2027', 'Before Sep 1, 2026', 'Before Aug 1, 2026', 'Before Feb 1, 2027', 'Before Mar 1, 2027']"
+  },
+  {
+    "kalshi_event_ticker": "KXSENATEWYD-26",
+    "polymarket_slug": "enwc-ussep-me-2026-07-27-dem-pailou",
+    "reason": "Wyoming Dem Senate matched to Maine Dem Senate \u2014 different state"
+  },
+  {
+    "kalshi_event_ticker": "KXUFCVICROUND-26JUL11SAIPIM",
+    "polymarket_slug": "astatc-ufc-padpim-bensai-2026-07-11-mov-f1-ko",
+    "reason": "Kalshi is round of victory; Poly is method of victory (KO/TKO/DQ) \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXUFCVICROUND-26JUL11RILKAM",
+    "polymarket_slug": "astatc-ufc-kaikam-lukril-2026-07-11-mov-f1-ko",
+    "reason": "Kalshi is round of victory; Poly is method of victory (KO/TKO/DQ) \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXCODINGMODEL-26DEC",
+    "polymarket_slug": "aimrc-company1-2026-07-31-amazon",
+    "reason": "Kalshi is best coding model; Poly is overall #1 AI model \u2014 different question"
+  },
+  {
+    "kalshi_event_ticker": "KXUFCVICROUND-26JUL11MCGHOL",
+    "polymarket_slug": "astatc-ufc-maxhol-conmcg-2026-07-11-mov-f1-ko",
+    "reason": "Kalshi is round of victory; Poly is method of victory (KO/TKO/DQ) \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXUFCVICROUND-26JUL11MCGHOL",
+    "polymarket_slug": "astatc-ufc-maxhol-conomcg-2026-07-11-mov-f1-ko",
+    "reason": "Kalshi is round of victory; Poly is method of victory (KO/TKO/DQ) \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXUFCVICROUND-26JUL11SANBAU",
+    "polymarket_slug": "astatc-ufc-corsan-marbau-2026-07-11-mov-f1-ko",
+    "reason": "Kalshi is round of victory; Poly is method of victory (KO/TKO/DQ) \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXUFCVICROUND-26JUL11GREMCK",
+    "polymarket_slug": "astatc-ufc-kingre-termck-2026-07-11-mov-f1-ko",
+    "reason": "Kalshi is round of victory; Poly is method of victory (KO/TKO/DQ) \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXUFCVICROUND-26JUL11KRYWHI",
+    "polymarket_slug": "astatc-ufc-robwhi-nikkry-2026-07-11-mov-f1-ko",
+    "reason": "Kalshi is round of victory; Poly is method of victory (KO/TKO/DQ) \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXUFCVICROUND-26JUL11STEELL",
+    "polymarket_slug": "astatc-ufc-gabste-eliell-2026-07-11-mov-f1-ko",
+    "reason": "Kalshi is round of victory; Poly is method of victory (KO/TKO/DQ) \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXUFCVICROUND-26JUL11GARYAN",
+    "polymarket_slug": "astatc-ufc-codgar-adryan-2026-07-11-mov-f1-ko",
+    "reason": "Kalshi is round of victory; Poly is method of victory (KO/TKO/DQ) \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL111915ATLSTL",
+    "polymarket_slug": "atc-mlb-atl-stl-2026-07-11-f5-stl",
+    "reason": "Kalshi is extra innings; Poly is F5 winner \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL111905KCBAL",
+    "polymarket_slug": "atc-mlb-kc-bal-2026-07-11-f5-bal",
+    "reason": "Kalshi is extra innings; Poly is F5 winner \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXUFCVICROUND-26JUL11CORWAN",
+    "polymarket_slug": "astatc-ufc-wancon-tracor-2026-07-11-mov-f1-ko",
+    "reason": "Kalshi is round of victory; Poly is method of victory (KO/TKO/DQ) \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXUFCVICROUND-26JUL11PINALM",
+    "polymarket_slug": "astatc-ufc-cesalm-dampin-2026-07-11-mov-f1-ko",
+    "reason": "Kalshi is round of victory; Poly is method of victory (KO/TKO/DQ) \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXUFCVICROUND-26JUL11BASGAR",
+    "polymarket_slug": "astatc-ufc-farbas-johgar-2026-07-11-mov-f1-ko",
+    "reason": "Kalshi is round of victory; Poly is method of victory (KO/TKO/DQ) \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXUFCVICROUND-26JUL11GANREE",
+    "polymarket_slug": "astatc-ufc-zacree-ryagan-2026-07-11-mov-f1-ko",
+    "reason": "Kalshi is round of victory; Poly is method of victory (KO/TKO/DQ) \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXUFCVICROUND-26JUL11COSDUR",
+    "polymarket_slug": "astatc-ufc-coddur-alecos-2026-07-11-mov-f1-ko",
+    "reason": "Kalshi is round of victory; Poly is method of victory (KO/TKO/DQ) \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL111610SEATB",
+    "polymarket_slug": "atc-mlb-sea-tb-2026-07-11-f5-tb",
+    "reason": "Kalshi is extra innings; Poly is F5 winner \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL111605COLSF",
+    "polymarket_slug": "atc-mlb-col-sf-2026-07-11-f5-sf",
+    "reason": "Kalshi is extra innings; Poly is F5 winner \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL111410LAAMIN",
+    "polymarket_slug": "atc-mlb-laa-min-2026-07-11-f5-min",
+    "reason": "Kalshi is extra innings; Poly is F5 winner \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXHIGHTSFO-26JUL10",
+    "polymarket_slug": "tc-temp-sfohigh-2026-07-11-lt69f",
+    "reason": "Weather: different city, date, or metric between platforms"
+  },
+  {
+    "kalshi_event_ticker": "KXTRUMPPARDON-27JAN01",
+    "polymarket_slug": "apdc-trumpadmin-2026-rusvou",
+    "reason": "Kalshi is pardons; Poly is admin departures \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXTRUMPPARDON-27JAN01",
+    "polymarket_slug": "apdc-trumpadmin-2026-scobes",
+    "reason": "Kalshi is pardons; Poly is admin departures \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXTRUMPPARDON-27JAN01",
+    "polymarket_slug": "apdc-trumpadmin-2026-marrub",
+    "reason": "Kalshi is pardons; Poly is admin departures \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXTRUMPPARDON-27JAN01",
+    "polymarket_slug": "apdc-trumpadmin-2026-tomhom",
+    "reason": "Kalshi is pardons; Poly is admin departures \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXTRUMPPARDON-27JAN01",
+    "polymarket_slug": "apdc-trumpadmin-2026-rodsco",
+    "reason": "Kalshi is pardons; Poly is admin departures \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXTRUMPPARDON-27JAN01",
+    "polymarket_slug": "apdc-trumpadmin-2026-brorol",
+    "reason": "Kalshi is pardons; Poly is admin departures \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXTRUMPPARDON-27JAN01",
+    "polymarket_slug": "apdc-trumpadmin-2026-stemil",
+    "reason": "Kalshi is pardons; Poly is admin departures \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXTRUMPPARDON-27JAN01",
+    "polymarket_slug": "apdc-trumpadmin-2026-johrat",
+    "reason": "Kalshi is pardons; Poly is admin departures \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXTRUMPPARDON-27JAN01",
+    "polymarket_slug": "apdc-trumpadmin-2026-stewit",
+    "reason": "Kalshi is pardons; Poly is admin departures \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXTRUMPPARDON-27JAN01",
+    "polymarket_slug": "apdc-trumpadmin-2026-petheg",
+    "reason": "Kalshi is pardons; Poly is admin departures \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXTRUMPPARDON-27JAN01",
+    "polymarket_slug": "apdc-trumpadmin-2026-linmcm",
+    "reason": "Kalshi is pardons; Poly is admin departures \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXTRUMPPARDON-27JAN01",
+    "polymarket_slug": "apdc-trumpadmin-2026-steche",
+    "reason": "Kalshi is pardons; Poly is admin departures \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXTRUMPPARDON-27JAN01",
+    "polymarket_slug": "apdc-trumpadmin-2026-karlea",
+    "reason": "Kalshi is pardons; Poly is admin departures \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXTRUMPPARDON-27JAN01",
+    "polymarket_slug": "apdc-trumpadmin-2026-howlut",
+    "reason": "Kalshi is pardons; Poly is admin departures \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXTRUMPPARDON-27JAN01",
+    "polymarket_slug": "apdc-trumpadmin-2026-suswil",
+    "reason": "Kalshi is pardons; Poly is admin departures \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXTRUMPPARDON-27JAN01",
+    "polymarket_slug": "apdc-trumpadmin-2026-kaspat",
+    "reason": "Kalshi is pardons; Poly is admin departures \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXTRUMPPARDON-27JAN01",
+    "polymarket_slug": "apdc-trumpadmin-2026-robken",
+    "reason": "Kalshi is pardons; Poly is admin departures \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXWTASETWINNER-26JUL11HODCHA-2",
+    "polymarket_slug": "tsc-wta-minhod-haocha-2026-07-11-tg-17pt5",
+    "reason": "Kalshi is set 1 winner; Poly is game spread -1.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXATPSETWINNER-26JUL11MONHER-2",
+    "polymarket_slug": "tsc-atp-thimon-pieher-2026-07-11-tg-17pt5",
+    "reason": "Kalshi is set 1 winner; Poly is game spread -1.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL112110AZLAD",
+    "polymarket_slug": "atc-mlb-az-lad-2026-07-11-f5-lad",
+    "reason": "Kalshi is extra innings; Poly is F5 winner \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL112040TORSD",
+    "polymarket_slug": "atc-mlb-tor-sd-2026-07-11-f5-sd",
+    "reason": "Kalshi is extra innings; Poly is F5 winner \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL111605NYYWSH",
+    "polymarket_slug": "atc-mlb-nyy-wsh-2026-07-11-f5-wsh",
+    "reason": "Kalshi is extra innings; Poly is F5 winner \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXGHANAPRES-28",
+    "polymarket_slug": "ewc-ukpol-leg-clacton-2026-08-13-nigfar",
+    "reason": "Ghana presidential matched to UK Clacton by-election \u2014 different country"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL111905HOUTEX",
+    "polymarket_slug": "atc-mlb-hou-tex-2026-07-11-f5-tex",
+    "reason": "Kalshi is extra innings; Poly is F5 winner \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL111810PHIDET",
+    "polymarket_slug": "atc-mlb-phi-det-2026-07-11-f5-det",
+    "reason": "Kalshi is extra innings; Poly is F5 winner \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXWNBASPREAD-26JUL11PHXLV",
+    "polymarket_slug": "asc-wnba-phx-lv-2026-07-11-neg-18pt5",
+    "reason": "Spread lines don't match between platforms"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL111610CLEMIA",
+    "polymarket_slug": "atc-mlb-cle-mia-2026-07-11-f5-mia",
+    "reason": "Kalshi is extra innings; Poly is F5 winner \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL111605MILPIT",
+    "polymarket_slug": "atc-mlb-mil-pit-2026-07-11-f5-pit",
+    "reason": "Kalshi is extra innings; Poly is F5 winner \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXWNBASPREAD-26JUL11NYMIN",
+    "polymarket_slug": "asc-wnba-ny-min-2026-07-11-neg-11pt5",
+    "reason": "Spread lines don't match between platforms"
+  },
+  {
+    "kalshi_event_ticker": "KXWNBASPREAD-26JUL10CHILA",
+    "polymarket_slug": "asc-wnba-chi-la-2026-07-10-neg-10pt5",
+    "reason": "Spread lines don't match between platforms"
+  },
+  {
+    "kalshi_event_ticker": "KXWNBASPREAD-26JUL10GSCONN",
+    "polymarket_slug": "asc-wnba-gsv-conn-2026-07-10-neg-16pt5",
+    "reason": "Spread lines don't match between platforms"
+  },
+  {
+    "kalshi_event_ticker": "KXTEMPLAXH-26JUL1019",
+    "polymarket_slug": "tc-temp-laxhigh-2026-07-10-lt74f",
+    "reason": "Weather: different city, date, or metric between platforms"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL111610BOSNYM",
+    "polymarket_slug": "atc-mlb-bos-nym-2026-07-11-f5-nym",
+    "reason": "Kalshi is extra innings; Poly is F5 winner \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXWTASETWINNER-26JUL11TANNEP-2",
+    "polymarket_slug": "tsc-wta-qiatan-elinep-2026-07-11-tg-17pt5",
+    "reason": "Kalshi is set 1 winner; Poly is game spread -1.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXWTASETWINNER-26JUL11PANKUL-2",
+    "polymarket_slug": "tsc-wta-alepan-anakul-2026-07-11-tg-17pt5",
+    "reason": "Kalshi is set 1 winner; Poly is game spread -1.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXWTASETWINNER-26JUL11MORSZI-2",
+    "polymarket_slug": "tsc-wta-vikmor-fraszi-2026-07-11-tg-17pt5",
+    "reason": "Kalshi is set 1 winner; Poly is game spread -1.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXWTASETWINNER-26JUL11YASGLU-2",
+    "polymarket_slug": "tsc-wta-ekayas-linglu-2026-07-11-tg-17pt5",
+    "reason": "Kalshi is set 1 winner; Poly is game spread -1.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXWTASETWINNER-26JUL11RENTON-2",
+    "polymarket_slug": "tsc-wta-marren-mirton-2026-07-11-tg-17pt5",
+    "reason": "Kalshi is set 1 winner; Poly is game spread -1.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXWTASETWINNER-26JUL11MICNIN-2",
+    "polymarket_slug": "tsc-wta-elemic-maknin-2026-07-11-tg-17pt5",
+    "reason": "Kalshi is set 1 winner; Poly is game spread -1.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXWTASETWINNER-26JUL11TSEMAN-2",
+    "polymarket_slug": "tsc-wta-eletse-yasman-2026-07-11-tg-17pt5",
+    "reason": "Kalshi is set 1 winner; Poly is game spread -1.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXWTASETWINNER-26JUL11ASLSIE-2",
+    "polymarket_slug": "tsc-wta-artasl-madsie-2026-07-11-tg-17pt5",
+    "reason": "Kalshi is set 1 winner; Poly is game spread -1.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXATPSETWINNER-26JUL11VIRDIE-2",
+    "polymarket_slug": "tsc-atp-ottvir-dyldie-2026-07-11-tg-17pt5",
+    "reason": "Kalshi is set 1 winner; Poly is game spread -1.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXATPSETWINNER-26JUL11SKACHA-2",
+    "polymarket_slug": "tsc-atp-timska-anicha-2026-07-11-tg-17pt5",
+    "reason": "Kalshi is set 1 winner; Poly is game spread -1.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXPRESPERSON-28",
+    "polymarket_slug": "paccc-usse-midterms-2026-11-03-rep",
+    "reason": "2028 presidential matched to Senate midterm \u2014 different election"
+  },
+  {
+    "kalshi_event_ticker": "KXHIGHPHIL-26JUL11",
+    "polymarket_slug": "tc-temp-nychigh-2026-07-11-lt81f",
+    "reason": "Weather: different city, date, or metric between platforms"
+  },
+  {
+    "kalshi_event_ticker": "KXHIGHPHIL-26JUL11",
+    "polymarket_slug": "tc-temp-miahigh-2026-07-11-lt89f",
+    "reason": "Weather: different city, date, or metric between platforms"
+  },
+  {
+    "kalshi_event_ticker": "KXHIGHPHIL-26JUL11",
+    "polymarket_slug": "tc-temp-mdwhigh-2026-07-11-lt81f",
+    "reason": "Weather: different city, date, or metric between platforms"
+  },
+  {
+    "kalshi_event_ticker": "KXWCADVANCE-26JUL11ARGSUI",
+    "polymarket_slug": "asc-fwc-arg-sui-2026-07-11-neg-2pt5",
+    "reason": "Kalshi is match winner; Poly is spread -2.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXWCADVANCE-26JUL11NORENG",
+    "polymarket_slug": "asc-fwc-nor-eng-2026-07-11-neg-2pt5",
+    "reason": "Kalshi is match winner; Poly is spread -2.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXHIGHPHIL-26JUL10",
+    "polymarket_slug": "tc-temp-nychigh-2026-07-10-lt87f",
+    "reason": "Weather: different city, date, or metric between platforms"
+  },
+  {
+    "kalshi_event_ticker": "KXHIGHPHIL-26JUL10",
+    "polymarket_slug": "tc-temp-miahigh-2026-07-10-lt89f",
+    "reason": "Weather: different city, date, or metric between platforms"
+  },
+  {
+    "kalshi_event_ticker": "KXHIGHPHIL-26JUL10",
+    "polymarket_slug": "tc-temp-mdwhigh-2026-07-10-lt79f",
+    "reason": "Weather: different city, date, or metric between platforms"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL111910CHCCIN",
+    "polymarket_slug": "atc-mlb-chc-cin-2026-07-11-f5-cin",
+    "reason": "Kalshi is extra innings; Poly is F5 winner \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXATP1RANK-26DEC31",
+    "polymarket_slug": "arankc-wta-2026-12-31-no1-vicmbo",
+    "reason": "ATP men's #1 matched to women's tennis \u2014 different category"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL111915ATLSTL",
+    "polymarket_slug": "asc-mlb-atl-stl-2026-07-11-f5-neg-2pt5",
+    "reason": "Kalshi is extra innings; Poly is F5 winner \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL111905KCBAL",
+    "polymarket_slug": "asc-mlb-kc-bal-2026-07-11-f5-neg-2pt5",
+    "reason": "Kalshi is extra innings; Poly is F5 winner \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL111610SEATB",
+    "polymarket_slug": "asc-mlb-sea-tb-2026-07-11-f5-neg-2pt5",
+    "reason": "Kalshi is extra innings; Poly is F5 winner \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL111605COLSF",
+    "polymarket_slug": "asc-mlb-col-sf-2026-07-11-f5-neg-2pt5",
+    "reason": "Kalshi is extra innings; Poly is F5 winner \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL111410LAAMIN",
+    "polymarket_slug": "asc-mlb-laa-min-2026-07-11-f5-neg-2pt5",
+    "reason": "Kalshi is extra innings; Poly is F5 winner \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXATPSETWINNER-26JUL11DHASAC-2",
+    "polymarket_slug": "tsc-atp-manman-vitsac-2026-07-11-tg-17pt5",
+    "reason": "Kalshi is set 1 winner; Poly is game spread -1.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXESVI",
+    "polymarket_slug": "prdc-gtavi-12-31-2026",
+    "reason": "Kalshi is Elder Scrolls VI; Poly is GTA VI \u2014 different game"
+  },
+  {
+    "kalshi_event_ticker": "KXESVI",
+    "polymarket_slug": "prdc-gtavi-11-19-2026",
+    "reason": "Kalshi is Elder Scrolls VI; Poly is GTA VI \u2014 different game"
+  },
+  {
+    "kalshi_event_ticker": "KXIPO-26",
+    "polymarket_slug": "ipcc-2026ipos-revolut",
+    "reason": "No matching Kalshi sub-market for slug name 'revolut' (Jaccard=0.00). K subs: ['Discord', 'Glean', 'Shein', 'Databricks', 'Airwallex']..."
+  },
+  {
+    "kalshi_event_ticker": "KXIPO-26",
+    "polymarket_slug": "ipcc-2026ipos-canva",
+    "reason": "No matching Kalshi sub-market for slug name 'canva' (Jaccard=0.00). K subs: ['Discord', 'Glean', 'Shein', 'Databricks', 'Airwallex']..."
+  },
+  {
+    "kalshi_event_ticker": "KXIPO-26",
+    "polymarket_slug": "ipcc-2026ipos-epic-games",
+    "reason": "No matching Kalshi sub-market for slug name 'games' (Jaccard=0.00). K subs: ['Discord', 'Glean', 'Shein', 'Databricks', 'Airwallex']..."
+  },
+  {
+    "kalshi_event_ticker": "KXIPO-26",
+    "polymarket_slug": "ipcc-2026ipos-ledger",
+    "reason": "No matching Kalshi sub-market for slug name 'ledger' (Jaccard=0.00). K subs: ['Discord', 'Glean', 'Shein', 'Databricks', 'Airwallex']..."
+  },
+  {
+    "kalshi_event_ticker": "KXIPO-26",
+    "polymarket_slug": "ipcc-2026ipos-remote",
+    "reason": "No matching Kalshi sub-market for slug name 'remote' (Jaccard=0.00). K subs: ['Discord', 'Glean', 'Shein', 'Databricks', 'Airwallex']..."
+  },
+  {
+    "kalshi_event_ticker": "KXLIUSAWINNERS-26",
+    "polymarket_slug": "rtc-lius-s8-2026-07-31-w-winner-kenann",
+    "reason": "No matching Kalshi sub-market for slug name 'kenann' (Jaccard=0.00). K subs: ['Kayda', 'Trinity', 'Melanie', 'Kenzie', 'Aniya']..."
+  },
+  {
+    "kalshi_event_ticker": "KXHIGHPHIL-26JUL11",
+    "polymarket_slug": "tc-temp-laxhigh-2026-07-11-lt73f",
+    "reason": "Weather: different city, date, or metric between platforms"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL112110AZLAD",
+    "polymarket_slug": "asc-mlb-az-lad-2026-07-11-f5-neg-2pt5",
+    "reason": "Kalshi is extra innings; Poly is F5 winner \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL112040TORSD",
+    "polymarket_slug": "asc-mlb-tor-sd-2026-07-11-f5-neg-2pt5",
+    "reason": "Kalshi is extra innings; Poly is F5 winner \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL111605NYYWSH",
+    "polymarket_slug": "asc-mlb-nyy-wsh-2026-07-11-f5-neg-2pt5",
+    "reason": "Kalshi is extra innings; Poly is F5 winner \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXWNBASPREAD-26JUL11PDXATL",
+    "polymarket_slug": "asc-wnba-por-atl-2026-07-11-neg-19pt5",
+    "reason": "Spread lines don't match between platforms"
+  },
+  {
+    "kalshi_event_ticker": "KXITFMATCH-26JUL11DOUROB",
+    "polymarket_slug": "aec-ufc-robwhi-nikkry-2026-07-11",
+    "reason": "ITF tennis matched to UFC fight \u2014 different sport"
+  },
+  {
+    "kalshi_event_ticker": "KXHIGHPHIL-26JUL10",
+    "polymarket_slug": "tc-temp-sfohigh-2026-07-10-lt64f",
+    "reason": "Weather: different city, date, or metric between platforms"
+  },
+  {
+    "kalshi_event_ticker": "KXNBASUMMERGAME-26JUL10CHIMEM",
+    "polymarket_slug": "aec-mlb-ath-cws-2026-07-10",
+    "reason": "NBA Summer League Chicago matched to MLB Athletics vs White Sox \u2014 different sport/event"
+  },
+  {
+    "kalshi_event_ticker": "KXWNBASPREAD-26JUL10DALTOR",
+    "polymarket_slug": "asc-wnba-dal-tor-2026-07-10-neg-13pt5",
+    "reason": "Spread lines don't match between platforms"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL111610BOSNYM",
+    "polymarket_slug": "asc-mlb-bos-nym-2026-07-11-f5-neg-2pt5",
+    "reason": "Kalshi is extra innings; Poly is F5 winner \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXUFCVICROUND-26JUL11ROYKAV",
+    "polymarket_slug": "astatc-ufc-braroy-lonkav-2026-07-11-mov-f1-ko",
+    "reason": "Kalshi is round of victory; Poly is method of victory (KO/TKO/DQ) \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL111905HOUTEX",
+    "polymarket_slug": "asc-mlb-hou-tex-2026-07-11-f5-neg-2pt5",
+    "reason": "Kalshi is extra innings; Poly is F5 winner \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL111810PHIDET",
+    "polymarket_slug": "asc-mlb-phi-det-2026-07-11-f5-neg-2pt5",
+    "reason": "Kalshi is extra innings; Poly is F5 winner \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL111610CLEMIA",
+    "polymarket_slug": "asc-mlb-cle-mia-2026-07-11-f5-neg-2pt5",
+    "reason": "Kalshi is extra innings; Poly is F5 winner \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL111605MILPIT",
+    "polymarket_slug": "asc-mlb-mil-pit-2026-07-11-f5-neg-2pt5",
+    "reason": "Kalshi is extra innings; Poly is F5 winner \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXATPSETWINNER-26JUL11DHASAC-2",
+    "polymarket_slug": "astatc-atp-manman-vitsac-2026-07-11-es-2-0",
+    "reason": "Kalshi is set 1 winner; Poly is game spread -1.5 \u2014 different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXWCDELAY-26JUL10ESPBEL",
+    "polymarket_slug": "asc-fwc-esp-bel-2026-07-10-neg-2pt5",
+    "reason": "Kalshi is weather delay; Poly is spread \u2014 different event"
+  }
+]

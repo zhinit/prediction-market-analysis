@@ -1,0 +1,17 @@
+[
+  {
+    "ticker": "KXMLBGAME",
+    "title": "MLB Game Winners",
+    "category": "Sports"
+  },
+  {
+    "ticker": "KXNBAGAME",
+    "title": "NBA Game Winners",
+    "category": "Sports"
+  },
+  {
+    "ticker": "KXPRESWIN",
+    "title": "Presidential Election Winner",
+    "category": "Politics"
+  }
+]

@@ -2,95 +2,126 @@
 
 ## Context
 
-The poka-arb project built an arbitrage bot between Kalshi and Polymarket US and found structural 2-4% spreads on sports markets — but they're uncapturable at retail latency due to Polymarket's taker delay. This analysis takes that finding and turns it into a clean, presentable portfolio piece: pull the data from scratch, quantify the opportunities, and show what the arbitrage landscape actually looks like.
+The poka-arb project built an arbitrage bot between Kalshi and Polymarket US and found structural 2-4% spreads on sports markets — but they're uncapturable at retail latency due to Polymarket's taker delay. This analysis takes that finding and turns it into a clean, presentable portfolio piece: collect real-time orderbook data, quantify the opportunities, and show what the arbitrage landscape actually looks like.
 
 Two write-ups already exist in this project (MLB data pull, MLB calibration). This one follows the same format and conventions.
 
-## Open question
+## Key decision: live data, not historical
 
-**Polymarket US historical trades**: We need to confirm whether Poly US has a public historical trades endpoint or Time & Sales CSVs. poka-arb references Time & Sales CSVs at `polymarketexchange.com/time-and-sales.html`. Step 1 resolves this before any code is written. If no historical trade data is available, we pivot to live BBO polling as the primary data source (and the timeline extends by however many days we collect).
+Historical market metadata (titles, settlement prices) is useful for matching but not for measuring arbitrage. A single `last_price_dollars` snapshot per market tells you nothing about how spreads evolve. Real arbitrage analysis needs orderbook data at high frequency — best bid/ask on both platforms at the same moment, many times per day, over multiple days.
+
+Both platforms offer websocket streams:
+- **Kalshi**: `ticker` channel (public), streams orderbook updates. RSA-PSS auth at connection time. Up to 500K subscriptions. (wiki: [[kalshi-api-websocket]])
+- **Poly US**: `SUBSCRIPTION_TYPE_MARKET_DATA` streams full orderbook snapshots on every update (~1-1.5 msg/sec on active markets). Ed25519 auth. Max 100 markets per subscription. (poka-arb wiki: polymarket-us-websocket)
+
+---
+
+## Status (as of 2026-07-09)
+
+### Completed
+- **Research**: Poly US API schemas documented in wiki. Websocket capabilities documented in poka-arb wiki.
+- **Event metadata pulled**: Kalshi 455K events (all categories) in `kalshi_events`. Poly US 28K events in `poly_events`.
+- **Table rename**: `kalshi_sports_events` → `kalshi_events`, `kalshi_sports_markets` → `kalshi_markets`. Old scripts deleted.
+- **Existing matcher**: `build_cross_platform_map.py` does sports-specific team-name matching (3,978 matches). Will be replaced by Jaccard matcher.
+
+### Next
+Step 1 below.
 
 ---
 
 ## Steps
 
-### Step 1: Research — confirm Poly US trade data access
-- `/research` the Polymarket US API for historical trade data (Time & Sales CSVs, trades endpoint, or other)
-- `/research` the Polymarket US market object schema (what fields come back from `/v1/markets`)
-- Document findings in wiki pages
-- **Output**: confirmed data access path, documented schemas
-- **Depends on**: nothing
+### Step 1: Match active markets across platforms
 
-### Step 2: Pull market/event metadata from both platforms
-- Create `db/scripts/pull_kalshi_sports.py` — pull all sports events and markets from Kalshi (not just MLB)
-- Create `db/scripts/pull_poly_us_sports.py` — pull all sports events and markets from Polymarket US
-- Follow existing patterns: httpx async, tenacity retries, pydantic models, polars→DuckDB, TEXT storage + typed views, resume bookkeeping
-- **New tables**: `kalshi_sports_events`, `kalshi_sports_markets`, `poly_events`, `poly_markets` (plus typed views and pull-tracking tables)
-- **Output**: metadata for all sports markets on both platforms in DuckDB
-- **Depends on**: Step 1 (schemas)
+Modeled on poka-arb's `strategies/arbitrage/matcher/` and its `/arb_match` command.
 
-### Step 3: Build cross-platform market matching
-- Create `db/scripts/build_cross_platform_map.py`
-- Rebuild matching from scratch (informed by poka-arb, not copied):
-  1. Pre-filters: sport type, bet type (moneyline only initially), date overlap
-  2. Try deterministic join first: Poly markets carry `gameId`/`sportradarGameId` — if these map to known IDs, skip fuzzy matching
-  3. Fuzzy fallback: Jaccard similarity on normalized titles (threshold 0.4)
-  4. Direction alignment: determine whether Kalshi YES = Poly YES or Poly NO, store as boolean
-- **New table**: `cross_platform_matches` (kalshi_event_ticker, poly_slug, sport, direction, match_score, match_method)
-- **Output**: matched market pairs with direction alignment
-- **Depends on**: Step 2
+**Script**: `db/scripts/match_markets.py`
+- Fetch all **open/active** events from both platforms via REST (no need for the full historical catalog)
+- Pre-filter by normalized category (sports↔sports, politics↔politics, etc.)
+- Jaccard similarity on normalized titles, threshold 0.3 (poka-arb uses 0.4)
+- Additional filters: date overlap, sport compatibility, bet type compatibility
+- Output `candidates.json` for LLM review
+- Skip candidates already in `matches.json` or `rejected_matches.json`
 
-### Step 4: Pull historical trades for matched markets
-- **Kalshi side**: Extend or adapt existing trade pull logic to cover all sports series (not just `KXMLBGAME`). MLB trades already exist (25.7M) — reuse them, only pull new series.
-- **Poly side**: Create `db/scripts/pull_poly_us_trades.py` using whatever data source Step 1 confirms (Time & Sales CSVs, trades endpoint, etc.)
-- **New tables**: `poly_trades` (+ typed view), `poly_trade_pulls` (resume bookkeeping). Kalshi trades may go into existing `trades` table or a new `kalshi_sports_trades` table depending on schema compatibility.
-- **Output**: trade-level price data for both sides of every matched market
-- **Depends on**: Step 3
+**Command**: `.claude/commands/arb_match.md` — runs the matcher, presents candidates for review with direction checklist, writes approved matches to `matches.json`
 
-### Step 5: Build analysis-ready tables
-- Create `db/scripts/prepare_arb_analysis.py`
-- Join trades from both platforms on match table
-- Align direction (flip Poly price to `1 - price` when Kalshi YES = Poly NO)
-- Compute: raw spread, fee-adjusted spread (Kalshi taker 7%, Poly taker 5%), spread as % of price
-- Time-bucket into snapshots (e.g. 5-minute intervals) for time-series analysis
-- **New tables**: `arb_price_series`, `arb_snapshots`, `arb_build_info`
-- **Output**: analysis-ready tables the notebook queries directly
-- **Depends on**: Step 4
+**Direction alignment** (critical — poka-arb had a $68 bug from getting this wrong):
+- For each candidate, determine which team/outcome Kalshi YES represents vs Poly YES
+- Set `kalshi_yes_eq_poly_yes` or `kalshi_yes_eq_poly_no`
+- Both teams' YES sides recorded in notes for auditability
 
-### Step 6: Analysis notebook
-- Create `analysis/cross_platform_arb.ipynb`
-- Sections:
-  1. Universe: how many markets matched, by sport, date range
-  2. Spread distribution: histogram of raw and fee-adjusted spreads
-  3. Frequency: how often do spreads exceed X%
-  4. Persistence: how long do above-threshold spreads last
-  5. Patterns: by sport, time of day, market liquidity, days before event
-  6. Case studies: largest spreads, what happened
-  7. Conclusion: opportunities exist but uncapturable (Poly taker delay)
-- **Output**: completed notebook with charts
-- **Depends on**: Step 5
+**Output**: `matches.json` with confirmed match pairs + direction
 
-### Step 7: Data quality tests
-- Create `db/tests/test_arb_data_quality.py`
-- Same pattern as existing tests: module-scoped DuckDB fixture, skip if tables missing
-- Test: tables/views exist, not empty, referential integrity, typed views cast cleanly, prices in (0,1), timestamps not from future, every match has trades on both sides
-- **Output**: passing test suite
-- **Depends on**: Step 5
+### Step 2: Collect live orderbook data via websockets
 
-### Step 8: Write-up
-- Create `write_ups/cross-platform-arbitrage-kalshi-polymarket.md`
+**Script**: `db/scripts/collect_orderbooks.py`
+- Connect to both Kalshi and Poly US websockets
+- Subscribe to all matched markets from `matches.json`
+- On each orderbook update, save a snapshot: timestamp, market ID, best bid, best ask, bid size, ask size, mid price
+- Write to DuckDB table `orderbook_snapshots` in batches
+- Handle reconnection with exponential backoff
+- Log connection status so you can verify it's running
+
+**Auth**: API keys for both platforms (already set up in poka-arb, move to this project)
+
+**Table**: `orderbook_snapshots`
+| Column | Type |
+|--------|------|
+| timestamp | TEXT |
+| platform | TEXT |
+| market_id | TEXT |
+| best_bid | TEXT |
+| best_ask | TEXT |
+| bid_size | TEXT |
+| ask_size | TEXT |
+| mid_price | TEXT |
+
+Plus typed view.
+
+**Run for 3-7 days**. Kick off each morning, let it run all day. Resumable — appends to the same table.
+
+### Step 3: Build analysis-ready tables
+
+**Script**: `db/scripts/prepare_arb_analysis.py`
+- Join orderbook snapshots from both platforms on match table + closest timestamp
+- Align direction (flip Poly price to `1 - price` when `kalshi_yes_eq_poly_no`)
+- Compute: raw spread, fee-adjusted spread (Kalshi taker fee, Poly taker fee per wiki), spread as % of mid
+- **Output**: `arb_spreads` table with paired snapshots and computed spreads
+
+### Step 4: Analysis notebook
+
+**Notebook**: `analysis/cross_platform_arb.ipynb`
+
+Sections:
+1. **Universe**: how many markets matched, by category, sport
+2. **Spread distribution**: histogram of raw and fee-adjusted spreads
+3. **Frequency**: how often do spreads exceed X% (e.g., 1%, 2%, 5%)
+4. **Persistence**: when a spread opens, how long does it last before closing
+5. **Patterns**: by category, time of day, market liquidity, days before event
+6. **Case studies**: largest/most persistent spreads, what happened
+7. **Conclusion**: do capturable opportunities exist after fees and latency
+
+### Step 5: Data quality tests
+
+**Tests**: `db/tests/test_arb_data_quality.py`
+- Every snapshot has valid bid/ask (bid < ask, both in [0, 1])
+- Every snapshot market_id maps to a match in matches.json
+- No timestamp gaps longer than expected (flag collection outages)
+- Paired snapshots have consistent direction alignment
+
+### Step 6: Write-up
+
+**File**: `write_ups/cross-platform-arbitrage-kalshi-polymarket.md`
 - YAML frontmatter, same blog-post format as existing write-ups
-- Three parts: (1) data pull & matching methodology, (2) what the analysis found, (3) why it's uncapturable in practice
-- **Output**: portfolio-ready write-up
-- **Depends on**: Step 6
+- Portfolio-ready
 
-### Step 9 (optional): Live BBO polling
-- Create `db/scripts/poll_live_bbo.py`
-- Poll BBO/orderbook endpoints on both platforms every 30-60s for active matched markets over 3-5 days
-- **New table**: `live_bbo_snapshots` (timestamp, kalshi_ticker, poly_slug, kalshi_bid, kalshi_ask, poly_bid, poly_ask)
-- Richer than trade data since it gives bid/ask, not just last trade
-- Can run independently once Step 3 is done
-- **Depends on**: Step 3
+---
+
+## Daily workflow
+
+1. Run `/arb_match` to pick up any new markets and review candidates
+2. Start `uv run python db/scripts/collect_orderbooks.py` and let it run
+3. After 3-7 days of collection, run Steps 3-6
 
 ---
 
@@ -100,9 +131,14 @@ Two write-ups already exist in this project (MLB data pull, MLB calibration). Th
 - Self-contained scripts, no shared utility modules (matches existing pattern)
 - DuckDB TEXT storage + typed views
 - Pydantic for API response validation
-- httpx async + tenacity retries
+- httpx async + tenacity retries for REST; websockets library for streaming
+
+## Auth requirements
+- **Kalshi**: RSA-PSS key pair (same as poka-arb). Needed for websocket connection.
+- **Poly US**: Ed25519 API key (same as poka-arb). Needed for websocket connection.
+- Keys stored outside repo (same pattern as poka-arb `keys/` directory).
 
 ## Verification
-- `uv run pytest db/tests/` passes after each step that adds tables
+- `uv run pytest db/tests/` passes after each step
 - Notebook runs end-to-end: `uv run jupyter nbconvert --execute analysis/cross_platform_arb.ipynb`
-- Manual review of match quality (print unmatched events, spot-check matches)
+- Manual review of match quality via `/arb_match` command

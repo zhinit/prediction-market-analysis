@@ -1,0 +1,24 @@
+{
+  "events": [
+    {
+      "event_ticker": "KXMLBGAME-26JUL10-TEX-NYY",
+      "series_ticker": "KXMLBGAME",
+      "title": "Rangers vs. Yankees: July 10",
+      "strike_date": "2026-07-10",
+      "category": "Sports",
+      "markets": [
+        {"ticker": "KXMLBGAME-26JUL10-TEX-NYY-TEX", "yes_sub_title": "Texas Rangers"},
+        {"ticker": "KXMLBGAME-26JUL10-TEX-NYY-NYY", "yes_sub_title": "New York Yankees"}
+      ]
+    },
+    {
+      "event_ticker": "KXNBAGAME-26JUL10-LAL-BOS",
+      "series_ticker": "KXNBAGAME",
+      "title": "Lakers vs. Celtics: July 10",
+      "strike_date": "2026-07-10",
+      "category": "Sports",
+      "markets": []
+    }
+  ],
+  "cursor": null
+}

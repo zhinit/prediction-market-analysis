@@ -1,7 +1,7 @@
 # Prediction Market Analysis
 
 Are prediction markets priced accurately?\
-This project uses data analysis to search for mispricings on predictions markets platforms like Kalshi is mispriced.
+This project uses data analysis to search for mispricings on prediction market platforms like Kalshi and Polymarket.
 
 Polished versions of completed analyses are published at [TODO: website URL].
 
@@ -9,26 +9,20 @@ Polished versions of completed analyses are published at [TODO: website URL].
 
 ### MLB Game Winner Calibration
 
-Data analysis which investigates if MLB game winner markets are priced efficiently.
+Investigates whether Kalshi's MLB game winner markets are priced efficiently.
 
 **Data:**
-- 3,507 games
-- from April 2025 through July 2026
-- ~25 million Kalshi trades across 7,000+ markets from Kalshi API
-- game outcomes, play-by-play, and weather from the MLB Stats API.
+- 3,507 games from April 2025 through July 2026
+- ~25 million Kalshi trades across 7,000+ markets from the Kalshi API
+- Game outcomes, play-by-play, and weather from the MLB Stats API
 
-**Verdict:**
-Kalshi's MLB game winner markets appear to be calibrated.
-No apparent exploitable mispricing.
+**Verdict:** Kalshi's MLB game winner markets appear well-calibrated. No exploitable mispricing found across six dimensions: overall pre-game, by inning, home vs. away, by team, stability over time, and weather.
 
-Six cuts tested:
-- overall pre-game
-- by inning
-- home vs. away
-- by team
-- stability over time
-- weather
-Details in [`write_ups/mlb_game_winners_analysis.md`](write_ups/mlb_game_winners_analysis.md). Data pipeline methodology in [`write_ups/data_pull.md`](write_ups/data_pull.md).
+Write-ups: [analysis](write_ups/mlb_game_winners_analysis.md), [data pipeline](write_ups/pulling-every-mlb-trade-from-kalshi.md).
+
+### Cross-Platform Arbitrage
+
+In progress. Matching markets across Kalshi and Polymarket to look for pricing discrepancies on equivalent contracts.
 
 ## Project Structure
 
@@ -36,10 +30,10 @@ Details in [`write_ups/mlb_game_winners_analysis.md`](write_ups/mlb_game_winners
 analysis/           Jupyter notebooks (the actual analyses)
 db/                 DuckDB database and pipeline scripts
   db/game_winners/  MLB game winner data pipeline and tests
-  db/arbitrage/     Cross-platform arbitrage matching and tests
+  db/arbitrage/     Cross-platform arbitrage matching and data collection
   db/shared/        Shared utilities (auth)
 write_ups/          Near-final write-ups, published to the website when ready
-wiki/               Research wiki — primary-source reference material
+wiki/               Research wiki — ~87 pages of primary-source reference material
 docs/               Project conventions and methodology decisions
 raw/                Immutable source documents (HTML + markdown)
 ```
@@ -62,7 +56,7 @@ Everything lands in a single DuckDB file (`db/pma.db`). Every table and column i
 
 ## Research Wiki
 
-The `wiki/` directory is a from-scratch research wiki covering the APIs, tools, and methods used in this project. ~100 pages on Kalshi's API, the MLB Stats API, DuckDB, Polars, Pydantic, EDA methodology, and data visualization. Every claim cites a primary source archived in `raw/`.
+The `wiki/` directory is a from-scratch research wiki covering the APIs, tools, and methods used in this project. ~87 pages on Kalshi's API, the Polymarket API, the MLB Stats API, DuckDB, Polars, Pydantic, EDA methodology, and data visualization. Every claim cites a primary source archived in `raw/`.
 
 The wiki contains reference material only — no project opinions or analysis results.
 

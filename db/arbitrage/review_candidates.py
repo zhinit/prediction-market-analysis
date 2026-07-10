@@ -11,11 +11,11 @@ from pathlib import Path
 import httpx
 from dotenv import load_dotenv
 
-from auth import require_env
+from shared.auth import require_env
 
-_CANDIDATES_PATH = Path("db/data/candidates.json")
-_MATCHES_PATH = Path("db/data/matches.json")
-_REJECTED_PATH = Path("db/data/rejected_matches.json")
+_CANDIDATES_PATH = Path("db/arbitrage/candidates.json")
+_MATCHES_PATH = Path("db/arbitrage/matches.json")
+_REJECTED_PATH = Path("db/arbitrage/rejected_matches.json")
 
 # ---- False positive series ----
 

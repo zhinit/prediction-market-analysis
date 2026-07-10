@@ -2,9 +2,9 @@
 
 Step-by-step implementation of `docs/data-collect-specs.md`.
 
-Existing project patterns: self-contained scripts in `db/scripts/`, Pydantic
+Existing project patterns: self-contained scripts in `db/arbitrage/`, Pydantic
 models for API responses, httpx async + tenacity retries, DuckDB TEXT storage
-with typed views, pytest in `db/tests/`. Dependencies already installed:
+with typed views, pytest in `db/arbitrage/`. Dependencies already installed:
 httpx, duckdb, pydantic, tenacity, polars, pytest.
 
 Reference implementation: poka-arb's `strategies/arbitrage/matcher/` (adapters,
@@ -14,7 +14,7 @@ core matcher, match_cli, config).
 
 ## Step 1: Auth utilities
 
-**File**: `db/scripts/auth.py`
+**File**: `db/arbitrage/auth.py`
 
 Port the auth module from poka-arb (`strategies/arbitrage/matcher/adapters/auth.py`):
 - RSA-PSS signing for Kalshi (load PEM private key, sign timestamp+method+path)
@@ -23,7 +23,7 @@ Port the auth module from poka-arb (`strategies/arbitrage/matcher/adapters/auth.
 
 **Dependencies to add**: `uv add cryptography PyNaCl`
 
-**Test**: `db/tests/test_auth.py`
+**Test**: `db/arbitrage/test_auth.py`
 - Signing produces deterministic output for a known key + timestamp
 - Missing env var raises clear error
 - Invalid key file raises clear error
@@ -32,31 +32,31 @@ Port the auth module from poka-arb (`strategies/arbitrage/matcher/adapters/auth.
 
 ## Step 2: REST adapters
 
-**File**: `db/scripts/kalshi_adapter.py`
+**File**: `db/arbitrage/kalshi_adapter.py`
 
 Port from poka-arb's `adapters/kalshi.py`:
 - `fetch_series()` — paginated, returns list of series with category metadata
 - `fetch_events()` — paginated cursor-based, all open events
 - `fetch_event_markets(event_ticker)` — sub-markets for a single event
 
-**File**: `db/scripts/poly_adapter.py`
+**File**: `db/arbitrage/poly_adapter.py`
 
 Port from poka-arb's `adapters/polymarket_us.py`:
 - `fetch_markets()` — paginated, with `endDateMin=today` and `active=true`
 
 Both adapters: httpx async, tenacity retries, Pydantic response models.
 
-**Test**: `db/tests/test_adapters.py`
+**Test**: `db/arbitrage/test_adapters.py`
 - Mock httpx responses to verify pagination handling (multiple pages, empty page stops)
 - Verify Pydantic models parse real response fixtures (save one page of real
-  API response as a JSON fixture in `db/tests/fixtures/`)
+  API response as a JSON fixture in `db/arbitrage/fixtures/`)
 - Verify `endDateMin` is always set on Polymarket requests
 
 ---
 
 ## Step 3: Matching logic
 
-**File**: `db/scripts/match_markets.py`
+**File**: `db/arbitrage/match_markets.py`
 
 Port and simplify from poka-arb's `core/matcher.py` + `match_cli.py`:
 
@@ -85,7 +85,7 @@ Port and simplify from poka-arb's `core/matcher.py` + `match_cli.py`:
    known matches/rejections, fetches Kalshi sub-markets for each candidate,
    writes `candidates.json`
 
-**Test**: `db/tests/test_matcher.py`
+**Test**: `db/arbitrage/test_matcher.py`
 - `normalize_title`: strips punctuation, lowercases, removes stop words
 - `jaccard_score`: known pair → expected score; identical → 1.0; disjoint → 0.0
 - `categories_compatible`: sports↔sports true, sports↔politics false
@@ -104,7 +104,7 @@ Port and simplify from poka-arb's `core/matcher.py` + `match_cli.py`:
 **File**: `.claude/commands/matcher.md`
 
 Claude command that:
-1. Runs `uv run python db/scripts/match_markets.py`
+1. Runs `uv run python db/arbitrage/match_markets.py`
 2. Reads `candidates.json`
 3. For each candidate, reviews against checklist:
    - Same event?
@@ -124,7 +124,7 @@ reasonable, approve/reject a few, confirm JSON files are well-formed.
 
 ## Step 5: Orderbook collector
 
-**File**: `db/scripts/collect_orderbooks.py`
+**File**: `db/arbitrage/collect_orderbooks.py`
 
 **Dependencies to add**: `uv add websockets`
 
@@ -150,7 +150,7 @@ reasonable, approve/reject a few, confirm JSON files are well-formed.
 5. **Reconnection**: exponential backoff, log connection state transitions
 6. **Graceful shutdown**: flush pending batch on SIGINT/SIGTERM
 
-**Test**: `db/tests/test_collector.py`
+**Test**: `db/arbitrage/test_collector.py`
 - Snapshot batching: accumulate N snapshots, flush writes correct rows to
   DuckDB
 - Kalshi delta application: apply a sequence of deltas to an empty orderbook,
@@ -168,7 +168,7 @@ reasonable, approve/reject a few, confirm JSON files are well-formed.
 
 Claude command that:
 1. Checks `matches.json` exists and is non-empty
-2. Runs `uv run python db/scripts/collect_orderbooks.py`
+2. Runs `uv run python db/arbitrage/collect_orderbooks.py`
 3. Monitors stdout for connection status lines
 
 **Test**: manual — run command, verify both websockets connect, let it run
@@ -178,7 +178,7 @@ for a few minutes, query `orderbook_snapshots` table to confirm rows.
 
 ## Step 7: Data quality tests
 
-**File**: `db/tests/test_arb_data_quality.py`
+**File**: `db/arbitrage/test_arb_data_quality.py`
 
 Post-collection reasonability checks (run after accumulating some data):
 - Every snapshot has valid bid/ask: bid ≤ ask, both in [0, 1]
@@ -197,7 +197,7 @@ Post-collection reasonability checks (run after accumulating some data):
 Run the full daily workflow once:
 1. `/matcher` — verify candidates generated, approve at least 2-3 matches
 2. `/collect-arb-data` — run for 5 minutes
-3. `uv run pytest db/tests/` — all tests pass including data quality
+3. `uv run pytest db/arbitrage/` — all tests pass including data quality
 4. Query `orderbook_snapshots` directly:
    - Both platforms have rows
    - Timestamps are recent

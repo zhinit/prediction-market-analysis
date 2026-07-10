@@ -48,6 +48,7 @@ Inverting the article's core recommendations, weak portfolios show (source: care
 ## Related Pages
 
 - [[presentable-data-analysis]] — hub page
+- [[github-repo-presentation]] — README structure, repo hygiene, GitHub profile optimization
 - [[notebook-presentation]] — structuring individual notebooks
 - [[data-storytelling]] — narrative techniques
 - [[data-visualization-principles]] — chart design

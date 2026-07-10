@@ -33,13 +33,15 @@ Details in [`write_ups/mlb_game_winners_analysis.md`](write_ups/mlb_game_winners
 ## Project Structure
 
 ```
-analysis/       Jupyter notebooks (the actual analyses)
-db/             DuckDB database and pipeline scripts
-write_ups/      Near-final write-ups, published to the website when ready
-wiki/           Research wiki — primary-source reference material
-docs/           Project conventions and methodology decisions
-db/tests/       Data quality and pipeline tests
-raw/            Immutable source documents (HTML + markdown)
+analysis/           Jupyter notebooks (the actual analyses)
+db/                 DuckDB database and pipeline scripts
+  db/game_winners/  MLB game winner data pipeline and tests
+  db/arbitrage/     Cross-platform arbitrage matching and tests
+  db/shared/        Shared utilities (auth)
+write_ups/          Near-final write-ups, published to the website when ready
+wiki/               Research wiki — primary-source reference material
+docs/               Project conventions and methodology decisions
+raw/                Immutable source documents (HTML + markdown)
 ```
 
 ## Data Pipeline
@@ -50,7 +52,7 @@ All data flows through a five-layer stack:
 httpx (fetch) → tenacity (retry) → pydantic (validate) → polars (transform) → duckdb (store)
 ```
 
-The pipeline scripts in `db/scripts/` are organized as pull → build → prepare:
+The pipeline scripts in `db/game_winners/` are organized as pull → build → prepare:
 
 1. **Pull** mirrors APIs faithfully (Kalshi trades, MLB schedule/games)
 2. **Build** joins the mirrors (matching Kalshi events to MLB games)
@@ -70,8 +72,8 @@ Requires Python 3.11+ and [uv](https://docs.astral.sh/uv/).
 
 ```bash
 uv sync
-uv run db/scripts/refresh.py                  # pulls Kalshi + MLB data, builds the map
-uv run db/scripts/prepare_mlb_calibration.py  # builds tables for the analysis
+uv run db/game_winners/refresh.py                  # pulls Kalshi + MLB data, builds the map
+uv run db/game_winners/prepare_mlb_calibration.py  # builds tables for the analysis
 uv run jupyter notebook analysis/mlb_calibration.ipynb
 ```
 

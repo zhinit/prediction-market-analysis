@@ -1,7 +1,7 @@
 """Reasonability checks for the MLB tables in db/pma.db after
 pull_mlb_stats.py and build_kalshi_mlb_map.py runs.
 
-Run with: uv run pytest db/tests/
+Run with: uv run pytest db/game_winners/
 """
 
 from pathlib import Path
@@ -22,7 +22,7 @@ def con():
         for r in connection.sql("SELECT table_name FROM duckdb_tables()").fetchall()
     }
     if "mlb_games" not in names:
-        pytest.skip("mlb tables missing, run db/scripts/pull_mlb_stats.py first")
+        pytest.skip("mlb tables missing, run db/game_winners/pull_mlb_stats.py first")
     yield connection
     connection.close()
 

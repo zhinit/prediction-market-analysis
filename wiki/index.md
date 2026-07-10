@@ -102,6 +102,7 @@
 - [[notebook-code-quality]] — Clean notebook code: modularization, packaging, testing, linting, refactoring cycle, 1.4M-notebook reproducibility evidence
 - [[data-storytelling]] — Narrative structure, text's role in visualization, audience awareness, message dimensions
 - [[portfolio-presentation]] — Portfolio design patterns, anti-patterns, project template
+- [[github-repo-presentation]] — README structure, repo hygiene, GitHub profile optimization, hiring manager priorities
 
 ## pybaseball
 

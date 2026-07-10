@@ -2,10 +2,10 @@ Collect live orderbook snapshots from Kalshi and Polymarket US for all matched m
 
 ## Steps
 
-1. Check that `db/data/matches.json` exists and is non-empty. If not, say "Run /matcher first to create matches" and stop.
+1. Check that `db/arbitrage/matches.json` exists and is non-empty. If not, say "Run /matcher first to create matches" and stop.
 2. Run:
    ```
-   uv run python db/scripts/collect_orderbooks.py
+   uv run python db/arbitrage/collect_orderbooks.py
    ```
 3. Monitor stdout for connection status lines. Both websockets should report "connected" within a few seconds.
 4. The script runs until interrupted (Ctrl+C / SIGINT). It flushes remaining snapshots on shutdown.

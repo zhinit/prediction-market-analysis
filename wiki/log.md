@@ -1,5 +1,13 @@
 # Wiki Log
 
+## 2026-07-10
+
+- **Source**: GitHub Docs (profile enhancement guide), freeCodeCamp (README guide), Dataquest (data science portfolio on GitHub), Bulldogjob (README best practices), Medium/TDS Archive — S. T. Lanier (GitHub cleanup for data science), Hakia (Developer Portfolio Guide 2026, 500+ hiring manager survey)
+- **Pages created**: github-repo-presentation
+- **Pages updated**: portfolio-presentation (cross-link added), index
+- **Raw sources archived**: github-docs-profile-enhance-resume.md, freecodecamp-readme-file-guide.md, dataquest-data-science-portfolio-github.md, bulldogjob-readme-guide.md, medium-tds-cleaning-github-data-science.md, hakia-developer-portfolio-guide-2026.md
+- **Coverage**: README structure (essential and enhanced sections, data-analysis-specific additions). Repo hygiene (.gitignore, secrets management, file paths, dependencies, large data, pre-publication checklist). GitHub profile optimization (profile README, pinned repos, topic tags, repo descriptions). Repo organization strategies (delete, organizations, subtree/submodule). Hiring manager priorities from 500+ survey (code quality and live demos critical, visual design low; 73% rank portfolio over resume; 3-5 polished projects optimal). Common portfolio mistakes. Jupyter notebook presentation cross-referenced to existing wiki pages.
+
 ## 2026-07-08 (lint pass)
 
 - **Lint pass** (`/lint_wiki`, all findings fixed): renamed `## See Also` → `## Related pages` across 32 pages; added missing `(source:)` citations to intro sentences (~40 pages), uncited content sections (mlb-stats-api-schedule, mlb-stats-api-standings, kalshi-api-websocket, claude-skills-testing, claude-learning-mode, claude-as-teacher, claude-code-learning-style, analytical-database-design, chart-selection, data-pipeline-stack), and uncited comparative claims (polymarket-us-api, polymarket-us-market-object, polymarket-us-historical-data, polymarket-us-fees); removed project-specific pointer lines from 9 pages (data-pipeline-stack, duckdb, analytical-database-design, dimensional-modeling, database-naming-conventions, self-documenting-database, database-maintenance, notebook-presentation, portfolio-presentation) and polymarket-us-api; collapsed multi-line citations in kalshi-api-market-data and kalshi-api-historical; fixed non-standard citation suffix in polymarket-us-fees; removed external markdown link from httpx; renamed tenacity heading from "Recommended Pattern" to "Pattern"; removed unsourceable claim from duckdb-friendly-sql.

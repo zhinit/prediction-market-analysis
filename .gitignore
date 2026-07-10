@@ -28,4 +28,5 @@ raw/
 
 # Database files
 *.db
+*.db.wal
 .gstack/

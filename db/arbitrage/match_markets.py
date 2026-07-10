@@ -9,7 +9,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from auth import require_env
+from shared.auth import require_env
 from kalshi_adapter import KalshiAdapter
 from poly_adapter import PolyAdapter
 
@@ -31,9 +31,9 @@ _MONTH_ABBR = {
     "JUL": 7, "AUG": 8, "SEP": 9, "OCT": 10, "NOV": 11, "DEC": 12,
 }
 
-_CANDIDATES_PATH = Path("db/data/candidates.json")
-_MATCHES_PATH = Path("db/data/matches.json")
-_REJECTED_PATH = Path("db/data/rejected_matches.json")
+_CANDIDATES_PATH = Path("db/arbitrage/candidates.json")
+_MATCHES_PATH = Path("db/arbitrage/matches.json")
+_REJECTED_PATH = Path("db/arbitrage/rejected_matches.json")
 
 
 # ---- Data types ----

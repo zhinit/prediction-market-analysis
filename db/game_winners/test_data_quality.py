@@ -1,6 +1,6 @@
 """Reasonability checks for db/pma.db after a pull_kalshi_mlb.py run.
 
-Run with: uv run pytest db/tests/
+Run with: uv run pytest db/game_winners/
 """
 
 from datetime import datetime, timedelta

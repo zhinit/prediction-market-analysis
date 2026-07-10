@@ -35,7 +35,7 @@ Step 1 below.
 
 Modeled on poka-arb's `strategies/arbitrage/matcher/` and its `/arb_match` command.
 
-**Script**: `db/scripts/match_markets.py`
+**Script**: `db/arbitrage/match_markets.py`
 - Fetch all **open/active** events from both platforms via REST (no need for the full historical catalog)
 - Pre-filter by normalized category (sports↔sports, politics↔politics, etc.)
 - Jaccard similarity on normalized titles, threshold 0.3 (poka-arb uses 0.4)
@@ -54,7 +54,7 @@ Modeled on poka-arb's `strategies/arbitrage/matcher/` and its `/arb_match` comma
 
 ### Step 2: Collect live orderbook data via websockets
 
-**Script**: `db/scripts/collect_orderbooks.py`
+**Script**: `db/arbitrage/collect_orderbooks.py`
 - Connect to both Kalshi and Poly US websockets
 - Subscribe to all matched markets from `matches.json`
 - On each orderbook update, save a snapshot: timestamp, market ID, best bid, best ask, bid size, ask size, mid price
@@ -82,7 +82,7 @@ Plus typed view.
 
 ### Step 3: Build analysis-ready tables
 
-**Script**: `db/scripts/prepare_arb_analysis.py`
+**Script**: `db/arbitrage/prepare_arb_analysis.py`
 - Join orderbook snapshots from both platforms on match table + closest timestamp
 - Align direction (flip Poly price to `1 - price` when `kalshi_yes_eq_poly_no`)
 - Compute: raw spread, fee-adjusted spread (Kalshi taker fee, Poly taker fee per wiki), spread as % of mid
@@ -103,7 +103,7 @@ Sections:
 
 ### Step 5: Data quality tests
 
-**Tests**: `db/tests/test_arb_data_quality.py`
+**Tests**: `db/arbitrage/test_arb_data_quality.py`
 - Every snapshot has valid bid/ask (bid < ask, both in [0, 1])
 - Every snapshot market_id maps to a match in matches.json
 - No timestamp gaps longer than expected (flag collection outages)
@@ -120,13 +120,13 @@ Sections:
 ## Daily workflow
 
 1. Run `/arb_match` to pick up any new markets and review candidates
-2. Start `uv run python db/scripts/collect_orderbooks.py` and let it run
+2. Start `uv run python db/arbitrage/collect_orderbooks.py` and let it run
 3. After 3-7 days of collection, run Steps 3-6
 
 ---
 
 ## Conventions
-- All scripts in `db/scripts/`, tests in `db/tests/`, analysis in `analysis/`, write-ups in `write_ups/`
+- All scripts and tests in `db/arbitrage/`, analysis in `analysis/`, write-ups in `write_ups/`
 - Python with `uv` only — `uv run`, `uv add`
 - Self-contained scripts, no shared utility modules (matches existing pattern)
 - DuckDB TEXT storage + typed views
@@ -139,6 +139,6 @@ Sections:
 - Keys stored outside repo (same pattern as poka-arb `keys/` directory).
 
 ## Verification
-- `uv run pytest db/tests/` passes after each step
+- `uv run pytest db/arbitrage/` passes after each step
 - Notebook runs end-to-end: `uv run jupyter nbconvert --execute analysis/cross_platform_arb.ipynb`
 - Manual review of match quality via `/arb_match` command

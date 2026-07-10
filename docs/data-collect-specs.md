@@ -9,7 +9,7 @@ for cross-platform arbitrage analysis between Kalshi and Polymarket US.
 
 Finds and verifies market matches across platforms.
 
-### Script: `db/scripts/match_markets.py`
+### Script: `db/arbitrage/match_markets.py`
 
 1. **Fetch active events** from both platforms via REST API.
    - Kalshi: fetch all open **events** (not individual markets — ~2K events vs
@@ -100,7 +100,7 @@ Record both teams' YES sides in `notes` for auditability.
 
 Collects live orderbook snapshots from both platforms for all matched markets.
 
-### Script: `db/scripts/collect_orderbooks.py`
+### Script: `db/arbitrage/collect_orderbooks.py`
 
 1. **Load** `matches.json` to get the list of market IDs to subscribe to.
 2. **Connect** to both websockets:

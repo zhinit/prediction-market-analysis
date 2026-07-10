@@ -1,6 +1,6 @@
 """Prepare tables for the MLB calibration analysis (analysis/mlb_calibration.ipynb).
 
-Third layer of db/scripts/ (pull -> build -> prepare): tables prepared for
+Third layer of db/game_winners/ (pull -> build -> prepare): tables prepared for
 one specific analysis, namespaced mlb_calib_*. Owns the dataset definition
 that would otherwise live in notebook temp views: universe filter, game
 mapping, scheduled-start resolution, side, dedup, weather parsing. The
@@ -11,7 +11,7 @@ are the exact dataset its write-up was computed from, and auto-rebuilding
 them on refresh would silently desync the write-up's numbers from the db.
 Rebuilds from scratch on every run:
 
-    uv run db/scripts/prepare_mlb_calibration.py
+    uv run db/game_winners/prepare_mlb_calibration.py
 
 Tables:
 - mlb_calib_pre_snapshots: one row per (game, side), the last trade

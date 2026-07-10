@@ -3,7 +3,7 @@
 Runs the Kalshi and MLB pulls sequentially (duckdb allows one writer per
 database), then build_kalshi_mlb_map. Each script also runs standalone:
 
-    uv run db/scripts/refresh.py
+    uv run db/game_winners/refresh.py
 """
 
 import asyncio

@@ -12,7 +12,7 @@ import duckdb
 import pytest
 
 DB_PATH = Path(__file__).parent.parent / "pma.db"
-MATCHES_PATH = Path(__file__).parent.parent / ".." / "db" / "data" / "matches.json"
+MATCHES_PATH = Path(__file__).parent / "matches.json"
 
 
 @pytest.fixture(scope="module")
@@ -34,7 +34,7 @@ def con():
 
 @pytest.fixture(scope="module")
 def matches():
-    path = Path("db/data/matches.json")
+    path = Path("db/arbitrage/matches.json")
     if not path.exists():
         pytest.skip("matches.json not found")
     data = json.loads(path.read_text())

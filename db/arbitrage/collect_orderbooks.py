@@ -11,7 +11,7 @@ import duckdb
 import websockets
 from dotenv import load_dotenv
 
-from shared.auth import load_ed25519_key, load_rsa_key, require_env, sign_ed25519, sign_rsa
+from db.shared.auth import load_ed25519_key, load_rsa_key, require_env, sign_ed25519, sign_rsa
 
 _MATCHES_PATH = Path("db/arbitrage/matches.json")
 _DB_PATH = Path("db/pma.db")

@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from match_markets import (
+from db.arbitrage.match_markets import (
     EventCandidate,
     KalshiEvent,
     PolyGame,

@@ -12,7 +12,7 @@ from tenacity import (
     wait_exponential_jitter,
 )
 
-from shared.auth import load_rsa_key, sign_rsa
+from db.shared.auth import load_rsa_key, sign_rsa
 
 _BASE_URL = "https://external-api.kalshi.com/trade-api/v2"
 

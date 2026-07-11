@@ -10,7 +10,7 @@ from tenacity import (
     wait_exponential_jitter,
 )
 
-from shared.auth import load_ed25519_key, sign_ed25519
+from db.shared.auth import load_ed25519_key, sign_ed25519
 
 _PUBLIC_BASE_URL = "https://gateway.polymarket.us"
 

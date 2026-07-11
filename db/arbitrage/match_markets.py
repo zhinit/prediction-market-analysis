@@ -9,9 +9,9 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from shared.auth import require_env
-from kalshi_adapter import KalshiAdapter
-from poly_adapter import PolyAdapter
+from db.shared.auth import require_env
+from db.arbitrage.kalshi_adapter import KalshiAdapter
+from db.arbitrage.poly_adapter import PolyAdapter
 
 _STOP_WORDS = frozenset({
     "a", "an", "and", "are", "as", "at", "be", "by", "for", "from",

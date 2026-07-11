@@ -7,8 +7,8 @@ from unittest.mock import AsyncMock, patch
 import httpx
 import pytest
 
-from kalshi_adapter import KalshiAdapter
-from poly_adapter import PolyAdapter
+from db.arbitrage.kalshi_adapter import KalshiAdapter
+from db.arbitrage.poly_adapter import PolyAdapter
 
 FIXTURES = Path(__file__).parent / "fixtures"
 

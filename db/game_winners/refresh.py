@@ -8,9 +8,9 @@ database), then build_kalshi_mlb_map. Each script also runs standalone:
 
 import asyncio
 
-import build_kalshi_mlb_map
-import pull_kalshi_mlb
-import pull_mlb_stats
+from db.game_winners import build_kalshi_mlb_map
+from db.game_winners import pull_kalshi_mlb
+from db.game_winners import pull_mlb_stats
 
 
 async def main() -> None:

@@ -868,5 +868,260 @@
     "kalshi_event_ticker": "KXWCDELAY-26JUL10ESPBEL",
     "polymarket_slug": "asc-fwc-esp-bel-2026-07-10-neg-2pt5",
     "reason": "Kalshi is weather delay; Poly is spread \u2014 different event"
+  },
+  {
+    "kalshi_event_ticker": "KXATPSETWINNER-26JUL11VUKOLI-1",
+    "polymarket_slug": "asc-atp-noavuk-genoli-2026-07-11-gs-neg-1pt5",
+    "reason": "Kalshi is set 1 winner; Poly is match game spread -1.5 - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXATPSETWINNER-26JUL11NARGUE-1",
+    "polymarket_slug": "asc-atp-lucnar-andgue-2026-07-11-gs-neg-1pt5",
+    "reason": "Kalshi is set 1 winner; Poly is match game spread -1.5 - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXATPSETWINNER-26JUL11CECAJD-1",
+    "polymarket_slug": "asc-atp-marcec-dujajd-2026-07-11-gs-neg-1pt5",
+    "reason": "Kalshi is set 1 winner; Poly is match game spread -1.5 - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXATPSETWINNER-26JUL11PRAMAJ-2",
+    "polymarket_slug": "asc-atp-juapra-marmaj-2026-07-11-gs-neg-2pt5",
+    "reason": "Kalshi is set 2 winner; Poly is match game spread -2.5 - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXATPSETWINNER-26JUL11GOMSAI-2",
+    "polymarket_slug": "asc-atp-norgom-nikizq-2026-07-11-gs-neg-0pt5",
+    "reason": "Kalshi is set 2 winner; Poly is match game spread -0.5 - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXATPSETWINNER-26JUL11GOMSAI-2",
+    "polymarket_slug": "tsc-atp-norgom-nikizq-2026-07-11-tg-17pt5",
+    "reason": "Kalshi is set 2 winner; Poly is total games 17.5 - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXATPGTOTAL-26JUL11BRAGOM",
+    "polymarket_slug": "tsc-atp-raubra-fedgom-2026-07-11-tg-18pt5",
+    "reason": "Total lines don't match: Kalshi 17.5/22.5/27.5 vs Poly 18.5"
+  },
+  {
+    "kalshi_event_ticker": "KXATPGTOTAL-26JUL11VUKOLI",
+    "polymarket_slug": "tsc-atp-noavuk-genoli-2026-07-11-tg-17pt5",
+    "reason": "Total lines don't match: Kalshi 15.5/20.5/25.5 vs Poly 17.5"
+  },
+  {
+    "kalshi_event_ticker": "KXATPGTOTAL-26JUL11TOPMAR",
+    "polymarket_slug": "tsc-atp-martop-poltif-2026-07-11-tg-17pt5",
+    "reason": "Total lines don't match: Kalshi 16.5/21.5/26.5 vs Poly 17.5"
+  },
+  {
+    "kalshi_event_ticker": "KXATPGTOTAL-26JUL11NEUPOL",
+    "polymarket_slug": "tsc-atp-lukneu-milpol-2026-07-11-tg-17pt5",
+    "reason": "Total lines don't match: Kalshi 16.5/21.5/26.5 vs Poly 17.5"
+  },
+  {
+    "kalshi_event_ticker": "KXATPGTOTAL-26JUL11NARGUE",
+    "polymarket_slug": "tsc-atp-lucnar-andgue-2026-07-11-tg-16pt5",
+    "reason": "Total lines don't match: Kalshi 17.5/22.5/27.5 vs Poly 16.5"
+  },
+  {
+    "kalshi_event_ticker": "KXATPGTOTAL-26JUL11CECAJD",
+    "polymarket_slug": "tsc-atp-marcec-dujajd-2026-07-11-tg-16pt5",
+    "reason": "Total lines don't match: Kalshi 15.5/20.5/25.5 vs Poly 16.5"
+  },
+  {
+    "kalshi_event_ticker": "KXATPGTOTAL-26JUL11CINZAH",
+    "polymarket_slug": "tsc-atp-fedcin-patzah-2026-07-11-tg-17pt5",
+    "reason": "Total lines don't match: Kalshi 14.5/19.5/24.5 vs Poly 17.5"
+  },
+  {
+    "kalshi_event_ticker": "KXATPGSPREAD-26JUL11BRAGOM",
+    "polymarket_slug": "asc-atp-raubra-fedgom-2026-07-11-gs-neg-3pt5",
+    "reason": "Spread lines don't match: Kalshi BRA -1.5/-4.5, GOM -1.5 vs Poly BRA -3.5"
+  },
+  {
+    "kalshi_event_ticker": "KXATPGSPREAD-26JUL11TOPMAR",
+    "polymarket_slug": "asc-atp-martop-poltif-2026-07-11-gs-neg-0pt5",
+    "reason": "Spread lines don't match: Kalshi TOP -1.5, MAR -3.5/-6.5 vs Poly TOP -0.5"
+  },
+  {
+    "kalshi_event_ticker": "KXATPGSPREAD-26JUL11NEUPOL",
+    "polymarket_slug": "asc-atp-lukneu-milpol-2026-07-11-gs-neg-0pt5",
+    "reason": "Spread lines don't match: Kalshi NEU -3.5/-6.5, POL -1.5 vs Poly NEU -0.5"
+  },
+  {
+    "kalshi_event_ticker": "KXATPGSPREAD-26JUL11CINZAH",
+    "polymarket_slug": "asc-atp-fedcin-patzah-2026-07-11-gs-neg-1pt5",
+    "reason": "Spread lines don't match: Kalshi CIN -2.5/-5.5/-8.5 vs Poly CIN -1.5"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL121605COLSF",
+    "polymarket_slug": "atc-mlb-col-sf-2026-07-12-f5-sf",
+    "reason": "Kalshi is extra innings; Poly is F5 winner - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL121415ATLSTL",
+    "polymarket_slug": "atc-mlb-atl-stl-2026-07-12-f5-stl",
+    "reason": "Kalshi is extra innings; Poly is F5 winner - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL121410LAAMIN",
+    "polymarket_slug": "atc-mlb-laa-min-2026-07-12-f5-min",
+    "reason": "Kalshi is extra innings; Poly is F5 winner - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL121340SEATB",
+    "polymarket_slug": "atc-mlb-sea-tb-2026-07-12-f5-tb",
+    "reason": "Kalshi is extra innings; Poly is F5 winner - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL121335KCBAL",
+    "polymarket_slug": "atc-mlb-kc-bal-2026-07-12-f5-bal",
+    "reason": "Kalshi is extra innings; Poly is F5 winner - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL121610TORSD",
+    "polymarket_slug": "atc-mlb-tor-sd-2026-07-12-f5-sd",
+    "reason": "Kalshi is extra innings; Poly is F5 winner - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL121610AZLAD",
+    "polymarket_slug": "atc-mlb-az-lad-2026-07-12-f5-lad",
+    "reason": "Kalshi is extra innings; Poly is F5 winner - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL121335NYYWSH",
+    "polymarket_slug": "atc-mlb-nyy-wsh-2026-07-12-f5-wsh",
+    "reason": "Kalshi is extra innings; Poly is F5 winner - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL121435HOUTEX",
+    "polymarket_slug": "atc-mlb-hou-tex-2026-07-12-f5-tex",
+    "reason": "Kalshi is extra innings; Poly is F5 winner - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL121340PHIDET",
+    "polymarket_slug": "atc-mlb-phi-det-2026-07-12-f5-det",
+    "reason": "Kalshi is extra innings; Poly is F5 winner - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL121340CLEMIA",
+    "polymarket_slug": "atc-mlb-cle-mia-2026-07-12-f5-mia",
+    "reason": "Kalshi is extra innings; Poly is F5 winner - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL121215MILPIT",
+    "polymarket_slug": "atc-mlb-mil-pit-2026-07-12-f5-pit",
+    "reason": "Kalshi is extra innings; Poly is F5 winner - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL121340BOSNYM",
+    "polymarket_slug": "atc-mlb-bos-nym-2026-07-12-f5-nym",
+    "reason": "Kalshi is extra innings; Poly is F5 winner - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL121340CHCCIN",
+    "polymarket_slug": "atc-mlb-chc-cin-2026-07-12-f5-cin",
+    "reason": "Kalshi is extra innings; Poly is F5 winner - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL121605COLSF",
+    "polymarket_slug": "asc-mlb-col-sf-2026-07-12-f5-neg-2pt5",
+    "reason": "Kalshi is extra innings; Poly is F5 spread -2.5 - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL121415ATLSTL",
+    "polymarket_slug": "asc-mlb-atl-stl-2026-07-12-f5-neg-2pt5",
+    "reason": "Kalshi is extra innings; Poly is F5 spread -2.5 - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL121410LAAMIN",
+    "polymarket_slug": "asc-mlb-laa-min-2026-07-12-f5-neg-2pt5",
+    "reason": "Kalshi is extra innings; Poly is F5 spread -2.5 - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL121340SEATB",
+    "polymarket_slug": "asc-mlb-sea-tb-2026-07-12-f5-neg-2pt5",
+    "reason": "Kalshi is extra innings; Poly is F5 spread -2.5 - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL121335KCBAL",
+    "polymarket_slug": "asc-mlb-kc-bal-2026-07-12-f5-neg-2pt5",
+    "reason": "Kalshi is extra innings; Poly is F5 spread -2.5 - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL121610TORSD",
+    "polymarket_slug": "asc-mlb-tor-sd-2026-07-12-f5-neg-2pt5",
+    "reason": "Kalshi is extra innings; Poly is F5 spread -2.5 - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL121610AZLAD",
+    "polymarket_slug": "asc-mlb-az-lad-2026-07-12-f5-neg-2pt5",
+    "reason": "Kalshi is extra innings; Poly is F5 spread -2.5 - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL121335NYYWSH",
+    "polymarket_slug": "asc-mlb-nyy-wsh-2026-07-12-f5-neg-2pt5",
+    "reason": "Kalshi is extra innings; Poly is F5 spread -2.5 - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL121340BOSNYM",
+    "polymarket_slug": "asc-mlb-bos-nym-2026-07-12-f5-neg-2pt5",
+    "reason": "Kalshi is extra innings; Poly is F5 spread -2.5 - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL121435HOUTEX",
+    "polymarket_slug": "asc-mlb-hou-tex-2026-07-12-f5-neg-2pt5",
+    "reason": "Kalshi is extra innings; Poly is F5 spread -2.5 - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL121340PHIDET",
+    "polymarket_slug": "asc-mlb-phi-det-2026-07-12-f5-neg-2pt5",
+    "reason": "Kalshi is extra innings; Poly is F5 spread -2.5 - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL121340CLEMIA",
+    "polymarket_slug": "asc-mlb-cle-mia-2026-07-12-f5-neg-2pt5",
+    "reason": "Kalshi is extra innings; Poly is F5 spread -2.5 - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL121215MILPIT",
+    "polymarket_slug": "asc-mlb-mil-pit-2026-07-12-f5-neg-2pt5",
+    "reason": "Kalshi is extra innings; Poly is F5 spread -2.5 - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL101840MILPIT",
+    "polymarket_slug": "astatc-mlb-atl-stl-2026-07-10-xi",
+    "reason": "Different game: Kalshi is MIL/PIT extras; Poly is ATL/STL extras"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL101840MILPIT",
+    "polymarket_slug": "astatc-mlb-tor-sd-2026-07-10-xi",
+    "reason": "Different game: Kalshi is MIL/PIT extras; Poly is TOR/SD extras"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL101840MILPIT",
+    "polymarket_slug": "astatc-mlb-az-lad-2026-07-10-xi",
+    "reason": "Different game: Kalshi is MIL/PIT extras; Poly is AZ/LAD extras"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBEXTRAS-26JUL101840MILPIT",
+    "polymarket_slug": "astatc-mlb-col-sf-2026-07-10-xi",
+    "reason": "Different game: Kalshi is MIL/PIT extras; Poly is COL/SF extras"
+  },
+  {
+    "kalshi_event_ticker": "KXMLBHRR-26JUL101840MILPIT",
+    "polymarket_slug": "astatc-mlb-nyy-wsh-2026-07-10-hrr-daylil-gte2",
+    "reason": "Different game: Kalshi is MIL/PIT player HRR props; Poly is Daylen Lile in NYY/WSH"
+  },
+  {
+    "kalshi_event_ticker": "KXWCADVANCE-26JUL14FRAESP",
+    "polymarket_slug": "asc-fwc-fra-esp-2026-07-14-neg-2pt5",
+    "reason": "Kalshi is advance to next round; Poly is match spread -2.5 - different bet type"
+  },
+  {
+    "kalshi_event_ticker": "KXWNBAGAME-26JUL12CHIDAL",
+    "polymarket_slug": "aec-mlb-ath-cws-2026-07-12",
+    "reason": "Different event: Kalshi is WNBA Chicago vs Dallas; Poly is MLB Athletics vs White Sox"
   }
 ]

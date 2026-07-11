@@ -13,7 +13,7 @@ from cryptography.hazmat.primitives.serialization import (
     PrivateFormat,
 )
 
-from shared.auth import (
+from db.shared.auth import (
     load_ed25519_key,
     load_rsa_key,
     require_env,

@@ -30,5 +30,5 @@ dev = [
 
 [tool.pytest.ini_options]
 testpaths = ["db/game_winners", "db/arbitrage"]
-pythonpath = ["db/game_winners", "db/arbitrage", "db"]
+pythonpath = ["."]
 asyncio_mode = "auto"

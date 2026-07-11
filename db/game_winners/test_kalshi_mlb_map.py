@@ -7,7 +7,7 @@ from datetime import date, datetime, timezone
 
 from datetime import timedelta
 
-from build_kalshi_mlb_map import (
+from db.game_winners.build_kalshi_mlb_map import (
     KALSHI_TO_MLB_TEAM_ID,
     GameRow,
     parse_event_ticker,

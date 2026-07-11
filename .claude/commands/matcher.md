@@ -2,9 +2,9 @@ Find and verify cross-platform market matches between Kalshi and Polymarket US.
 
 ## Steps
 
-1. Run the matcher script:
+1. Run the matcher script as a module from the repo root:
    ```
-   uv run python db/arbitrage/match_markets.py
+   uv run python -m db.arbitrage.match_markets
    ```
 2. Read `db/arbitrage/candidates.json`. If empty or missing, report "no new candidates" and stop.
 3. For each candidate, review against this checklist. Approve matches from ALL categories — sports (any league, any bet type), politics, crypto, entertainment, weather, anything. Only reject if it fails the checklist:
@@ -54,5 +54,7 @@ Do NOT reject based on:
 ## Important
 
 - Direction is the most dangerous part — poka-arb had a $68 bug from getting it wrong. Always verify by reading the actual ticker suffix and question text.
-- When the Poly question is ambiguous (e.g., "Team A vs. Team B" without saying who is YES), fetch the market detail from the API to check `marketSides` where `long: true`.
+- When the Poly question is ambiguous (e.g., "Team A vs. Team B" without saying who is YES), fetch the market detail from the API to check `marketSides` where `long: true`. Endpoint (no auth needed): `GET https://gateway.polymarket.us/v1/market/slug/{slug}` — the YES side is `response["market"]["marketSides"]` entry with `"long": true`; its `team.name` / `team.abbreviation` names the outcome. Batch these lookups with a throwaway script rather than one curl per market.
+- Do NOT determine direction by comparing Kalshi ticker suffixes to Poly `team.abbreviation` string-equality. For MLB they happen to align (`SF` = `sf`), but for tennis and NPB the Poly "abbreviation" is a slug code (`martop`, `trge`) that never equals the Kalshi suffix, and Kalshi/Poly often list the two sides in opposite order. Match by full name (`team.name` vs the Kalshi sub-market title), accounting for name variants (e.g. "Facundo Acosta" = "Facundo Diaz Acosta").
+- For totals and spreads, the line must match exactly (Kalshi "Over 16.5" ≠ Poly 17.5) — reject if no Kalshi sub-market has the Poly line.
 - Present each candidate clearly with both sides' details before making a judgment.

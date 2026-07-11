@@ -5,7 +5,7 @@ from pathlib import Path
 import duckdb
 import pytest
 
-from collect_orderbooks import KalshiOrderbook, SnapshotWriter, _init_db
+from db.arbitrage.collect_orderbooks import KalshiOrderbook, SnapshotWriter, _init_db
 
 
 class TestKalshiOrderbook:

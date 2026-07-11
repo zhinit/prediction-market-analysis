@@ -140,76 +140,6 @@
     "notes": "MLB moneyline: Kalshi YES = Minnesota, Poly YES = Los Angeles Angels."
   },
   {
-    "id": "aec-mlb-col-sf-2026-07-10-col",
-    "kalshi_ticker": "KXMLBGAME-26JUL102215COLSF-COL",
-    "polymarket_slug": "aec-mlb-col-sf-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB moneyline: Kalshi YES = Colorado, Poly YES = Colorado Rockies."
-  },
-  {
-    "id": "aec-mlb-col-sf-2026-07-10-sf",
-    "kalshi_ticker": "KXMLBGAME-26JUL102215COLSF-SF",
-    "polymarket_slug": "aec-mlb-col-sf-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB moneyline: Kalshi YES = San Francisco, Poly YES = Colorado Rockies."
-  },
-  {
-    "id": "aec-mlb-atl-stl-2026-07-10-stl",
-    "kalshi_ticker": "KXMLBGAME-26JUL102015ATLSTL-STL",
-    "polymarket_slug": "aec-mlb-atl-stl-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB moneyline: Kalshi YES = St. Louis, Poly YES = Atlanta Braves."
-  },
-  {
-    "id": "aec-mlb-atl-stl-2026-07-10-atl",
-    "kalshi_ticker": "KXMLBGAME-26JUL102015ATLSTL-ATL",
-    "polymarket_slug": "aec-mlb-atl-stl-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB moneyline: Kalshi YES = Atlanta, Poly YES = Atlanta Braves."
-  },
-  {
-    "id": "aec-mlb-laa-min-2026-07-10-laa",
-    "kalshi_ticker": "KXMLBGAME-26JUL102010LAAMIN-LAA",
-    "polymarket_slug": "aec-mlb-laa-min-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB moneyline: Kalshi YES = Los Angeles A, Poly YES = Los Angeles Angels."
-  },
-  {
-    "id": "aec-mlb-laa-min-2026-07-10-min",
-    "kalshi_ticker": "KXMLBGAME-26JUL102010LAAMIN-MIN",
-    "polymarket_slug": "aec-mlb-laa-min-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB moneyline: Kalshi YES = Minnesota, Poly YES = Los Angeles Angels."
-  },
-  {
-    "id": "aec-mlb-sea-tb-2026-07-10-tb",
-    "kalshi_ticker": "KXMLBGAME-26JUL101910SEATB-TB",
-    "polymarket_slug": "aec-mlb-sea-tb-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB moneyline: Kalshi YES = Tampa Bay, Poly YES = Seattle Mariners."
-  },
-  {
-    "id": "aec-mlb-sea-tb-2026-07-10-sea",
-    "kalshi_ticker": "KXMLBGAME-26JUL101910SEATB-SEA",
-    "polymarket_slug": "aec-mlb-sea-tb-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB moneyline: Kalshi YES = Seattle, Poly YES = Seattle Mariners."
-  },
-  {
-    "id": "aec-mlb-kc-bal-2026-07-10-kc",
-    "kalshi_ticker": "KXMLBGAME-26JUL101905KCBAL-KC",
-    "polymarket_slug": "aec-mlb-kc-bal-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB moneyline: Kalshi YES = Kansas City, Poly YES = Kansas City Royals."
-  },
-  {
-    "id": "aec-mlb-kc-bal-2026-07-10-bal",
-    "kalshi_ticker": "KXMLBGAME-26JUL101905KCBAL-BAL",
-    "polymarket_slug": "aec-mlb-kc-bal-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB moneyline: Kalshi YES = Baltimore, Poly YES = Kansas City Royals."
-  },
-  {
     "id": "aec-mlb-hou-tex-2026-07-12-tex",
     "kalshi_ticker": "KXMLBGAME-26JUL121435HOUTEX-TEX",
     "polymarket_slug": "aec-mlb-hou-tex-2026-07-12",
@@ -322,62 +252,6 @@
     "notes": "MLB moneyline: Kalshi YES = Milwaukee, Poly YES = Milwaukee Brewers."
   },
   {
-    "id": "aec-mlb-hou-tex-2026-07-10-hou",
-    "kalshi_ticker": "KXMLBGAME-26JUL102005HOUTEX-HOU",
-    "polymarket_slug": "aec-mlb-hou-tex-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB moneyline: Kalshi YES = Houston, Poly YES = Houston Astros."
-  },
-  {
-    "id": "aec-mlb-hou-tex-2026-07-10-tex",
-    "kalshi_ticker": "KXMLBGAME-26JUL102005HOUTEX-TEX",
-    "polymarket_slug": "aec-mlb-hou-tex-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB moneyline: Kalshi YES = Texas, Poly YES = Houston Astros."
-  },
-  {
-    "id": "aec-mlb-cle-mia-2026-07-10-mia",
-    "kalshi_ticker": "KXMLBGAME-26JUL101910CLEMIA-MIA",
-    "polymarket_slug": "aec-mlb-cle-mia-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB moneyline: Kalshi YES = Miami, Poly YES = Cleveland Guardians."
-  },
-  {
-    "id": "aec-mlb-cle-mia-2026-07-10-cle",
-    "kalshi_ticker": "KXMLBGAME-26JUL101910CLEMIA-CLE",
-    "polymarket_slug": "aec-mlb-cle-mia-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB moneyline: Kalshi YES = Cleveland, Poly YES = Cleveland Guardians."
-  },
-  {
-    "id": "aec-mlb-phi-det-2026-07-10-phi",
-    "kalshi_ticker": "KXMLBGAME-26JUL101840PHIDET-PHI",
-    "polymarket_slug": "aec-mlb-phi-det-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB moneyline: Kalshi YES = Philadelphia, Poly YES = Philadelphia Phillies."
-  },
-  {
-    "id": "aec-mlb-phi-det-2026-07-10-det",
-    "kalshi_ticker": "KXMLBGAME-26JUL101840PHIDET-DET",
-    "polymarket_slug": "aec-mlb-phi-det-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB moneyline: Kalshi YES = Detroit, Poly YES = Philadelphia Phillies."
-  },
-  {
-    "id": "aec-mlb-mil-pit-2026-07-10-mil",
-    "kalshi_ticker": "KXMLBGAME-26JUL101840MILPIT-MIL",
-    "polymarket_slug": "aec-mlb-mil-pit-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB moneyline: Kalshi YES = Milwaukee, Poly YES = Milwaukee Brewers."
-  },
-  {
-    "id": "aec-mlb-mil-pit-2026-07-10-pit",
-    "kalshi_ticker": "KXMLBGAME-26JUL101840MILPIT-PIT",
-    "polymarket_slug": "aec-mlb-mil-pit-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB moneyline: Kalshi YES = Pittsburgh, Poly YES = Milwaukee Brewers."
-  },
-  {
     "id": "aec-mlb-tor-sd-2026-07-12-tor",
     "kalshi_ticker": "KXMLBGAME-26JUL121610TORSD-TOR",
     "polymarket_slug": "aec-mlb-tor-sd-2026-07-12",
@@ -462,48 +336,6 @@
     "notes": "MLB moneyline: Kalshi YES = New York Y, Poly YES = New York Yankees."
   },
   {
-    "id": "aec-mlb-az-lad-2026-07-10-az",
-    "kalshi_ticker": "KXMLBGAME-26JUL102210AZLAD-AZ",
-    "polymarket_slug": "aec-mlb-az-lad-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB moneyline: Kalshi YES = Arizona, Poly YES = Arizona Diamondbacks."
-  },
-  {
-    "id": "aec-mlb-az-lad-2026-07-10-lad",
-    "kalshi_ticker": "KXMLBGAME-26JUL102210AZLAD-LAD",
-    "polymarket_slug": "aec-mlb-az-lad-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB moneyline: Kalshi YES = Los Angeles D, Poly YES = Arizona Diamondbacks."
-  },
-  {
-    "id": "aec-mlb-tor-sd-2026-07-10-tor",
-    "kalshi_ticker": "KXMLBGAME-26JUL102140TORSD-TOR",
-    "polymarket_slug": "aec-mlb-tor-sd-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB moneyline: Kalshi YES = Toronto, Poly YES = Toronto Blue Jays."
-  },
-  {
-    "id": "aec-mlb-tor-sd-2026-07-10-sd",
-    "kalshi_ticker": "KXMLBGAME-26JUL102140TORSD-SD",
-    "polymarket_slug": "aec-mlb-tor-sd-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB moneyline: Kalshi YES = San Diego, Poly YES = Toronto Blue Jays."
-  },
-  {
-    "id": "aec-mlb-nyy-wsh-2026-07-10-wsh",
-    "kalshi_ticker": "KXMLBGAME-26JUL101845NYYWSH-WSH",
-    "polymarket_slug": "aec-mlb-nyy-wsh-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB moneyline: Kalshi YES = Washington, Poly YES = New York Yankees."
-  },
-  {
-    "id": "aec-mlb-nyy-wsh-2026-07-10-nyy",
-    "kalshi_ticker": "KXMLBGAME-26JUL101845NYYWSH-NYY",
-    "polymarket_slug": "aec-mlb-nyy-wsh-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB moneyline: Kalshi YES = New York Y, Poly YES = New York Yankees."
-  },
-  {
     "id": "aec-mlb-chc-cin-2026-07-12-cin",
     "kalshi_ticker": "KXMLBGAME-26JUL121340CHCCIN-CIN",
     "polymarket_slug": "aec-mlb-chc-cin-2026-07-12",
@@ -558,34 +390,6 @@
     "polymarket_slug": "aec-mlb-bos-nym-2026-07-11",
     "direction": "kalshi_yes_eq_poly_yes",
     "notes": "MLB moneyline: Kalshi YES = Boston, Poly YES = Boston Red Sox."
-  },
-  {
-    "id": "aec-mlb-bos-nym-2026-07-10-nym",
-    "kalshi_ticker": "KXMLBGAME-26JUL101915BOSNYM-NYM",
-    "polymarket_slug": "aec-mlb-bos-nym-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB moneyline: Kalshi YES = New York M, Poly YES = Boston Red Sox."
-  },
-  {
-    "id": "aec-mlb-bos-nym-2026-07-10-bos",
-    "kalshi_ticker": "KXMLBGAME-26JUL101915BOSNYM-BOS",
-    "polymarket_slug": "aec-mlb-bos-nym-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB moneyline: Kalshi YES = Boston, Poly YES = Boston Red Sox."
-  },
-  {
-    "id": "aec-mlb-chc-cin-2026-07-10-cin",
-    "kalshi_ticker": "KXMLBGAME-26JUL101910CHCCIN-CIN",
-    "polymarket_slug": "aec-mlb-chc-cin-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB moneyline: Kalshi YES = Cincinnati, Poly YES = Chicago Cubs."
-  },
-  {
-    "id": "aec-mlb-chc-cin-2026-07-10-chc",
-    "kalshi_ticker": "KXMLBGAME-26JUL101910CHCCIN-CHC",
-    "polymarket_slug": "aec-mlb-chc-cin-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB moneyline: Kalshi YES = Chicago C, Poly YES = Chicago Cubs."
   },
   {
     "id": "pic-congress-trump-2026-12-31-kximpeach",
@@ -980,179 +784,11 @@
     "notes": "Political: Kalshi 'Itamar Ben Gvir' \u2194 Poly slug 'itaben'. K: Prime Minister of Israel after the 2026 election?. P: Prime Minister of Israel After the Next Election"
   },
   {
-    "id": "atc-mlb-col-sf-2026-07-10-f5-sf-f5-sf",
-    "kalshi_ticker": "KXMLBF5-26JUL102215COLSF-SF",
-    "polymarket_slug": "atc-mlb-col-sf-2026-07-10-f5-sf",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = SF wins F5, Poly YES = SF wins F5. K: Colorado vs San Francisco: First 5 Innings. P: Will the San Francisco Giants win the first 5 innings vs the Colorado Rockies?"
-  },
-  {
-    "id": "atc-mlb-col-sf-2026-07-10-f5-sf-f5-col",
-    "kalshi_ticker": "KXMLBF5-26JUL102215COLSF-COL",
-    "polymarket_slug": "atc-mlb-col-sf-2026-07-10-f5-sf",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = COL wins F5, Poly YES = SF wins F5. K: Colorado vs San Francisco: First 5 Innings. P: Will the San Francisco Giants win the first 5 innings vs the Colorado Rockies?"
-  },
-  {
-    "id": "atc-mlb-atl-stl-2026-07-10-f5-stl-f5-stl",
-    "kalshi_ticker": "KXMLBF5-26JUL102015ATLSTL-STL",
-    "polymarket_slug": "atc-mlb-atl-stl-2026-07-10-f5-stl",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = STL wins F5, Poly YES = STL wins F5. K: Atlanta vs St. Louis: First 5 Innings. P: Will the St. Louis Cardinals win the first 5 innings vs the Atlanta Braves?"
-  },
-  {
-    "id": "atc-mlb-atl-stl-2026-07-10-f5-stl-f5-atl",
-    "kalshi_ticker": "KXMLBF5-26JUL102015ATLSTL-ATL",
-    "polymarket_slug": "atc-mlb-atl-stl-2026-07-10-f5-stl",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = ATL wins F5, Poly YES = STL wins F5. K: Atlanta vs St. Louis: First 5 Innings. P: Will the St. Louis Cardinals win the first 5 innings vs the Atlanta Braves?"
-  },
-  {
-    "id": "atc-mlb-laa-min-2026-07-10-f5-min-f5-min",
-    "kalshi_ticker": "KXMLBF5-26JUL102010LAAMIN-MIN",
-    "polymarket_slug": "atc-mlb-laa-min-2026-07-10-f5-min",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = MIN wins F5, Poly YES = MIN wins F5. K: Los Angeles A vs Minnesota: First 5 Innings. P: Will the Minnesota Twins win the first 5 innings vs the Los Angeles Angels?"
-  },
-  {
-    "id": "atc-mlb-laa-min-2026-07-10-f5-min-f5-laa",
-    "kalshi_ticker": "KXMLBF5-26JUL102010LAAMIN-LAA",
-    "polymarket_slug": "atc-mlb-laa-min-2026-07-10-f5-min",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = LAA wins F5, Poly YES = MIN wins F5. K: Los Angeles A vs Minnesota: First 5 Innings. P: Will the Minnesota Twins win the first 5 innings vs the Los Angeles Angels?"
-  },
-  {
-    "id": "atc-mlb-sea-tb-2026-07-10-f5-tb-f5-tb",
-    "kalshi_ticker": "KXMLBF5-26JUL101910SEATB-TB",
-    "polymarket_slug": "atc-mlb-sea-tb-2026-07-10-f5-tb",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = TB wins F5, Poly YES = TB wins F5. K: Seattle vs Tampa Bay: First 5 Innings. P: Will the Tampa Bay Rays win the first 5 innings vs the Seattle Mariners?"
-  },
-  {
-    "id": "atc-mlb-sea-tb-2026-07-10-f5-tb-f5-sea",
-    "kalshi_ticker": "KXMLBF5-26JUL101910SEATB-SEA",
-    "polymarket_slug": "atc-mlb-sea-tb-2026-07-10-f5-tb",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = SEA wins F5, Poly YES = TB wins F5. K: Seattle vs Tampa Bay: First 5 Innings. P: Will the Tampa Bay Rays win the first 5 innings vs the Seattle Mariners?"
-  },
-  {
-    "id": "atc-mlb-kc-bal-2026-07-10-f5-bal-f5-bal",
-    "kalshi_ticker": "KXMLBF5-26JUL101905KCBAL-BAL",
-    "polymarket_slug": "atc-mlb-kc-bal-2026-07-10-f5-bal",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = BAL wins F5, Poly YES = BAL wins F5. K: Kansas City vs Baltimore: First 5 Innings. P: Will the Baltimore Orioles win the first 5 innings vs the Kansas City Royals?"
-  },
-  {
-    "id": "atc-mlb-kc-bal-2026-07-10-f5-bal-f5-kc",
-    "kalshi_ticker": "KXMLBF5-26JUL101905KCBAL-KC",
-    "polymarket_slug": "atc-mlb-kc-bal-2026-07-10-f5-bal",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = KC wins F5, Poly YES = BAL wins F5. K: Kansas City vs Baltimore: First 5 Innings. P: Will the Baltimore Orioles win the first 5 innings vs the Kansas City Royals?"
-  },
-  {
     "id": "ewc-pres-fra-2027-04-11-davlis-kxfrenchpres-27",
     "kalshi_ticker": "KXFRENCHPRES-27-DLIS",
     "polymarket_slug": "ewc-pres-fra-2027-04-11-davlis",
     "direction": "kalshi_yes_eq_poly_yes",
     "notes": "Political: Kalshi 'David Lisnard' \u2194 Poly slug 'davlis'. K: Next French presidential election winner?. P: 2027 French Presidential Election Winner"
-  },
-  {
-    "id": "atc-mlb-hou-tex-2026-07-10-f5-tex-f5-hou",
-    "kalshi_ticker": "KXMLBF5-26JUL102005HOUTEX-HOU",
-    "polymarket_slug": "atc-mlb-hou-tex-2026-07-10-f5-tex",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = HOU wins F5, Poly YES = TEX wins F5. K: Houston vs Texas: First 5 Innings. P: Will the Texas Rangers win the first 5 innings vs the Houston Astros?"
-  },
-  {
-    "id": "atc-mlb-hou-tex-2026-07-10-f5-tex-f5-tex",
-    "kalshi_ticker": "KXMLBF5-26JUL102005HOUTEX-TEX",
-    "polymarket_slug": "atc-mlb-hou-tex-2026-07-10-f5-tex",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = TEX wins F5, Poly YES = TEX wins F5. K: Houston vs Texas: First 5 Innings. P: Will the Texas Rangers win the first 5 innings vs the Houston Astros?"
-  },
-  {
-    "id": "atc-mlb-cle-mia-2026-07-10-f5-mia-f5-cle",
-    "kalshi_ticker": "KXMLBF5-26JUL101910CLEMIA-CLE",
-    "polymarket_slug": "atc-mlb-cle-mia-2026-07-10-f5-mia",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = CLE wins F5, Poly YES = MIA wins F5. K: Cleveland vs Miami: First 5 Innings. P: Will the Miami Marlins win the first 5 innings vs the Cleveland Guardians?"
-  },
-  {
-    "id": "atc-mlb-cle-mia-2026-07-10-f5-mia-f5-mia",
-    "kalshi_ticker": "KXMLBF5-26JUL101910CLEMIA-MIA",
-    "polymarket_slug": "atc-mlb-cle-mia-2026-07-10-f5-mia",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = MIA wins F5, Poly YES = MIA wins F5. K: Cleveland vs Miami: First 5 Innings. P: Will the Miami Marlins win the first 5 innings vs the Cleveland Guardians?"
-  },
-  {
-    "id": "atc-mlb-phi-det-2026-07-10-f5-det-f5-phi",
-    "kalshi_ticker": "KXMLBF5-26JUL101840PHIDET-PHI",
-    "polymarket_slug": "atc-mlb-phi-det-2026-07-10-f5-det",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = PHI wins F5, Poly YES = DET wins F5. K: Philadelphia vs Detroit: First 5 Innings. P: Will the Detroit Tigers win the first 5 innings vs the Philadelphia Phillies?"
-  },
-  {
-    "id": "atc-mlb-phi-det-2026-07-10-f5-det-f5-det",
-    "kalshi_ticker": "KXMLBF5-26JUL101840PHIDET-DET",
-    "polymarket_slug": "atc-mlb-phi-det-2026-07-10-f5-det",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = DET wins F5, Poly YES = DET wins F5. K: Philadelphia vs Detroit: First 5 Innings. P: Will the Detroit Tigers win the first 5 innings vs the Philadelphia Phillies?"
-  },
-  {
-    "id": "atc-mlb-mil-pit-2026-07-10-f5-pit-f5-pit",
-    "kalshi_ticker": "KXMLBF5-26JUL101840MILPIT-PIT",
-    "polymarket_slug": "atc-mlb-mil-pit-2026-07-10-f5-pit",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = PIT wins F5, Poly YES = PIT wins F5. K: Milwaukee vs Pittsburgh: First 5 Innings. P: Will the Pittsburgh Pirates win the first 5 innings vs the Milwaukee Brewers?"
-  },
-  {
-    "id": "atc-mlb-mil-pit-2026-07-10-f5-pit-f5-mil",
-    "kalshi_ticker": "KXMLBF5-26JUL101840MILPIT-MIL",
-    "polymarket_slug": "atc-mlb-mil-pit-2026-07-10-f5-pit",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = MIL wins F5, Poly YES = PIT wins F5. K: Milwaukee vs Pittsburgh: First 5 Innings. P: Will the Pittsburgh Pirates win the first 5 innings vs the Milwaukee Brewers?"
-  },
-  {
-    "id": "atc-mlb-az-lad-2026-07-10-f5-lad-f5-az",
-    "kalshi_ticker": "KXMLBF5-26JUL102210AZLAD-AZ",
-    "polymarket_slug": "atc-mlb-az-lad-2026-07-10-f5-lad",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = AZ wins F5, Poly YES = LAD wins F5. K: Arizona vs Los Angeles D: First 5 Innings. P: Will the Los Angeles Dodgers win the first 5 innings vs the Arizona Diamondbacks?"
-  },
-  {
-    "id": "atc-mlb-az-lad-2026-07-10-f5-lad-f5-lad",
-    "kalshi_ticker": "KXMLBF5-26JUL102210AZLAD-LAD",
-    "polymarket_slug": "atc-mlb-az-lad-2026-07-10-f5-lad",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = LAD wins F5, Poly YES = LAD wins F5. K: Arizona vs Los Angeles D: First 5 Innings. P: Will the Los Angeles Dodgers win the first 5 innings vs the Arizona Diamondbacks?"
-  },
-  {
-    "id": "atc-mlb-tor-sd-2026-07-10-f5-sd-f5-tor",
-    "kalshi_ticker": "KXMLBF5-26JUL102140TORSD-TOR",
-    "polymarket_slug": "atc-mlb-tor-sd-2026-07-10-f5-sd",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = TOR wins F5, Poly YES = SD wins F5. K: Toronto vs San Diego: First 5 Innings. P: Will the San Diego Padres win the first 5 innings vs the Toronto Blue Jays?"
-  },
-  {
-    "id": "atc-mlb-tor-sd-2026-07-10-f5-sd-f5-sd",
-    "kalshi_ticker": "KXMLBF5-26JUL102140TORSD-SD",
-    "polymarket_slug": "atc-mlb-tor-sd-2026-07-10-f5-sd",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = SD wins F5, Poly YES = SD wins F5. K: Toronto vs San Diego: First 5 Innings. P: Will the San Diego Padres win the first 5 innings vs the Toronto Blue Jays?"
-  },
-  {
-    "id": "atc-mlb-nyy-wsh-2026-07-10-f5-wsh-f5-nyy",
-    "kalshi_ticker": "KXMLBF5-26JUL101845NYYWSH-NYY",
-    "polymarket_slug": "atc-mlb-nyy-wsh-2026-07-10-f5-wsh",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = NYY wins F5, Poly YES = WSH wins F5. K: New York Y vs Washington: First 5 Innings. P: Will the Washington Nationals win the first 5 innings vs the New York Yankees?"
-  },
-  {
-    "id": "atc-mlb-nyy-wsh-2026-07-10-f5-wsh-f5-wsh",
-    "kalshi_ticker": "KXMLBF5-26JUL101845NYYWSH-WSH",
-    "polymarket_slug": "atc-mlb-nyy-wsh-2026-07-10-f5-wsh",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = WSH wins F5, Poly YES = WSH wins F5. K: New York Y vs Washington: First 5 Innings. P: Will the Washington Nationals win the first 5 innings vs the New York Yankees?"
   },
   {
     "id": "rtc-bbus-s28-elim-2026-07-16-angmur-kxbigbrotherelimination-26jul16",
@@ -1351,48 +987,6 @@
     "notes": "Kalshi YES = CIN, Poly YES = FEDCIN. K: Cina vs Zahraj. P: Federico Cina vs. Patrick Zahraj"
   },
   {
-    "id": "atc-mlb-chc-cin-2026-07-10-f5-cin-f5-cin",
-    "kalshi_ticker": "KXMLBF5-26JUL101910CHCCIN-CIN",
-    "polymarket_slug": "atc-mlb-chc-cin-2026-07-10-f5-cin",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = CIN wins F5, Poly YES = CIN wins F5. K: Chicago C vs Cincinnati: First 5 Innings. P: Will the Cincinnati Reds win the first 5 innings vs the Chicago Cubs?"
-  },
-  {
-    "id": "atc-mlb-chc-cin-2026-07-10-f5-cin-f5-chc",
-    "kalshi_ticker": "KXMLBF5-26JUL101910CHCCIN-CHC",
-    "polymarket_slug": "atc-mlb-chc-cin-2026-07-10-f5-cin",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = CHC wins F5, Poly YES = CIN wins F5. K: Chicago C vs Cincinnati: First 5 Innings. P: Will the Cincinnati Reds win the first 5 innings vs the Chicago Cubs?"
-  },
-  {
-    "id": "aec-atp-darbla-jacfea-2026-07-10-bla",
-    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL10BLAFEA-BLA",
-    "polymarket_slug": "aec-atp-darbla-jacfea-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = BLA, Poly YES = DARBLA. K: Blanch vs Fearnley. P: Darwin Blanch vs. Jacob Fearnley"
-  },
-  {
-    "id": "aec-atp-darbla-jacfea-2026-07-10-fea",
-    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL10BLAFEA-FEA",
-    "polymarket_slug": "aec-atp-darbla-jacfea-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = FEA, Poly YES = DARBLA. K: Blanch vs Fearnley. P: Darwin Blanch vs. Jacob Fearnley"
-  },
-  {
-    "id": "atc-mlb-bos-nym-2026-07-10-f5-nym-f5-bos",
-    "kalshi_ticker": "KXMLBF5-26JUL101915BOSNYM-BOS",
-    "polymarket_slug": "atc-mlb-bos-nym-2026-07-10-f5-nym",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = BOS wins F5, Poly YES = NYM wins F5. K: Boston vs New York M: First 5 Innings. P: Will the New York Mets win the first 5 innings vs the Boston Red Sox?"
-  },
-  {
-    "id": "atc-mlb-bos-nym-2026-07-10-f5-nym-f5-nym",
-    "kalshi_ticker": "KXMLBF5-26JUL101915BOSNYM-NYM",
-    "polymarket_slug": "atc-mlb-bos-nym-2026-07-10-f5-nym",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = NYM wins F5, Poly YES = NYM wins F5. K: Boston vs New York M: First 5 Innings. P: Will the New York Mets win the first 5 innings vs the Boston Red Sox?"
-  },
-  {
     "id": "cpc-btc-hitprice-high-yr-12-31-2026-200k-kxbtcmaxy-26dec31",
     "kalshi_ticker": "KXBTCMAXY-26DEC31-199999.99",
     "polymarket_slug": "cpc-btc-hitprice-high-yr-12-31-2026-200k",
@@ -1454,76 +1048,6 @@
     "polymarket_slug": "apdc-petehegseth-2026-08-31",
     "direction": "kalshi_yes_eq_poly_yes",
     "notes": "Date-bucketed: Kalshi 'Before Sep 1, 2026' \u2194 Poly slug date. K: Pete Hegseth out as Secretary of Defense?. P: Pete Hegseth Announced Out as Secretary of War?"
-  },
-  {
-    "id": "asc-mlb-col-sf-2026-07-10-f5-neg-2pt5-f5-sf",
-    "kalshi_ticker": "KXMLBF5-26JUL102215COLSF-SF",
-    "polymarket_slug": "asc-mlb-col-sf-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = SF wins F5, Poly YES = COL wins F5. K: Colorado vs San Francisco: First 5 Innings. P: Will the Colorado Rockies cover -2.5 vs the San Francisco Giants in COL vs SF in the first 5 innings?"
-  },
-  {
-    "id": "asc-mlb-col-sf-2026-07-10-f5-neg-2pt5-f5-col",
-    "kalshi_ticker": "KXMLBF5-26JUL102215COLSF-COL",
-    "polymarket_slug": "asc-mlb-col-sf-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = COL wins F5, Poly YES = COL wins F5. K: Colorado vs San Francisco: First 5 Innings. P: Will the Colorado Rockies cover -2.5 vs the San Francisco Giants in COL vs SF in the first 5 innings?"
-  },
-  {
-    "id": "asc-mlb-atl-stl-2026-07-10-f5-neg-2pt5-f5-stl",
-    "kalshi_ticker": "KXMLBF5-26JUL102015ATLSTL-STL",
-    "polymarket_slug": "asc-mlb-atl-stl-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = STL wins F5, Poly YES = ATL wins F5. K: Atlanta vs St. Louis: First 5 Innings. P: Will the Atlanta Braves cover -2.5 vs the St. Louis Cardinals in ATL vs STL in the first 5 innings?"
-  },
-  {
-    "id": "asc-mlb-atl-stl-2026-07-10-f5-neg-2pt5-f5-atl",
-    "kalshi_ticker": "KXMLBF5-26JUL102015ATLSTL-ATL",
-    "polymarket_slug": "asc-mlb-atl-stl-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = ATL wins F5, Poly YES = ATL wins F5. K: Atlanta vs St. Louis: First 5 Innings. P: Will the Atlanta Braves cover -2.5 vs the St. Louis Cardinals in ATL vs STL in the first 5 innings?"
-  },
-  {
-    "id": "asc-mlb-laa-min-2026-07-10-f5-neg-2pt5-f5-min",
-    "kalshi_ticker": "KXMLBF5-26JUL102010LAAMIN-MIN",
-    "polymarket_slug": "asc-mlb-laa-min-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = MIN wins F5, Poly YES = LAA wins F5. K: Los Angeles A vs Minnesota: First 5 Innings. P: Will the Los Angeles Angels cover -2.5 vs the Minnesota Twins in LAA vs MIN in the first 5 innings?"
-  },
-  {
-    "id": "asc-mlb-laa-min-2026-07-10-f5-neg-2pt5-f5-laa",
-    "kalshi_ticker": "KXMLBF5-26JUL102010LAAMIN-LAA",
-    "polymarket_slug": "asc-mlb-laa-min-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = LAA wins F5, Poly YES = LAA wins F5. K: Los Angeles A vs Minnesota: First 5 Innings. P: Will the Los Angeles Angels cover -2.5 vs the Minnesota Twins in LAA vs MIN in the first 5 innings?"
-  },
-  {
-    "id": "asc-mlb-sea-tb-2026-07-10-f5-neg-2pt5-f5-tb",
-    "kalshi_ticker": "KXMLBF5-26JUL101910SEATB-TB",
-    "polymarket_slug": "asc-mlb-sea-tb-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = TB wins F5, Poly YES = SEA wins F5. K: Seattle vs Tampa Bay: First 5 Innings. P: Will the Seattle Mariners cover -2.5 vs the Tampa Bay Rays in SEA vs TB in the first 5 innings?"
-  },
-  {
-    "id": "asc-mlb-sea-tb-2026-07-10-f5-neg-2pt5-f5-sea",
-    "kalshi_ticker": "KXMLBF5-26JUL101910SEATB-SEA",
-    "polymarket_slug": "asc-mlb-sea-tb-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = SEA wins F5, Poly YES = SEA wins F5. K: Seattle vs Tampa Bay: First 5 Innings. P: Will the Seattle Mariners cover -2.5 vs the Tampa Bay Rays in SEA vs TB in the first 5 innings?"
-  },
-  {
-    "id": "asc-mlb-kc-bal-2026-07-10-f5-neg-2pt5-f5-bal",
-    "kalshi_ticker": "KXMLBF5-26JUL101905KCBAL-BAL",
-    "polymarket_slug": "asc-mlb-kc-bal-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = BAL wins F5, Poly YES = KC wins F5. K: Kansas City vs Baltimore: First 5 Innings. P: Will the Kansas City Royals cover -2.5 vs the Baltimore Orioles in KC vs BAL in the first 5 innings?"
-  },
-  {
-    "id": "asc-mlb-kc-bal-2026-07-10-f5-neg-2pt5-f5-kc",
-    "kalshi_ticker": "KXMLBF5-26JUL101905KCBAL-KC",
-    "polymarket_slug": "asc-mlb-kc-bal-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = KC wins F5, Poly YES = KC wins F5. K: Kansas City vs Baltimore: First 5 Innings. P: Will the Kansas City Royals cover -2.5 vs the Baltimore Orioles in KC vs BAL in the first 5 innings?"
   },
   {
     "id": "ipcc-openai-2026-09-30-kxipoopenai",
@@ -1666,165 +1190,11 @@
     "notes": "Kalshi YES = DHA, Poly YES = MANMAN. K: Dhamne vs Sachko. P: Manoj Dhamne Manas vs. Vitaliy Sachko"
   },
   {
-    "id": "asc-mlb-az-lad-2026-07-10-f5-neg-2pt5-f5-az",
-    "kalshi_ticker": "KXMLBF5-26JUL102210AZLAD-AZ",
-    "polymarket_slug": "asc-mlb-az-lad-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = AZ wins F5, Poly YES = AZ wins F5. K: Arizona vs Los Angeles D: First 5 Innings. P: Will the Arizona Diamondbacks cover -2.5 vs the Los Angeles Dodgers in AZ vs LAD in the first 5 innings?"
-  },
-  {
-    "id": "asc-mlb-az-lad-2026-07-10-f5-neg-2pt5-f5-lad",
-    "kalshi_ticker": "KXMLBF5-26JUL102210AZLAD-LAD",
-    "polymarket_slug": "asc-mlb-az-lad-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = LAD wins F5, Poly YES = AZ wins F5. K: Arizona vs Los Angeles D: First 5 Innings. P: Will the Arizona Diamondbacks cover -2.5 vs the Los Angeles Dodgers in AZ vs LAD in the first 5 innings?"
-  },
-  {
-    "id": "asc-mlb-tor-sd-2026-07-10-f5-neg-2pt5-f5-tor",
-    "kalshi_ticker": "KXMLBF5-26JUL102140TORSD-TOR",
-    "polymarket_slug": "asc-mlb-tor-sd-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = TOR wins F5, Poly YES = TOR wins F5. K: Toronto vs San Diego: First 5 Innings. P: Will the Toronto Blue Jays cover -2.5 vs the San Diego Padres in TOR vs SD in the first 5 innings?"
-  },
-  {
-    "id": "asc-mlb-tor-sd-2026-07-10-f5-neg-2pt5-f5-sd",
-    "kalshi_ticker": "KXMLBF5-26JUL102140TORSD-SD",
-    "polymarket_slug": "asc-mlb-tor-sd-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = SD wins F5, Poly YES = TOR wins F5. K: Toronto vs San Diego: First 5 Innings. P: Will the Toronto Blue Jays cover -2.5 vs the San Diego Padres in TOR vs SD in the first 5 innings?"
-  },
-  {
-    "id": "asc-mlb-hou-tex-2026-07-10-f5-neg-2pt5-f5-hou",
-    "kalshi_ticker": "KXMLBF5-26JUL102005HOUTEX-HOU",
-    "polymarket_slug": "asc-mlb-hou-tex-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = HOU wins F5, Poly YES = HOU wins F5. K: Houston vs Texas: First 5 Innings. P: Will the Houston Astros cover -2.5 vs the Texas Rangers in HOU vs TEX in the first 5 innings?"
-  },
-  {
-    "id": "asc-mlb-hou-tex-2026-07-10-f5-neg-2pt5-f5-tex",
-    "kalshi_ticker": "KXMLBF5-26JUL102005HOUTEX-TEX",
-    "polymarket_slug": "asc-mlb-hou-tex-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = TEX wins F5, Poly YES = HOU wins F5. K: Houston vs Texas: First 5 Innings. P: Will the Houston Astros cover -2.5 vs the Texas Rangers in HOU vs TEX in the first 5 innings?"
-  },
-  {
-    "id": "asc-mlb-cle-mia-2026-07-10-f5-neg-2pt5-f5-cle",
-    "kalshi_ticker": "KXMLBF5-26JUL101910CLEMIA-CLE",
-    "polymarket_slug": "asc-mlb-cle-mia-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = CLE wins F5, Poly YES = CLE wins F5. K: Cleveland vs Miami: First 5 Innings. P: Will the Cleveland Guardians cover -2.5 vs the Miami Marlins in CLE vs MIA in the first 5 innings?"
-  },
-  {
-    "id": "asc-mlb-cle-mia-2026-07-10-f5-neg-2pt5-f5-mia",
-    "kalshi_ticker": "KXMLBF5-26JUL101910CLEMIA-MIA",
-    "polymarket_slug": "asc-mlb-cle-mia-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = MIA wins F5, Poly YES = CLE wins F5. K: Cleveland vs Miami: First 5 Innings. P: Will the Cleveland Guardians cover -2.5 vs the Miami Marlins in CLE vs MIA in the first 5 innings?"
-  },
-  {
-    "id": "asc-mlb-nyy-wsh-2026-07-10-f5-neg-2pt5-f5-nyy",
-    "kalshi_ticker": "KXMLBF5-26JUL101845NYYWSH-NYY",
-    "polymarket_slug": "asc-mlb-nyy-wsh-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = NYY wins F5, Poly YES = NYY wins F5. K: New York Y vs Washington: First 5 Innings. P: Will the New York Yankees cover -2.5 vs the Washington Nationals in NYY vs WSH in the first 5 innings?"
-  },
-  {
-    "id": "asc-mlb-nyy-wsh-2026-07-10-f5-neg-2pt5-f5-wsh",
-    "kalshi_ticker": "KXMLBF5-26JUL101845NYYWSH-WSH",
-    "polymarket_slug": "asc-mlb-nyy-wsh-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = WSH wins F5, Poly YES = NYY wins F5. K: New York Y vs Washington: First 5 Innings. P: Will the New York Yankees cover -2.5 vs the Washington Nationals in NYY vs WSH in the first 5 innings?"
-  },
-  {
-    "id": "asc-mlb-phi-det-2026-07-10-f5-neg-2pt5-f5-phi",
-    "kalshi_ticker": "KXMLBF5-26JUL101840PHIDET-PHI",
-    "polymarket_slug": "asc-mlb-phi-det-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = PHI wins F5, Poly YES = PHI wins F5. K: Philadelphia vs Detroit: First 5 Innings. P: Will the Philadelphia Phillies cover -2.5 vs the Detroit Tigers in PHI vs DET in the first 5 innings?"
-  },
-  {
-    "id": "asc-mlb-phi-det-2026-07-10-f5-neg-2pt5-f5-det",
-    "kalshi_ticker": "KXMLBF5-26JUL101840PHIDET-DET",
-    "polymarket_slug": "asc-mlb-phi-det-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = DET wins F5, Poly YES = PHI wins F5. K: Philadelphia vs Detroit: First 5 Innings. P: Will the Philadelphia Phillies cover -2.5 vs the Detroit Tigers in PHI vs DET in the first 5 innings?"
-  },
-  {
-    "id": "asc-mlb-mil-pit-2026-07-10-f5-neg-2pt5-f5-pit",
-    "kalshi_ticker": "KXMLBF5-26JUL101840MILPIT-PIT",
-    "polymarket_slug": "asc-mlb-mil-pit-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = PIT wins F5, Poly YES = MIL wins F5. K: Milwaukee vs Pittsburgh: First 5 Innings. P: Will the Milwaukee Brewers cover -2.5 vs the Pittsburgh Pirates in MIL vs PIT in the first 5 innings?"
-  },
-  {
-    "id": "asc-mlb-mil-pit-2026-07-10-f5-neg-2pt5-f5-mil",
-    "kalshi_ticker": "KXMLBF5-26JUL101840MILPIT-MIL",
-    "polymarket_slug": "asc-mlb-mil-pit-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = MIL wins F5, Poly YES = MIL wins F5. K: Milwaukee vs Pittsburgh: First 5 Innings. P: Will the Milwaukee Brewers cover -2.5 vs the Pittsburgh Pirates in MIL vs PIT in the first 5 innings?"
-  },
-  {
-    "id": "asc-mlb-bos-nym-2026-07-10-f5-neg-2pt5-f5-bos",
-    "kalshi_ticker": "KXMLBF5-26JUL101915BOSNYM-BOS",
-    "polymarket_slug": "asc-mlb-bos-nym-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = BOS wins F5, Poly YES = BOS wins F5. K: Boston vs New York M: First 5 Innings. P: Will the Boston Red Sox cover -2.5 vs the New York Mets in BOS vs NYM in the first 5 innings?"
-  },
-  {
-    "id": "asc-mlb-bos-nym-2026-07-10-f5-neg-2pt5-f5-nym",
-    "kalshi_ticker": "KXMLBF5-26JUL101915BOSNYM-NYM",
-    "polymarket_slug": "asc-mlb-bos-nym-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = NYM wins F5, Poly YES = BOS wins F5. K: Boston vs New York M: First 5 Innings. P: Will the Boston Red Sox cover -2.5 vs the New York Mets in BOS vs NYM in the first 5 innings?"
-  },
-  {
     "id": "arankc-atp-2026-12-31-no1-tayfri-kxatp1rank-26dec31",
     "kalshi_ticker": "KXATP1RANK-26DEC31-TFRI",
     "polymarket_slug": "arankc-atp-2026-12-31-no1-tayfri",
     "direction": "kalshi_yes_eq_poly_yes",
     "notes": "Multi-outcome: Kalshi sub 'Taylor Fritz' \u2194 Poly slug 'tayfri'. K event: ATP #1 Ranked Men's Singles Player on Dec 31, 2026?. P: Men's Pro Tennis No. 1 on Dec 31, 2026"
-  },
-  {
-    "id": "asc-mlb-chc-cin-2026-07-10-f5-neg-2pt5-f5-cin",
-    "kalshi_ticker": "KXMLBF5-26JUL101910CHCCIN-CIN",
-    "polymarket_slug": "asc-mlb-chc-cin-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = CIN wins F5, Poly YES = CHC wins F5. K: Chicago C vs Cincinnati: First 5 Innings. P: Will the Chicago Cubs cover -2.5 vs the Cincinnati Reds in CHC vs CIN in the first 5 innings?"
-  },
-  {
-    "id": "asc-mlb-chc-cin-2026-07-10-f5-neg-2pt5-f5-chc",
-    "kalshi_ticker": "KXMLBF5-26JUL101910CHCCIN-CHC",
-    "polymarket_slug": "asc-mlb-chc-cin-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = CHC wins F5, Poly YES = CHC wins F5. K: Chicago C vs Cincinnati: First 5 Innings. P: Will the Chicago Cubs cover -2.5 vs the Cincinnati Reds in CHC vs CIN in the first 5 innings?"
-  },
-  {
-    "id": "atc-mlb-ath-cws-2026-07-10-f5-cws-f5-ath",
-    "kalshi_ticker": "KXMLBF5-26JUL101940ATHCWS-ATH",
-    "polymarket_slug": "atc-mlb-ath-cws-2026-07-10-f5-cws",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = ATH wins F5, Poly YES = CWS wins F5. K: A's vs Chicago WS: First 5 Innings. P: Will the Chicago White Sox win the first 5 innings vs the Athletics?"
-  },
-  {
-    "id": "atc-mlb-ath-cws-2026-07-10-f5-cws-f5-cws",
-    "kalshi_ticker": "KXMLBF5-26JUL101940ATHCWS-CWS",
-    "polymarket_slug": "atc-mlb-ath-cws-2026-07-10-f5-cws",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = CWS wins F5, Poly YES = CWS wins F5. K: A's vs Chicago WS: First 5 Innings. P: Will the Chicago White Sox win the first 5 innings vs the Athletics?"
-  },
-  {
-    "id": "asc-mlb-ath-cws-2026-07-10-f5-neg-2pt5-f5-ath",
-    "kalshi_ticker": "KXMLBF5-26JUL101940ATHCWS-ATH",
-    "polymarket_slug": "asc-mlb-ath-cws-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_yes",
-    "notes": "MLB F5: Kalshi YES = ATH wins F5, Poly YES = ATH wins F5. K: A's vs Chicago WS: First 5 Innings. P: Will the Athletics cover -2.5 vs the Chicago White Sox in ATH vs CWS in the first 5 innings?"
-  },
-  {
-    "id": "asc-mlb-ath-cws-2026-07-10-f5-neg-2pt5-f5-cws",
-    "kalshi_ticker": "KXMLBF5-26JUL101940ATHCWS-CWS",
-    "polymarket_slug": "asc-mlb-ath-cws-2026-07-10-f5-neg-2pt5",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "MLB F5: Kalshi YES = CWS wins F5, Poly YES = ATH wins F5. K: A's vs Chicago WS: First 5 Innings. P: Will the Athletics cover -2.5 vs the Chicago White Sox in ATH vs CWS in the first 5 innings?"
   },
   {
     "id": "ipcc-2026ipos-deel-kxipo-26",
@@ -2149,20 +1519,6 @@
     "notes": "Kalshi YES = CHI, Poly YES = CLM. K: Orix Buffaloes vs Chiba Lotte Marines. P: Who will win in the upcoming baseball event Chiba Lotte Marines vs Orix Buffaloes scheduled for July 11, 2026 at 9:00 AM UTC?"
   },
   {
-    "id": "aec-mlc-mny-soe-2026-07-10-new",
-    "kalshi_ticker": "KXT20MATCH-26JUL101630SEANEW-NEW",
-    "polymarket_slug": "aec-mlc-mny-soe-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = NEW, Poly YES = MNY. K: MI New York vs Seattle Orcas. P: Who will win in the upcoming cricket event MI New York vs Seattle Orcas scheduled for July 10, 2026 at 8:30 PM UTC?"
-  },
-  {
-    "id": "aec-mlc-mny-soe-2026-07-10-sea",
-    "kalshi_ticker": "KXT20MATCH-26JUL101630SEANEW-SEA",
-    "polymarket_slug": "aec-mlc-mny-soe-2026-07-10",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = SEA, Poly YES = MNY. K: MI New York vs Seattle Orcas. P: Who will win in the upcoming cricket event MI New York vs Seattle Orcas scheduled for July 10, 2026 at 8:30 PM UTC?"
-  },
-  {
     "id": "aec-valorant-blg-wol-2026-07-11-blg",
     "kalshi_ticker": "KXVALORANTGAME-26JUL110700WOLBLG-BLG",
     "polymarket_slug": "aec-valorant-blg-wol-2026-07-11",
@@ -2175,5 +1531,446 @@
     "polymarket_slug": "aec-valorant-blg-wol-2026-07-11",
     "direction": "kalshi_yes_eq_poly_no",
     "notes": "Kalshi YES = WOL, Poly YES = BLG. K: Wolves Esports vs. Bilibili Gaming. P: Who will win in the upcoming esports event Bilibili Gaming vs Wolves Esports scheduled for July 11, 2026 at 11:00 AM UTC?"
+  },
+  {
+    "id": "aec-atp-martop-poltif-2026-07-11-top",
+    "kalshi_ticker": "KXATPMATCH-26JUL11TOPMAR-TOP",
+    "polymarket_slug": "aec-atp-martop-poltif-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (ATP) moneyline: Kalshi YES = Marko ToPo, Poly YES = Marko Topo."
+  },
+  {
+    "id": "aec-atp-martop-poltif-2026-07-11-mar",
+    "kalshi_ticker": "KXATPMATCH-26JUL11TOPMAR-MAR",
+    "polymarket_slug": "aec-atp-martop-poltif-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (ATP) moneyline: Kalshi YES = Pol Martin Tiffon, Poly YES = Marko Topo."
+  },
+  {
+    "id": "aec-atp-norgom-nikizq-2026-07-11-sai",
+    "kalshi_ticker": "KXATPMATCH-26JUL11GOMSAI-SAI",
+    "polymarket_slug": "aec-atp-norgom-nikizq-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (ATP) moneyline: Kalshi YES = Nikolas Sanchez Izquierdo, Poly YES = Norbert Gombos."
+  },
+  {
+    "id": "aec-atp-norgom-nikizq-2026-07-11-gom",
+    "kalshi_ticker": "KXATPMATCH-26JUL11GOMSAI-GOM",
+    "polymarket_slug": "aec-atp-norgom-nikizq-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (ATP) moneyline: Kalshi YES = Norbert Gombos, Poly YES = Norbert Gombos."
+  },
+  {
+    "id": "aec-atp-lukneu-milpol-2026-07-11-pol",
+    "kalshi_ticker": "KXATPMATCH-26JUL11NEUPOL-POL",
+    "polymarket_slug": "aec-atp-lukneu-milpol-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (ATP) moneyline: Kalshi YES = Mili Poljicak, Poly YES = Lukas Neumayer."
+  },
+  {
+    "id": "aec-atp-lukneu-milpol-2026-07-11-neu",
+    "kalshi_ticker": "KXATPMATCH-26JUL11NEUPOL-NEU",
+    "polymarket_slug": "aec-atp-lukneu-milpol-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (ATP) moneyline: Kalshi YES = Lukas Neumayer, Poly YES = Lukas Neumayer."
+  },
+  {
+    "id": "aec-atp-lucnar-andgue-2026-07-11-nar",
+    "kalshi_ticker": "KXATPMATCH-26JUL11NARGUE-NAR",
+    "polymarket_slug": "aec-atp-lucnar-andgue-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (ATP) moneyline: Kalshi YES = Luca Nardi, Poly YES = Luca Nardi."
+  },
+  {
+    "id": "aec-atp-lucnar-andgue-2026-07-11-gue",
+    "kalshi_ticker": "KXATPMATCH-26JUL11NARGUE-GUE",
+    "polymarket_slug": "aec-atp-lucnar-andgue-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (ATP) moneyline: Kalshi YES = Andrea Guerrieri, Poly YES = Luca Nardi."
+  },
+  {
+    "id": "aec-atp-marcec-dujajd-2026-07-11-cec",
+    "kalshi_ticker": "KXATPMATCH-26JUL11CECAJD-CEC",
+    "polymarket_slug": "aec-atp-marcec-dujajd-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (ATP) moneyline: Kalshi YES = Marco Cecchinato, Poly YES = Marco Cecchinato."
+  },
+  {
+    "id": "aec-atp-marcec-dujajd-2026-07-11-ajd",
+    "kalshi_ticker": "KXATPMATCH-26JUL11CECAJD-AJD",
+    "polymarket_slug": "aec-atp-marcec-dujajd-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (ATP) moneyline: Kalshi YES = Duje Ajdukovic, Poly YES = Marco Cecchinato."
+  },
+  {
+    "id": "aec-atp-noavuk-genoli-2026-07-11-vuk",
+    "kalshi_ticker": "KXATPMATCH-26JUL11VUKOLI-VUK",
+    "polymarket_slug": "aec-atp-noavuk-genoli-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (ATP) moneyline: Kalshi YES = Noa Vukadin, Poly YES = Noa Vukadin."
+  },
+  {
+    "id": "aec-atp-noavuk-genoli-2026-07-11-oli",
+    "kalshi_ticker": "KXATPMATCH-26JUL11VUKOLI-OLI",
+    "polymarket_slug": "aec-atp-noavuk-genoli-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (ATP) moneyline: Kalshi YES = Genaro Alberto Olivieri, Poly YES = Noa Vukadin."
+  },
+  {
+    "id": "aec-atp-raubra-fedgom-2026-07-11-bra",
+    "kalshi_ticker": "KXATPMATCH-26JUL11BRAGOM-BRA",
+    "polymarket_slug": "aec-atp-raubra-fedgom-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (ATP) moneyline: Kalshi YES = Raul Brancaccio, Poly YES = Raul Brancaccio."
+  },
+  {
+    "id": "aec-atp-raubra-fedgom-2026-07-11-gom",
+    "kalshi_ticker": "KXATPMATCH-26JUL11BRAGOM-GOM",
+    "polymarket_slug": "aec-atp-raubra-fedgom-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (ATP) moneyline: Kalshi YES = Federico Agustin Gomez, Poly YES = Raul Brancaccio."
+  },
+  {
+    "id": "aec-atp-juapra-marmaj-2026-07-11-pra",
+    "kalshi_ticker": "KXATPMATCH-26JUL11PRAMAJ-PRA",
+    "polymarket_slug": "aec-atp-juapra-marmaj-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (ATP) moneyline: Kalshi YES = Juan Carlos Prado Angelo, Poly YES = Juan Carlos Prado."
+  },
+  {
+    "id": "aec-atp-juapra-marmaj-2026-07-11-maj",
+    "kalshi_ticker": "KXATPMATCH-26JUL11PRAMAJ-MAJ",
+    "polymarket_slug": "aec-atp-juapra-marmaj-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (ATP) moneyline: Kalshi YES = Marc Majdandzic, Poly YES = Juan Carlos Prado."
+  },
+  {
+    "id": "aec-atp-cletab-marhue-2026-07-12-hue",
+    "kalshi_ticker": "KXATPMATCH-26JUL12TABHUE-HUE",
+    "polymarket_slug": "aec-atp-cletab-marhue-2026-07-12",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (ATP) moneyline: Kalshi YES = Marc-Andrea Huesler, Poly YES = Clement Tabur."
+  },
+  {
+    "id": "aec-atp-cletab-marhue-2026-07-12-tab",
+    "kalshi_ticker": "KXATPMATCH-26JUL12TABHUE-TAB",
+    "polymarket_slug": "aec-atp-cletab-marhue-2026-07-12",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (ATP) moneyline: Kalshi YES = Clement Tabur, Poly YES = Clement Tabur."
+  },
+  {
+    "id": "aec-atp-alegal-jacfea-2026-07-11-gal",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11GALFEA-GAL",
+    "polymarket_slug": "aec-atp-alegal-jacfea-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Alexis Galarneau, Poly YES = Alexis Galarneau."
+  },
+  {
+    "id": "aec-atp-alegal-jacfea-2026-07-11-fea",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11GALFEA-FEA",
+    "polymarket_slug": "aec-atp-alegal-jacfea-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Jacob Fearnley, Poly YES = Alexis Galarneau."
+  },
+  {
+    "id": "aec-atp-adawal-alemic-2026-07-11-wal",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11WALMIC-WAL",
+    "polymarket_slug": "aec-atp-adawal-alemic-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Adam Walton, Poly YES = Adam Walton."
+  },
+  {
+    "id": "aec-atp-adawal-alemic-2026-07-11-mic",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11WALMIC-MIC",
+    "polymarket_slug": "aec-atp-adawal-alemic-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Alex Michelsen, Poly YES = Adam Walton."
+  },
+  {
+    "id": "aec-atp-matsot-lorcla-2026-07-11-sot",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11SOTCLA-SOT",
+    "polymarket_slug": "aec-atp-matsot-lorcla-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Matias Soto, Poly YES = Matias Soto."
+  },
+  {
+    "id": "aec-atp-matsot-lorcla-2026-07-11-cla",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11SOTCLA-CLA",
+    "polymarket_slug": "aec-atp-matsot-lorcla-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Lorenzo Claverie, Poly YES = Matias Soto."
+  },
+  {
+    "id": "aec-atp-valroy-titdro-2026-07-11-dro",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11ROYDRO-DRO",
+    "polymarket_slug": "aec-atp-valroy-titdro-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Titouan Droguet, Poly YES = Valentin Royer."
+  },
+  {
+    "id": "aec-atp-valroy-titdro-2026-07-11-roy",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11ROYDRO-ROY",
+    "polymarket_slug": "aec-atp-valroy-titdro-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Valentin Royer, Poly YES = Valentin Royer."
+  },
+  {
+    "id": "aec-atp-henber-hugdel-2026-07-11-ber",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11BERDEL-BER",
+    "polymarket_slug": "aec-atp-henber-hugdel-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Henry Bernet, Poly YES = Henry Bernet."
+  },
+  {
+    "id": "aec-atp-henber-hugdel-2026-07-11-del",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11BERDEL-DEL",
+    "polymarket_slug": "aec-atp-henber-hugdel-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Hugo Dellien, Poly YES = Henry Bernet."
+  },
+  {
+    "id": "aec-atp-zsopir-jerkym-2026-07-11-pir",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11PIRKYM-PIR",
+    "polymarket_slug": "aec-atp-zsopir-jerkym-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Zsombor Piros, Poly YES = Zsombor Piros."
+  },
+  {
+    "id": "aec-atp-zsopir-jerkym-2026-07-11-kym",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11PIRKYM-KYM",
+    "polymarket_slug": "aec-atp-zsopir-jerkym-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Jerome Kym, Poly YES = Zsombor Piros."
+  },
+  {
+    "id": "aec-atp-hensea-maxbas-2026-07-11-sea",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11SEABAS-SEA",
+    "polymarket_slug": "aec-atp-hensea-maxbas-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Henry Searle, Poly YES = Henry Searle."
+  },
+  {
+    "id": "aec-atp-hensea-maxbas-2026-07-11-bas",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11SEABAS-BAS",
+    "polymarket_slug": "aec-atp-hensea-maxbas-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Max Basing, Poly YES = Henry Searle."
+  },
+  {
+    "id": "aec-atp-flobro-kimcop-2026-07-11-bro",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11BROCOP-BRO",
+    "polymarket_slug": "aec-atp-flobro-kimcop-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Florian Broska, Poly YES = Florian Broska."
+  },
+  {
+    "id": "aec-atp-flobro-kimcop-2026-07-11-cop",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11BROCOP-COP",
+    "polymarket_slug": "aec-atp-flobro-kimcop-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Kimmer Coppejans, Poly YES = Florian Broska."
+  },
+  {
+    "id": "aec-atp-matdod-hensqu-2026-07-11-squ",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11DODSQU-SQU",
+    "polymarket_slug": "aec-atp-matdod-hensqu-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Henri Squire, Poly YES = Matej Dodig."
+  },
+  {
+    "id": "aec-atp-matdod-hensqu-2026-07-11-dod",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11DODSQU-DOD",
+    "polymarket_slug": "aec-atp-matdod-hensqu-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Matej Dodig, Poly YES = Matej Dodig."
+  },
+  {
+    "id": "aec-atp-danrin-jancho-2026-07-11-cho",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11RINCHO-CHO",
+    "polymarket_slug": "aec-atp-danrin-jancho-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Jan Choinski, Poly YES = Daniel Rincon."
+  },
+  {
+    "id": "aec-atp-danrin-jancho-2026-07-11-rin",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11RINCHO-RIN",
+    "polymarket_slug": "aec-atp-danrin-jancho-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Daniel Rincon, Poly YES = Daniel Rincon."
+  },
+  {
+    "id": "aec-atp-lorgiu-migdam-2026-07-11-dam",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11GIUDAM-DAM",
+    "polymarket_slug": "aec-atp-lorgiu-migdam-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Miguel Damas, Poly YES = Lorenzo Giustino."
+  },
+  {
+    "id": "aec-atp-lorgiu-migdam-2026-07-11-giu",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11GIUDAM-GIU",
+    "polymarket_slug": "aec-atp-lorgiu-migdam-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Lorenzo Giustino, Poly YES = Lorenzo Giustino."
+  },
+  {
+    "id": "aec-atp-clechi-alagra-2026-07-11-chi",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11CHIGRA-CHI",
+    "polymarket_slug": "aec-atp-clechi-alagra-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Clement Chidekh, Poly YES = Clement Chidekh."
+  },
+  {
+    "id": "aec-atp-clechi-alagra-2026-07-11-gra",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11CHIGRA-GRA",
+    "polymarket_slug": "aec-atp-clechi-alagra-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Alastair Gray, Poly YES = Clement Chidekh."
+  },
+  {
+    "id": "aec-atp-nicmej-juavar-2026-07-11-mej",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11MEJVAR-MEJ",
+    "polymarket_slug": "aec-atp-nicmej-juavar-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Nicolas Mejia, Poly YES = Nicolas Mejia."
+  },
+  {
+    "id": "aec-atp-nicmej-juavar-2026-07-11-var",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11MEJVAR-VAR",
+    "polymarket_slug": "aec-atp-nicmej-juavar-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Juan Pablo Varillas, Poly YES = Nicolas Mejia."
+  },
+  {
+    "id": "aec-atp-facaco-huggas-2026-07-11-gas",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11DIAGAS-GAS",
+    "polymarket_slug": "aec-atp-facaco-huggas-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Hugo Gaston, Poly YES = Facundo Acosta (= Facundo Diaz Acosta)."
+  },
+  {
+    "id": "aec-atp-facaco-huggas-2026-07-11-dia",
+    "kalshi_ticker": "KXATPCHALLENGERMATCH-26JUL11DIAGAS-DIA",
+    "polymarket_slug": "aec-atp-facaco-huggas-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (ATP Challenger) moneyline: Kalshi YES = Facundo Diaz Acosta, Poly YES = Facundo Acosta (= Facundo Diaz Acosta)."
+  },
+  {
+    "id": "aec-wta-gremin-katvol-2026-07-11-min",
+    "kalshi_ticker": "KXWTACHALLENGERMATCH-26JUL11MINVOL-MIN",
+    "polymarket_slug": "aec-wta-gremin-katvol-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (WTA) moneyline: Kalshi YES = Greet Minnen, Poly YES = Greet Minnen."
+  },
+  {
+    "id": "aec-wta-gremin-katvol-2026-07-11-vol",
+    "kalshi_ticker": "KXWTACHALLENGERMATCH-26JUL11MINVOL-VOL",
+    "polymarket_slug": "aec-wta-gremin-katvol-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (WTA) moneyline: Kalshi YES = Katie Volynets, Poly YES = Greet Minnen."
+  },
+  {
+    "id": "aec-wta-mansaw-tatmar-2026-07-11-mar",
+    "kalshi_ticker": "KXWTACHALLENGERMATCH-26JUL11SAWMAR-MAR",
+    "polymarket_slug": "aec-wta-mansaw-tatmar-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (WTA) moneyline: Kalshi YES = Tatjana Maria, Poly YES = Mananchaya Sawangkaew."
+  },
+  {
+    "id": "aec-wta-mansaw-tatmar-2026-07-11-saw",
+    "kalshi_ticker": "KXWTACHALLENGERMATCH-26JUL11SAWMAR-SAW",
+    "polymarket_slug": "aec-wta-mansaw-tatmar-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (WTA) moneyline: Kalshi YES = Mananchaya Sawangkaew, Poly YES = Mananchaya Sawangkaew."
+  },
+  {
+    "id": "aec-wta-jelvan-aurzan-2026-07-11-van",
+    "kalshi_ticker": "KXWTACHALLENGERMATCH-26JUL11VANZAN-VAN",
+    "polymarket_slug": "aec-wta-jelvan-aurzan-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (WTA) moneyline: Kalshi YES = Jeline Vandromme, Poly YES = Jeline Vandromme."
+  },
+  {
+    "id": "aec-wta-jelvan-aurzan-2026-07-11-zan",
+    "kalshi_ticker": "KXWTACHALLENGERMATCH-26JUL11VANZAN-ZAN",
+    "polymarket_slug": "aec-wta-jelvan-aurzan-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (WTA) moneyline: Kalshi YES = Aurora Zantedeschi, Poly YES = Jeline Vandromme."
+  },
+  {
+    "id": "aec-wta-simwal-paubad-2026-07-11-bad",
+    "kalshi_ticker": "KXWTACHALLENGERMATCH-26JUL11WALBAD-BAD",
+    "polymarket_slug": "aec-wta-simwal-paubad-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (WTA) moneyline: Kalshi YES = Paula Badosa, Poly YES = Simona Waltert."
+  },
+  {
+    "id": "aec-wta-simwal-paubad-2026-07-11-wal",
+    "kalshi_ticker": "KXWTACHALLENGERMATCH-26JUL11WALBAD-WAL",
+    "polymarket_slug": "aec-wta-simwal-paubad-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (WTA) moneyline: Kalshi YES = Simona Waltert, Poly YES = Simona Waltert."
+  },
+  {
+    "id": "aec-wta-mayshe-leojea-2026-07-11-jea",
+    "kalshi_ticker": "KXWTACHALLENGERMATCH-26JUL11SHEJEA-JEA",
+    "polymarket_slug": "aec-wta-mayshe-leojea-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "Tennis (WTA) moneyline: Kalshi YES = Leolia Jeanjean, Poly YES = Mayar Sherif (= Maiar Sherif Ahmed Abdelaziz)."
+  },
+  {
+    "id": "aec-wta-mayshe-leojea-2026-07-11-she",
+    "kalshi_ticker": "KXWTACHALLENGERMATCH-26JUL11SHEJEA-SHE",
+    "polymarket_slug": "aec-wta-mayshe-leojea-2026-07-11",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis (WTA) moneyline: Kalshi YES = Maiar Sherif Ahmed Abdelaziz, Poly YES = Mayar Sherif (= Maiar Sherif Ahmed Abdelaziz)."
+  },
+  {
+    "id": "aec-npb-trge-obr-2026-07-14-toh",
+    "kalshi_ticker": "KXNPBGAME-26JUL140500ORITOH-TOH",
+    "polymarket_slug": "aec-npb-trge-obr-2026-07-14",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "NPB moneyline: Kalshi YES = Tohoku Rakuten Golden Eagles, Poly YES = Tohoku Rakuten Golden Eagles."
+  },
+  {
+    "id": "aec-npb-trge-obr-2026-07-14-ori",
+    "kalshi_ticker": "KXNPBGAME-26JUL140500ORITOH-ORI",
+    "polymarket_slug": "aec-npb-trge-obr-2026-07-14",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "NPB moneyline: Kalshi YES = Orix Buffaloes, Poly YES = Tohoku Rakuten Golden Eagles."
+  },
+  {
+    "id": "aec-npb-ssl-clm-2026-07-14-sai",
+    "kalshi_ticker": "KXNPBGAME-26JUL140500CHISAI-SAI",
+    "polymarket_slug": "aec-npb-ssl-clm-2026-07-14",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "NPB moneyline: Kalshi YES = Saitama Seibu Lions, Poly YES = Saitama Seibu Lions."
+  },
+  {
+    "id": "aec-npb-ssl-clm-2026-07-14-chi",
+    "kalshi_ticker": "KXNPBGAME-26JUL140500CHISAI-CHI",
+    "polymarket_slug": "aec-npb-ssl-clm-2026-07-14",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "NPB moneyline: Kalshi YES = Chiba Lotte Marines, Poly YES = Saitama Seibu Lions."
+  },
+  {
+    "id": "aec-npb-tys-ygo-2026-07-14-yom",
+    "kalshi_ticker": "KXNPBGAME-26JUL140500YOMYAK-YOM",
+    "polymarket_slug": "aec-npb-tys-ygo-2026-07-14",
+    "direction": "kalshi_yes_eq_poly_no",
+    "notes": "NPB moneyline: Kalshi YES = Yomiuri Giants, Poly YES = Tokyo Yakult Swallows."
+  },
+  {
+    "id": "aec-npb-tys-ygo-2026-07-14-yak",
+    "kalshi_ticker": "KXNPBGAME-26JUL140500YOMYAK-YAK",
+    "polymarket_slug": "aec-npb-tys-ygo-2026-07-14",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "NPB moneyline: Kalshi YES = Tokyo Yakult Swallows, Poly YES = Tokyo Yakult Swallows."
+  },
+  {
+    "id": "tsc-atp-juapra-marmaj-2026-07-11-tg-14pt5-over",
+    "kalshi_ticker": "KXATPGTOTAL-26JUL11PRAMAJ-15",
+    "polymarket_slug": "tsc-atp-juapra-marmaj-2026-07-11-tg-14pt5",
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Tennis total games: Kalshi YES = over 14.5 games, Poly YES = total more than 14.5. Prado Angelo vs Majdandzic, 2026-07-11."
   }
 ]

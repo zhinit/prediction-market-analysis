@@ -815,15 +815,15 @@
     "id": "aec-wta-qiatan-elinep-2026-07-11-tan",
     "kalshi_ticker": "KXWTAMATCH-26JUL11TANNEP-TAN",
     "polymarket_slug": "aec-wta-qiatan-elinep-2026-07-11",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = TAN, Poly YES = QIATAN. K: Tang vs Nepliy. P: Qianhui Tang vs. Elina Nepliy"
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Kalshi YES = TAN, Poly YES = QIATAN. K: Tang vs Nepliy. P: Qianhui Tang vs. Elina Nepliy [direction corrected 2026-07-11: Poly WS book quotes the marketSides long=true side; old auto-approver set both pair entries to _no]"
   },
   {
     "id": "aec-wta-alepan-anakul-2026-07-11-pan",
     "kalshi_ticker": "KXWTAMATCH-26JUL11PANKUL-PAN",
     "polymarket_slug": "aec-wta-alepan-anakul-2026-07-11",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = PAN, Poly YES = ALEPAN. K: Panagiotidou vs Kulikova. P: Alexandra Panagiotidou vs. Anastasia Kulikova"
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Kalshi YES = PAN, Poly YES = ALEPAN. K: Panagiotidou vs Kulikova. P: Alexandra Panagiotidou vs. Anastasia Kulikova [direction corrected 2026-07-11: Poly WS book quotes the marketSides long=true side; old auto-approver set both pair entries to _no]"
   },
   {
     "id": "aec-wta-alepan-anakul-2026-07-11-kul",
@@ -843,8 +843,8 @@
     "id": "aec-wta-vikmor-fraszi-2026-07-11-mor",
     "kalshi_ticker": "KXWTAMATCH-26JUL11MORSZI-MOR",
     "polymarket_slug": "aec-wta-vikmor-fraszi-2026-07-11",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = MOR, Poly YES = VIKMOR. K: Morvayova vs Sziedat. P: Viktoria Morvayova vs. Franziska Sziedat"
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Kalshi YES = MOR, Poly YES = VIKMOR. K: Morvayova vs Sziedat. P: Viktoria Morvayova vs. Franziska Sziedat [direction corrected 2026-07-11: Poly WS book quotes the marketSides long=true side; old auto-approver set both pair entries to _no]"
   },
   {
     "id": "aec-wta-ekayas-linglu-2026-07-11-glu",
@@ -857,15 +857,15 @@
     "id": "aec-wta-ekayas-linglu-2026-07-11-yas",
     "kalshi_ticker": "KXWTAMATCH-26JUL11YASGLU-YAS",
     "polymarket_slug": "aec-wta-ekayas-linglu-2026-07-11",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = YAS, Poly YES = EKAYAS. K: Yashina vs Glushko. P: Ekaterina Yashina vs. Lina Glushko"
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Kalshi YES = YAS, Poly YES = EKAYAS. K: Yashina vs Glushko. P: Ekaterina Yashina vs. Lina Glushko [direction corrected 2026-07-11: Poly WS book quotes the marketSides long=true side; old auto-approver set both pair entries to _no]"
   },
   {
     "id": "aec-wta-marren-mirton-2026-07-11-ren",
     "kalshi_ticker": "KXWTAMATCH-26JUL11RENTON-REN",
     "polymarket_slug": "aec-wta-marren-mirton-2026-07-11",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = REN, Poly YES = MARREN. K: Rentoumi vs Tona. P: Maria Rentoumi vs. Miriana Tona"
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Kalshi YES = REN, Poly YES = MARREN. K: Rentoumi vs Tona. P: Maria Rentoumi vs. Miriana Tona [direction corrected 2026-07-11: Poly WS book quotes the marketSides long=true side; old auto-approver set both pair entries to _no]"
   },
   {
     "id": "aec-wta-marren-mirton-2026-07-11-ton",
@@ -878,8 +878,8 @@
     "id": "aec-wta-elemic-maknin-2026-07-11-mic",
     "kalshi_ticker": "KXWTAMATCH-26JUL11MICNIN-MIC",
     "polymarket_slug": "aec-wta-elemic-maknin-2026-07-11",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = MIC, Poly YES = ELEMIC. K: Micic vs Ninomiya. P: Elena Micic vs. Makoto Ninomiya"
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Kalshi YES = MIC, Poly YES = ELEMIC. K: Micic vs Ninomiya. P: Elena Micic vs. Makoto Ninomiya [direction corrected 2026-07-11: Poly WS book quotes the marketSides long=true side; old auto-approver set both pair entries to _no]"
   },
   {
     "id": "aec-wta-elemic-maknin-2026-07-11-nin",
@@ -899,8 +899,8 @@
     "id": "aec-wta-eletse-yasman-2026-07-11-tse",
     "kalshi_ticker": "KXWTAMATCH-26JUL11TSEMAN-TSE",
     "polymarket_slug": "aec-wta-eletse-yasman-2026-07-11",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = TSE, Poly YES = ELETSE. K: Tsetsou vs Mansouri. P: Eleni Tsetsou vs. Yasmine Mansouri"
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Kalshi YES = TSE, Poly YES = ELETSE. K: Tsetsou vs Mansouri. P: Eleni Tsetsou vs. Yasmine Mansouri [direction corrected 2026-07-11: Poly WS book quotes the marketSides long=true side; old auto-approver set both pair entries to _no]"
   },
   {
     "id": "aec-wta-artasl-madsie-2026-07-11-sie",
@@ -913,15 +913,15 @@
     "id": "aec-wta-artasl-madsie-2026-07-11-asl",
     "kalshi_ticker": "KXWTAMATCH-26JUL11ASLSIE-ASL",
     "polymarket_slug": "aec-wta-artasl-madsie-2026-07-11",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = ASL, Poly YES = ARTASL. K: Aslanisvili vs Sieg. P: Artemis Aslanisvili vs. Madison Sieg"
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Kalshi YES = ASL, Poly YES = ARTASL. K: Aslanisvili vs Sieg. P: Artemis Aslanisvili vs. Madison Sieg [direction corrected 2026-07-11: Poly WS book quotes the marketSides long=true side; old auto-approver set both pair entries to _no]"
   },
   {
     "id": "aec-atp-ottvir-dyldie-2026-07-11-vir",
     "kalshi_ticker": "KXATPMATCH-26JUL11VIRDIE-VIR",
     "polymarket_slug": "aec-atp-ottvir-dyldie-2026-07-11",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = VIR, Poly YES = OTTVIR. K: Virtanen vs Dietrich. P: Otto Virtanen vs. Dylan Dietrich"
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Kalshi YES = VIR, Poly YES = OTTVIR. K: Virtanen vs Dietrich. P: Otto Virtanen vs. Dylan Dietrich [direction corrected 2026-07-11: Poly WS book quotes the marketSides long=true side; old auto-approver set both pair entries to _no]"
   },
   {
     "id": "aec-atp-ottvir-dyldie-2026-07-11-die",
@@ -934,8 +934,8 @@
     "id": "aec-atp-cletab-henjeb-2026-07-11-tab",
     "kalshi_ticker": "KXATPMATCH-26JUL11TABJEB-TAB",
     "polymarket_slug": "aec-atp-cletab-henjeb-2026-07-11",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = TAB, Poly YES = CLETAB. K: Tabur vs Jebens. P: Clement Tabur vs. Hendrik Jebens"
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Kalshi YES = TAB, Poly YES = CLETAB. K: Tabur vs Jebens. P: Clement Tabur vs. Hendrik Jebens [direction corrected 2026-07-11: Poly WS book quotes the marketSides long=true side; old auto-approver set both pair entries to _no]"
   },
   {
     "id": "aec-atp-cletab-henjeb-2026-07-11-jeb",
@@ -948,8 +948,8 @@
     "id": "aec-atp-timska-anicha-2026-07-11-ska",
     "kalshi_ticker": "KXATPMATCH-26JUL11SKACHA-SKA",
     "polymarket_slug": "aec-atp-timska-anicha-2026-07-11",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = SKA, Poly YES = TIMSKA. K: Skatov vs Chandrasekar. P: Timofey Skatov vs. Anirudh Chandrasekar"
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Kalshi YES = SKA, Poly YES = TIMSKA. K: Skatov vs Chandrasekar. P: Timofey Skatov vs. Anirudh Chandrasekar [direction corrected 2026-07-11: Poly WS book quotes the marketSides long=true side; old auto-approver set both pair entries to _no]"
   },
   {
     "id": "aec-atp-timska-anicha-2026-07-11-cha",
@@ -962,8 +962,8 @@
     "id": "aec-atp-danmic-calhem-2026-07-11-mic",
     "kalshi_ticker": "KXATPMATCH-26JUL11MICHEM-MIC",
     "polymarket_slug": "aec-atp-danmic-calhem-2026-07-11",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = MIC, Poly YES = DANMIC. K: Michalski vs Hemery. P: Daniel Michalski vs. Calvin Hemery"
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Kalshi YES = MIC, Poly YES = DANMIC. K: Michalski vs Hemery. P: Daniel Michalski vs. Calvin Hemery [direction corrected 2026-07-11: Poly WS book quotes the marketSides long=true side; old auto-approver set both pair entries to _no]"
   },
   {
     "id": "aec-atp-danmic-calhem-2026-07-11-hem",
@@ -983,8 +983,8 @@
     "id": "aec-atp-fedcin-patzah-2026-07-11-cin",
     "kalshi_ticker": "KXATPMATCH-26JUL11CINZAH-CIN",
     "polymarket_slug": "aec-atp-fedcin-patzah-2026-07-11",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = CIN, Poly YES = FEDCIN. K: Cina vs Zahraj. P: Federico Cina vs. Patrick Zahraj"
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Kalshi YES = CIN, Poly YES = FEDCIN. K: Cina vs Zahraj. P: Federico Cina vs. Patrick Zahraj [direction corrected 2026-07-11: Poly WS book quotes the marketSides long=true side; old auto-approver set both pair entries to _no]"
   },
   {
     "id": "cpc-btc-hitprice-high-yr-12-31-2026-200k-kxbtcmaxy-26dec31",
@@ -1137,8 +1137,8 @@
     "id": "aec-wta-minhod-haocha-2026-07-11-hod",
     "kalshi_ticker": "KXWTAMATCH-26JUL11HODCHA-HOD",
     "polymarket_slug": "aec-wta-minhod-haocha-2026-07-11",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = HOD, Poly YES = MINHOD. K: Hodzic vs Chan. P: Mina Hodzic vs. Hao-Ching Chan"
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Kalshi YES = HOD, Poly YES = MINHOD. K: Hodzic vs Chan. P: Mina Hodzic vs. Hao-Ching Chan [direction corrected 2026-07-11: Poly WS book quotes the marketSides long=true side; old auto-approver set both pair entries to _no]"
   },
   {
     "id": "aec-wta-minhod-haocha-2026-07-11-cha",
@@ -1151,8 +1151,8 @@
     "id": "aec-atp-thimon-pieher-2026-07-11-mon",
     "kalshi_ticker": "KXATPMATCH-26JUL11MONHER-MON",
     "polymarket_slug": "aec-atp-thimon-pieher-2026-07-11",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = MON, Poly YES = THIMON. K: Monteiro vs Herbert. P: Thiago Monteiro vs. Pierre-Hugues Herbert"
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Kalshi YES = MON, Poly YES = THIMON. K: Monteiro vs Herbert. P: Thiago Monteiro vs. Pierre-Hugues Herbert [direction corrected 2026-07-11: Poly WS book quotes the marketSides long=true side; old auto-approver set both pair entries to _no]"
   },
   {
     "id": "aec-atp-thimon-pieher-2026-07-11-her",
@@ -1165,8 +1165,8 @@
     "id": "aec-atp-marhue-edabut-2026-07-11-hue",
     "kalshi_ticker": "KXATPMATCH-26JUL11HUEBUT-HUE",
     "polymarket_slug": "aec-atp-marhue-edabut-2026-07-11",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = HUE, Poly YES = MARHUE. K: Huesler vs Butvilas. P: Marc-Andrea Huesler vs. Edas Butvilas"
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Kalshi YES = HUE, Poly YES = MARHUE. K: Huesler vs Butvilas. P: Marc-Andrea Huesler vs. Edas Butvilas [direction corrected 2026-07-11: Poly WS book quotes the marketSides long=true side; old auto-approver set both pair entries to _no]"
   },
   {
     "id": "aec-atp-marhue-edabut-2026-07-11-but",
@@ -1186,8 +1186,8 @@
     "id": "aec-atp-manman-vitsac-2026-07-11-dha",
     "kalshi_ticker": "KXATPMATCH-26JUL11DHASAC-DHA",
     "polymarket_slug": "aec-atp-manman-vitsac-2026-07-11",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = DHA, Poly YES = MANMAN. K: Dhamne vs Sachko. P: Manoj Dhamne Manas vs. Vitaliy Sachko"
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Kalshi YES = DHA, Poly YES = MANMAN. K: Dhamne vs Sachko. P: Manoj Dhamne Manas vs. Vitaliy Sachko [direction corrected 2026-07-11: Poly WS book quotes the marketSides long=true side; old auto-approver set both pair entries to _no]"
   },
   {
     "id": "arankc-atp-2026-12-31-no1-tayfri-kxatp1rank-26dec31",
@@ -1326,8 +1326,8 @@
     "id": "aec-npb-fsh-trge-2026-07-12-fuk",
     "kalshi_ticker": "KXNPBGAME-26JUL120100TOHFUK-FUK",
     "polymarket_slug": "aec-npb-fsh-trge-2026-07-12",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = FUK, Poly YES = FSH. K: Tohoku Rakuten Golden Eagles vs Fukuoka Hawks. P: Who will win in the upcoming baseball event Fukuoka SoftBank Hawks vs Tohoku Rakuten Golden Eagles scheduled for July 12, 2026 at 5:00 AM UTC?"
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Kalshi YES = FUK, Poly YES = FSH. K: Tohoku Rakuten Golden Eagles vs Fukuoka Hawks. P: Who will win in the upcoming baseball event Fukuoka SoftBank Hawks vs Tohoku Rakuten Golden Eagles scheduled for July 12, 2026 at 5:00 AM UTC? [direction corrected 2026-07-11: Poly WS book quotes the marketSides long=true side; old auto-approver set both pair entries to _no]"
   },
   {
     "id": "aec-npb-fsh-trge-2026-07-12-toh",
@@ -1340,8 +1340,8 @@
     "id": "aec-npb-nhf-ssl-2026-07-12-hok",
     "kalshi_ticker": "KXNPBGAME-26JUL120000SAIHOK-HOK",
     "polymarket_slug": "aec-npb-nhf-ssl-2026-07-12",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = HOK, Poly YES = NHF. K: Saitama Seibu Lions vs Hokkaido Nippon-Ham Fighters. P: Who will win in the upcoming baseball event Nippon Ham Fighters vs Saitama Seibu Lions scheduled for July 12, 2026 at 4:00 AM UTC?"
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Kalshi YES = HOK, Poly YES = NHF. K: Saitama Seibu Lions vs Hokkaido Nippon-Ham Fighters. P: Who will win in the upcoming baseball event Nippon Ham Fighters vs Saitama Seibu Lions scheduled for July 12, 2026 at 4:00 AM UTC? [direction corrected 2026-07-11: Poly WS book quotes the marketSides long=true side; old auto-approver set both pair entries to _no]"
   },
   {
     "id": "aec-npb-nhf-ssl-2026-07-12-sai",
@@ -1368,8 +1368,8 @@
     "id": "aec-npb-fsh-trge-2026-07-11-fuk",
     "kalshi_ticker": "KXNPBGAME-26JUL110500TOHFUK-FUK",
     "polymarket_slug": "aec-npb-fsh-trge-2026-07-11",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = FUK, Poly YES = FSH. K: Tohoku Rakuten Golden Eagles vs Fukuoka Hawks. P: Who will win in the upcoming baseball event Fukuoka SoftBank Hawks vs Tohoku Rakuten Golden Eagles scheduled for July 11, 2026 at 9:00 AM UTC?"
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Kalshi YES = FUK, Poly YES = FSH. K: Tohoku Rakuten Golden Eagles vs Fukuoka Hawks. P: Who will win in the upcoming baseball event Fukuoka SoftBank Hawks vs Tohoku Rakuten Golden Eagles scheduled for July 11, 2026 at 9:00 AM UTC? [direction corrected 2026-07-11: Poly WS book quotes the marketSides long=true side; old auto-approver set both pair entries to _no]"
   },
   {
     "id": "aec-npb-fsh-trge-2026-07-11-toh",
@@ -1396,8 +1396,8 @@
     "id": "aec-npb-nhf-ssl-2026-07-11-hok",
     "kalshi_ticker": "KXNPBGAME-26JUL110100SAIHOK-HOK",
     "polymarket_slug": "aec-npb-nhf-ssl-2026-07-11",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = HOK, Poly YES = NHF. K: Saitama Seibu Lions vs Hokkaido Nippon-Ham Fighters. P: Who will win in the upcoming baseball event Nippon Ham Fighters vs Saitama Seibu Lions scheduled for July 11, 2026 at 5:00 AM UTC?"
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Kalshi YES = HOK, Poly YES = NHF. K: Saitama Seibu Lions vs Hokkaido Nippon-Ham Fighters. P: Who will win in the upcoming baseball event Nippon Ham Fighters vs Saitama Seibu Lions scheduled for July 11, 2026 at 5:00 AM UTC? [direction corrected 2026-07-11: Poly WS book quotes the marketSides long=true side; old auto-approver set both pair entries to _no]"
   },
   {
     "id": "aec-npb-nhf-ssl-2026-07-11-sai",
@@ -1431,15 +1431,15 @@
     "id": "aec-mlc-mny-wfa-2026-07-12-new",
     "kalshi_ticker": "KXT20MATCH-26JUL121630WASNEW-NEW",
     "polymarket_slug": "aec-mlc-mny-wfa-2026-07-12",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = NEW, Poly YES = MNY. K: MI New York vs Washington Freedom. P: Who will win in the upcoming cricket event MI New York vs Washington Freedom scheduled for July 12, 2026 at 8:30 PM UTC?"
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Kalshi YES = NEW, Poly YES = MNY. K: MI New York vs Washington Freedom. P: Who will win in the upcoming cricket event MI New York vs Washington Freedom scheduled for July 12, 2026 at 8:30 PM UTC? [direction corrected 2026-07-11: Poly WS book quotes the marketSides long=true side; old auto-approver set both pair entries to _no]"
   },
   {
     "id": "aec-npb-hta-tys-2026-07-12-han",
     "kalshi_ticker": "KXNPBGAME-26JUL120500YAKHAN-HAN",
     "polymarket_slug": "aec-npb-hta-tys-2026-07-12",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = HAN, Poly YES = HTA. K: Tokyo Yakult Swallows vs Hanshin Tigers. P: Who will win in the upcoming baseball event Hanshin Tigers vs Tokyo Yakult Swallows scheduled for July 12, 2026 at 9:00 AM UTC?"
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Kalshi YES = HAN, Poly YES = HTA. K: Tokyo Yakult Swallows vs Hanshin Tigers. P: Who will win in the upcoming baseball event Hanshin Tigers vs Tokyo Yakult Swallows scheduled for July 12, 2026 at 9:00 AM UTC? [direction corrected 2026-07-11: Poly WS book quotes the marketSides long=true side; old auto-approver set both pair entries to _no]"
   },
   {
     "id": "aec-npb-hta-tys-2026-07-12-yak",
@@ -1459,8 +1459,8 @@
     "id": "aec-npb-clm-obr-2026-07-12-chi",
     "kalshi_ticker": "KXNPBGAME-26JUL120400ORICHI-CHI",
     "polymarket_slug": "aec-npb-clm-obr-2026-07-12",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = CHI, Poly YES = CLM. K: Orix Buffaloes vs Chiba Lotte Marines. P: Who will win in the upcoming baseball event Chiba Lotte Marines vs Orix Buffaloes scheduled for July 12, 2026 at 8:00 AM UTC?"
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Kalshi YES = CHI, Poly YES = CLM. K: Orix Buffaloes vs Chiba Lotte Marines. P: Who will win in the upcoming baseball event Chiba Lotte Marines vs Orix Buffaloes scheduled for July 12, 2026 at 8:00 AM UTC? [direction corrected 2026-07-11: Poly WS book quotes the marketSides long=true side; old auto-approver set both pair entries to _no]"
   },
   {
     "id": "aec-cs2-vita-adn-2026-07-12-adn",
@@ -1487,8 +1487,8 @@
     "id": "aec-mlc-tsk-wfa-2026-07-11-tex",
     "kalshi_ticker": "KXT20MATCH-26JUL111630WASTEX-TEX",
     "polymarket_slug": "aec-mlc-tsk-wfa-2026-07-11",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = TEX, Poly YES = TSK. K: Texas Super Kings vs Washington Freedom. P: Who will win in the upcoming cricket event Texas Super Kings vs Washington Freedom scheduled for July 11, 2026 at 8:30 PM UTC?"
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Kalshi YES = TEX, Poly YES = TSK. K: Texas Super Kings vs Washington Freedom. P: Who will win in the upcoming cricket event Texas Super Kings vs Washington Freedom scheduled for July 11, 2026 at 8:30 PM UTC? [direction corrected 2026-07-11: Poly WS book quotes the marketSides long=true side; old auto-approver set both pair entries to _no]"
   },
   {
     "id": "aec-npb-hta-tys-2026-07-11-yak",
@@ -1501,8 +1501,8 @@
     "id": "aec-npb-hta-tys-2026-07-11-han",
     "kalshi_ticker": "KXNPBGAME-26JUL110500YAKHAN-HAN",
     "polymarket_slug": "aec-npb-hta-tys-2026-07-11",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = HAN, Poly YES = HTA. K: Tokyo Yakult Swallows vs Hanshin Tigers. P: Who will win in the upcoming baseball event Hanshin Tigers vs Tokyo Yakult Swallows scheduled for July 11, 2026 at 9:00 AM UTC?"
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Kalshi YES = HAN, Poly YES = HTA. K: Tokyo Yakult Swallows vs Hanshin Tigers. P: Who will win in the upcoming baseball event Hanshin Tigers vs Tokyo Yakult Swallows scheduled for July 11, 2026 at 9:00 AM UTC? [direction corrected 2026-07-11: Poly WS book quotes the marketSides long=true side; old auto-approver set both pair entries to _no]"
   },
   {
     "id": "aec-npb-clm-obr-2026-07-11-ori",
@@ -1515,8 +1515,8 @@
     "id": "aec-npb-clm-obr-2026-07-11-chi",
     "kalshi_ticker": "KXNPBGAME-26JUL110500ORICHI-CHI",
     "polymarket_slug": "aec-npb-clm-obr-2026-07-11",
-    "direction": "kalshi_yes_eq_poly_no",
-    "notes": "Kalshi YES = CHI, Poly YES = CLM. K: Orix Buffaloes vs Chiba Lotte Marines. P: Who will win in the upcoming baseball event Chiba Lotte Marines vs Orix Buffaloes scheduled for July 11, 2026 at 9:00 AM UTC?"
+    "direction": "kalshi_yes_eq_poly_yes",
+    "notes": "Kalshi YES = CHI, Poly YES = CLM. K: Orix Buffaloes vs Chiba Lotte Marines. P: Who will win in the upcoming baseball event Chiba Lotte Marines vs Orix Buffaloes scheduled for July 11, 2026 at 9:00 AM UTC? [direction corrected 2026-07-11: Poly WS book quotes the marketSides long=true side; old auto-approver set both pair entries to _no]"
   },
   {
     "id": "aec-valorant-blg-wol-2026-07-11-blg",

@@ -9,56 +9,66 @@ from db.arbitrage.collect_orderbooks import KalshiOrderbook, SnapshotWriter, _in
 
 
 class TestKalshiOrderbook:
+    # Payload shapes mirror Kalshi WS v2 messages captured 2026-07-11.
     def test_apply_snapshot(self):
         ob = KalshiOrderbook()
-        ob.apply_snapshot({"yes": [[55, 100], [50, 200]], "no": [[45, 150]], "seq": 0})
-        assert not ob.needs_snapshot
-        assert ob.seq == 0
-        assert ob.yes_bids == {55: 100, 50: 200}
-        assert ob.no_bids == {45: 150}
+        ob.apply_snapshot({
+            "yes_dollars_fp": [["0.5500", "100.00"], ["0.5000", "200.00"]],
+            "no_dollars_fp": [["0.4500", "150.00"]],
+        })
+        assert ob.yes_bids == {0.55: 100.0, 0.50: 200.0}
+        assert ob.no_bids == {0.45: 150.0}
 
-    def test_apply_delta_sequential(self):
+    def test_snapshot_replaces_existing_book(self):
         ob = KalshiOrderbook()
-        ob.apply_snapshot({"yes": [[55, 100]], "no": [], "seq": 0})
-        ok = ob.apply_delta({"yes": [[60, 50]], "no": [], "seq": 1})
-        assert ok
-        assert ob.yes_bids == {55: 100, 60: 50}
+        ob.apply_snapshot({"yes_dollars_fp": [["0.5500", "100.00"]], "no_dollars_fp": []})
+        ob.apply_snapshot({"yes_dollars_fp": [["0.6000", "50.00"]], "no_dollars_fp": []})
+        assert ob.yes_bids == {0.60: 50.0}
 
-    def test_apply_delta_removes_zero_qty(self):
+    def test_apply_delta_new_level(self):
         ob = KalshiOrderbook()
-        ob.apply_snapshot({"yes": [[55, 100]], "no": [], "seq": 0})
-        ob.apply_delta({"yes": [[55, 0]], "no": [], "seq": 1})
-        assert 55 not in ob.yes_bids
+        ob.apply_snapshot({"yes_dollars_fp": [["0.5500", "100.00"]], "no_dollars_fp": []})
+        ob.apply_delta({"side": "yes", "price_dollars": "0.6000", "delta_fp": "50.00"})
+        assert ob.yes_bids == {0.55: 100.0, 0.60: 50.0}
 
-    def test_sequence_gap_triggers_re_snapshot(self):
+    def test_apply_delta_adjusts_level(self):
         ob = KalshiOrderbook()
-        ob.apply_snapshot({"yes": [], "no": [], "seq": 0})
-        ok = ob.apply_delta({"yes": [], "no": [], "seq": 5})
-        assert not ok
-        assert ob.needs_snapshot
+        ob.apply_snapshot({"yes_dollars_fp": [["0.5500", "100.00"]], "no_dollars_fp": []})
+        ob.apply_delta({"side": "yes", "price_dollars": "0.5500", "delta_fp": "-40.00"})
+        assert ob.yes_bids == {0.55: 60.0}
+
+    def test_apply_delta_removes_emptied_level(self):
+        ob = KalshiOrderbook()
+        ob.apply_snapshot({"yes_dollars_fp": [["0.5500", "100.00"]], "no_dollars_fp": []})
+        ob.apply_delta({"side": "yes", "price_dollars": "0.5500", "delta_fp": "-100.00"})
+        assert 0.55 not in ob.yes_bids
+
+    def test_apply_delta_no_side(self):
+        ob = KalshiOrderbook()
+        ob.apply_snapshot({"yes_dollars_fp": [], "no_dollars_fp": [["0.3000", "200.00"]]})
+        ob.apply_delta({"side": "no", "price_dollars": "0.3000", "delta_fp": "-197.00"})
+        assert ob.no_bids == {0.30: 3.0}
 
     def test_best_bid_ask(self):
         ob = KalshiOrderbook()
         ob.apply_snapshot({
-            "yes": [[55, 100], [50, 200]],
-            "no": [[40, 150]],
-            "seq": 0,
+            "yes_dollars_fp": [["0.5500", "100.00"], ["0.5000", "200.00"]],
+            "no_dollars_fp": [["0.4000", "150.00"]],
         })
         bid, ask, bid_sz, ask_sz = ob.best_bid_ask()
         assert bid == 0.55
         assert ask == pytest.approx(0.60)  # 1 - 0.40
-        assert bid_sz == 1.0
-        assert ask_sz == 1.5
+        assert bid_sz == 100.0
+        assert ask_sz == 150.0
 
-    def test_no_bid_to_yes_ask_conversion(self):
+    def test_empty_book(self):
         ob = KalshiOrderbook()
-        ob.apply_snapshot({
-            "yes": [[50, 100]],
-            "no": [[30, 200]],
-            "seq": 0,
-        })
-        _, ask, _, _ = ob.best_bid_ask()
-        assert ask == pytest.approx(0.70)  # YES ask = 1 - NO bid (0.30)
+        ob.apply_snapshot({"yes_dollars_fp": [], "no_dollars_fp": []})
+        bid, ask, bid_sz, ask_sz = ob.best_bid_ask()
+        assert bid == 0.0
+        assert ask == 1.0
+        assert bid_sz == 0.0
+        assert ask_sz == 0.0
 
 
 class TestSnapshotWriter:

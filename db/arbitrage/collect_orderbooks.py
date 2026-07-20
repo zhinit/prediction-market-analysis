@@ -95,55 +95,44 @@ def _now_iso() -> str:
 
 
 class KalshiOrderbook:
+    # Kalshi WS v2 payloads (captured 2026-07-11): snapshots carry the full
+    # book as [price_dollars_str, qty_str] pairs under yes_dollars_fp /
+    # no_dollars_fp; deltas adjust a single price level via side /
+    # price_dollars / delta_fp. seq lives on the message envelope and is
+    # per-connection, so it is tracked in _kalshi_ws, not here.
     def __init__(self) -> None:
-        self.yes_bids: dict[int, int] = {}
-        self.no_bids: dict[int, int] = {}
-        self.seq: int = -1
-        self.needs_snapshot: bool = True
+        self.yes_bids: dict[float, float] = {}
+        self.no_bids: dict[float, float] = {}
 
     def apply_snapshot(self, data: dict) -> None:
         self.yes_bids.clear()
         self.no_bids.clear()
-        for price, qty in data.get("yes", []):
-            self.yes_bids[price] = qty
-        for price, qty in data.get("no", []):
-            self.no_bids[price] = qty
-        self.seq = data.get("seq", 0)
-        self.needs_snapshot = False
+        for price, qty in data.get("yes_dollars_fp", []):
+            self.yes_bids[float(price)] = float(qty)
+        for price, qty in data.get("no_dollars_fp", []):
+            self.no_bids[float(price)] = float(qty)
 
-    def apply_delta(self, data: dict) -> bool:
-        seq = data.get("seq", 0)
-        if self.needs_snapshot or seq != self.seq + 1:
-            self.needs_snapshot = True
-            return False
-        self.seq = seq
-        for price, qty in data.get("yes", []):
-            if qty == 0:
-                self.yes_bids.pop(price, None)
-            else:
-                self.yes_bids[price] = qty
-        for price, qty in data.get("no", []):
-            if qty == 0:
-                self.no_bids.pop(price, None)
-            else:
-                self.no_bids[price] = qty
-        return True
+    def apply_delta(self, data: dict) -> None:
+        book = self.yes_bids if data.get("side") == "yes" else self.no_bids
+        price = float(data["price_dollars"])
+        qty = book.get(price, 0.0) + float(data["delta_fp"])
+        if qty <= 0:
+            book.pop(price, None)
+        else:
+            book[price] = qty
 
     def best_bid_ask(self) -> tuple[float, float, float, float]:
-        # YES best bid
-        best_bid = max(self.yes_bids.keys(), default=0) / 100
-        bid_size = self.yes_bids.get(int(best_bid * 100), 0) / 100
+        best_bid = max(self.yes_bids, default=0.0)
+        bid_size = self.yes_bids.get(best_bid, 0.0)
 
-        # NO bids → YES asks (YES ask = 1 - NO bid price)
-        no_prices = sorted(self.no_bids.keys(), reverse=True)
-        if no_prices:
-            best_no_bid = no_prices[0] / 100
-            yes_ask_from_no = 1.0 - best_no_bid
+        # NO bids → YES asks (YES ask = 1 - best NO bid price)
+        if self.no_bids:
+            best_no_bid = max(self.no_bids)
+            best_ask = 1.0 - best_no_bid
+            ask_size = self.no_bids[best_no_bid]
         else:
-            yes_ask_from_no = 1.0
-
-        best_ask = yes_ask_from_no
-        ask_size = self.no_bids.get(int(no_prices[0]), 0) / 100 if no_prices else 0
+            best_ask = 1.0
+            ask_size = 0.0
 
         return best_bid, best_ask, bid_size, ask_size
 
@@ -186,30 +175,44 @@ async def _kalshi_ws(
                 })
                 await ws.send(sub_msg)
 
-                orderbooks: dict[str, KalshiOrderbook] = {
-                    t: KalshiOrderbook() for t in kalshi_tickers
-                }
+                # Books are created on first snapshot; deltas arriving for a
+                # ticker without a snapshot yet are skipped.
+                orderbooks: dict[str, KalshiOrderbook] = {}
+                conn_seq: int | None = None
 
                 async for raw in ws:
                     if shutdown.is_set():
                         break
                     msg = json.loads(raw)
                     msg_type = msg.get("type")
+                    if msg_type not in ("orderbook_snapshot", "orderbook_delta"):
+                        continue
+
+                    # seq is per-connection: any gap means missed messages for
+                    # unknown tickers, so reconnect for fresh snapshots.
+                    seq = msg.get("seq")
+                    if seq is not None:
+                        if conn_seq is not None and seq != conn_seq + 1:
+                            print(
+                                f"Kalshi: seq gap ({conn_seq} -> {seq}),"
+                                " reconnecting for fresh snapshots",
+                                flush=True,
+                            )
+                            break
+                        conn_seq = seq
+
                     ticker = msg.get("msg", {}).get("market_ticker", "")
-
-                    if ticker not in orderbooks:
+                    if ticker not in kalshi_tickers:
                         continue
 
-                    ob = orderbooks[ticker]
                     if msg_type == "orderbook_snapshot":
+                        ob = orderbooks.setdefault(ticker, KalshiOrderbook())
                         ob.apply_snapshot(msg["msg"])
-                    elif msg_type == "orderbook_delta":
-                        if not ob.apply_delta(msg["msg"]):
-                            print(f"Kalshi: seq gap on {ticker}, requesting re-snapshot", flush=True)
+                    else:
+                        ob = orderbooks.get(ticker)
+                        if ob is None:
                             continue
-
-                    if ob.needs_snapshot:
-                        continue
+                        ob.apply_delta(msg["msg"])
 
                     bid, ask, bid_sz, ask_sz = ob.best_bid_ask()
                     mid = (bid + ask) / 2 if bid > 0 and ask < 1 else 0

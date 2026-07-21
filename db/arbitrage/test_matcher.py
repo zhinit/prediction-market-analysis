@@ -20,6 +20,7 @@ from db.arbitrage.match_markets import (
     group_poly_markets,
     jaccard_score,
     normalize_title,
+    player_prop_teams_match,
     prune_expired_matches,
     sport_types_compatible,
 )
@@ -94,20 +95,124 @@ class TestBetTypesCompatible:
     def test_moneyline_moneyline(self):
         assert bet_types_compatible(
             "KXMLBGAME", "SPORTS_MARKET_TYPE_MONEYLINE",
+            "aec-mlb-tex-nyy-2026-07-10",
         ) is True
 
     def test_moneyline_spread(self):
         assert bet_types_compatible(
             "KXMLBGAME", "SPORTS_MARKET_TYPE_SPREAD",
+            "asc-mlb-tex-nyy-2026-07-10-neg-1pt5",
         ) is False
 
-    def test_none_poly_type(self):
-        assert bet_types_compatible("KXMLBGAME", None) is True
+    def test_none_poly_type_rejected(self):
+        assert bet_types_compatible("KXMLBGAME", None, "some-slug") is False
 
-    def test_poly_moneyline_unknown_kalshi(self):
+    def test_unknown_kalshi_series_rejected(self):
         assert bet_types_compatible(
             "KXSOMETHING", "SPORTS_MARKET_TYPE_MONEYLINE",
+            "aec-mlb-tex-nyy-2026-07-10",
         ) is False
+
+    def test_f5_spread_not_full_game_spread(self):
+        assert bet_types_compatible(
+            "KXMLBF5SPREAD", "SPORTS_MARKET_TYPE_SPREAD",
+            "asc-mlb-stl-laa-2026-07-21-neg-1pt5",
+        ) is False
+
+    def test_f5_total_not_full_game_total(self):
+        assert bet_types_compatible(
+            "KXMLBF5TOTAL", "SPORTS_MARKET_TYPE_TOTAL",
+            "tsc-mlb-stl-laa-2026-07-21-8pt5",
+        ) is False
+
+    def test_games_spread_matches_gs_marker(self):
+        assert bet_types_compatible(
+            "KXATPGSPREAD", "SPORTS_MARKET_TYPE_SPREAD",
+            "asc-atp-a-b-2026-07-22-gs-neg-2pt5",
+        ) is True
+
+    def test_set_winner_never_matches_spread(self):
+        assert bet_types_compatible(
+            "KXWTASETWINNER", "SPORTS_MARKET_TYPE_SPREAD",
+            "asc-wta-a-b-2026-07-22-gs-neg-2pt5",
+        ) is False
+
+    def test_correct_score_never_matches_spread(self):
+        assert bet_types_compatible(
+            "KXMLSSCORE", "SPORTS_MARKET_TYPE_SPREAD",
+            "asc-mls-sje-lag-2026-07-25-neg-2pt5",
+        ) is False
+
+    def test_f5_winner_prop(self):
+        assert bet_types_compatible(
+            "KXMLBF5", "SPORTS_MARKET_TYPE_PROP",
+            "atc-mlb-stl-laa-2026-07-21-f5-laa",
+        ) is True
+
+    def test_extras_not_f5_winner(self):
+        assert bet_types_compatible(
+            "KXMLBEXTRAS", "SPORTS_MARKET_TYPE_PROP",
+            "atc-mlb-stl-laa-2026-07-22-f5-laa",
+        ) is False
+
+    def test_total_bases_prop(self):
+        assert bet_types_compatible(
+            "KXMLBTB", "SPORTS_MARKET_TYPE_PROP",
+            "astatc-mlb-nym-mil-2026-07-21-tb-fralin-gte2",
+        ) is True
+
+    def test_rays_f5_not_total_bases(self):
+        # 'tb' as a team code before the date must not classify as
+        # total-bases; only tail tokens after the date count.
+        assert bet_types_compatible(
+            "KXMLBF5", "SPORTS_MARKET_TYPE_PROP",
+            "atc-mlb-tb-bal-2026-07-21-f5-tb",
+        ) is True
+
+    def test_esports_map_winner(self):
+        assert bet_types_compatible(
+            "KXLOLMAP", "SPORTS_MARKET_TYPE_PROP",
+            "astatc-lol-khk-use-2026-07-22-game1",
+        ) is True
+
+    def test_half_spreads_never_match_full_game(self):
+        # fh = first half, sh = second half; neither is the full-game spread
+        for half in ("fh", "sh"):
+            assert bet_types_compatible(
+                "KXMLSSPREAD", "SPORTS_MARKET_TYPE_SPREAD",
+                f"asc-mls-nyc-chi-2026-07-25-{half}-neg-1pt5",
+            ) is False
+
+    def test_ftts_never_matches_btts(self):
+        assert bet_types_compatible(
+            "KXMLSFTTS", "SPORTS_MARKET_TYPE_PROP",
+            "astatc-mls-sje-lag-2026-07-25-fh-btts",
+        ) is False
+
+
+class TestPlayerPropTeamsMatch:
+    def test_same_game(self):
+        assert player_prop_teams_match(
+            "KXMLBHRR-26JUL211940NYMMIL",
+            "astatc-mlb-nym-mil-2026-07-21-hrr-fraalv-gte1",
+        ) is True
+
+    def test_different_game(self):
+        assert player_prop_teams_match(
+            "KXMLBHRR-26JUL211940SFKC",
+            "astatc-mlb-nym-mil-2026-07-21-hrr-fraalv-gte1",
+        ) is False
+
+    def test_doubleheader_suffix(self):
+        assert player_prop_teams_match(
+            "KXMLBHRR-26JUL21BALDETG1",
+            "astatc-mlb-bal-det-2026-07-21-hrr-gunhen-gte2",
+        ) is True
+
+    def test_unparseable_ticker_passes(self):
+        assert player_prop_teams_match(
+            "KXSOMETHING-WEIRD", "astatc-mlb-nym-mil-2026-07-21-hrr-x-gte1",
+        ) is True
 
 
 class TestDatesOverlap:

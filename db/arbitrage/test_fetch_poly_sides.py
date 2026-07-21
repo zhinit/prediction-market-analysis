@@ -7,6 +7,7 @@ from pathlib import Path
 import httpx
 import pytest
 
+from db.arbitrage.api_models import PolyMarketDetail
 from db.arbitrage.fetch_poly_sides import (
     extract_yes_side,
     fetch_sides,
@@ -20,30 +21,34 @@ def _detail() -> dict:
     return json.loads((FIXTURES / "poly_market_detail.json").read_text())
 
 
+def _market() -> PolyMarketDetail:
+    return PolyMarketDetail.model_validate(_detail()["market"])
+
+
 class TestExtractYesSide:
     def test_long_side_is_yes(self):
-        yes = extract_yes_side(_detail()["market"])
+        yes = extract_yes_side(_market())
         assert yes["name"] == "Texas Rangers"
         assert yes["abbreviation"] == "tex"
         assert yes["description"] == "Texas Rangers"
 
     def test_no_long_side_raises(self):
-        market = _detail()["market"]
-        for side in market["marketSides"]:
-            side["long"] = False
+        market = _market()
+        for side in market.market_sides:
+            side.long = False
         with pytest.raises(ValueError, match="got 0"):
             extract_yes_side(market)
 
     def test_multiple_long_sides_raises(self):
-        market = _detail()["market"]
-        for side in market["marketSides"]:
-            side["long"] = True
+        market = _market()
+        for side in market.market_sides:
+            side.long = True
         with pytest.raises(ValueError, match="got 2"):
             extract_yes_side(market)
 
     def test_missing_team_falls_back_to_description(self):
-        market = _detail()["market"]
-        del market["marketSides"][0]["team"]
+        market = _market()
+        market.market_sides[0].team = None
         yes = extract_yes_side(market)
         assert yes["name"] is None
         assert yes["description"] == "Texas Rangers"

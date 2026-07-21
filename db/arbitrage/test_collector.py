@@ -1,60 +1,77 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import duckdb
 import pytest
 
 from db.arbitrage.collect_orderbooks import KalshiOrderbook, SnapshotWriter, _init_db
+from db.arbitrage.ws_models import KalshiDelta, KalshiSnapshot
+
+
+def _snap(yes=(), no=()):
+    return KalshiSnapshot.model_validate({
+        "market_ticker": "T",
+        "yes_dollars_fp": list(yes),
+        "no_dollars_fp": list(no),
+    })
+
+
+def _delta(side, price, delta):
+    return KalshiDelta.model_validate({
+        "market_ticker": "T", "side": side,
+        "price_dollars": price, "delta_fp": delta,
+    })
 
 
 class TestKalshiOrderbook:
     # Payload shapes mirror Kalshi WS v2 messages captured 2026-07-11.
     def test_apply_snapshot(self):
         ob = KalshiOrderbook()
-        ob.apply_snapshot({
-            "yes_dollars_fp": [["0.5500", "100.00"], ["0.5000", "200.00"]],
-            "no_dollars_fp": [["0.4500", "150.00"]],
-        })
+        ob.apply_snapshot(_snap(
+            yes=[["0.5500", "100.00"], ["0.5000", "200.00"]],
+            no=[["0.4500", "150.00"]],
+        ))
         assert ob.yes_bids == {0.55: 100.0, 0.50: 200.0}
         assert ob.no_bids == {0.45: 150.0}
 
     def test_snapshot_replaces_existing_book(self):
         ob = KalshiOrderbook()
-        ob.apply_snapshot({"yes_dollars_fp": [["0.5500", "100.00"]], "no_dollars_fp": []})
-        ob.apply_snapshot({"yes_dollars_fp": [["0.6000", "50.00"]], "no_dollars_fp": []})
+        ob.apply_snapshot(_snap(yes=[["0.5500", "100.00"]]))
+        ob.apply_snapshot(_snap(yes=[["0.6000", "50.00"]]))
         assert ob.yes_bids == {0.60: 50.0}
 
     def test_apply_delta_new_level(self):
         ob = KalshiOrderbook()
-        ob.apply_snapshot({"yes_dollars_fp": [["0.5500", "100.00"]], "no_dollars_fp": []})
-        ob.apply_delta({"side": "yes", "price_dollars": "0.6000", "delta_fp": "50.00"})
+        ob.apply_snapshot(_snap(yes=[["0.5500", "100.00"]]))
+        ob.apply_delta(_delta("yes", "0.6000", "50.00"))
         assert ob.yes_bids == {0.55: 100.0, 0.60: 50.0}
 
     def test_apply_delta_adjusts_level(self):
         ob = KalshiOrderbook()
-        ob.apply_snapshot({"yes_dollars_fp": [["0.5500", "100.00"]], "no_dollars_fp": []})
-        ob.apply_delta({"side": "yes", "price_dollars": "0.5500", "delta_fp": "-40.00"})
+        ob.apply_snapshot(_snap(yes=[["0.5500", "100.00"]]))
+        ob.apply_delta(_delta("yes", "0.5500", "-40.00"))
         assert ob.yes_bids == {0.55: 60.0}
 
     def test_apply_delta_removes_emptied_level(self):
         ob = KalshiOrderbook()
-        ob.apply_snapshot({"yes_dollars_fp": [["0.5500", "100.00"]], "no_dollars_fp": []})
-        ob.apply_delta({"side": "yes", "price_dollars": "0.5500", "delta_fp": "-100.00"})
+        ob.apply_snapshot(_snap(yes=[["0.5500", "100.00"]]))
+        ob.apply_delta(_delta("yes", "0.5500", "-100.00"))
         assert 0.55 not in ob.yes_bids
 
     def test_apply_delta_no_side(self):
         ob = KalshiOrderbook()
-        ob.apply_snapshot({"yes_dollars_fp": [], "no_dollars_fp": [["0.3000", "200.00"]]})
-        ob.apply_delta({"side": "no", "price_dollars": "0.3000", "delta_fp": "-197.00"})
+        ob.apply_snapshot(_snap(no=[["0.3000", "200.00"]]))
+        ob.apply_delta(_delta("no", "0.3000", "-197.00"))
         assert ob.no_bids == {0.30: 3.0}
 
     def test_best_bid_ask(self):
         ob = KalshiOrderbook()
-        ob.apply_snapshot({
-            "yes_dollars_fp": [["0.5500", "100.00"], ["0.5000", "200.00"]],
-            "no_dollars_fp": [["0.4000", "150.00"]],
-        })
+        ob.apply_snapshot(_snap(
+            yes=[["0.5500", "100.00"], ["0.5000", "200.00"]],
+            no=[["0.4000", "150.00"]],
+        ))
         bid, ask, bid_sz, ask_sz = ob.best_bid_ask()
         assert bid == 0.55
         assert ask == pytest.approx(0.60)  # 1 - 0.40
@@ -63,7 +80,7 @@ class TestKalshiOrderbook:
 
     def test_empty_book(self):
         ob = KalshiOrderbook()
-        ob.apply_snapshot({"yes_dollars_fp": [], "no_dollars_fp": []})
+        ob.apply_snapshot(_snap())
         bid, ask, bid_sz, ask_sz = ob.best_bid_ask()
         assert bid == 0.0
         assert ask == 1.0
@@ -141,13 +158,78 @@ class TestSnapshotWriter:
         con2.close()
 
 
-class TestPolyPriceParsing:
-    def test_nested_px_value(self):
-        entry = {"px": {"value": "0.423", "currency": "USD"}, "qty": "10"}
-        price = float(entry["px"]["value"])
-        assert price == pytest.approx(0.423)
+# Polymarket message parsing is covered by test_ws_models.py.
 
-    def test_qty_parsing(self):
-        entry = {"px": {"value": "0.55", "currency": "USD"}, "qty": "25.5"}
-        qty = float(entry["qty"])
-        assert qty == pytest.approx(25.5)
+
+class TestLoadMatches:
+    def test_past_event_dates_skipped(self, tmp_path, monkeypatch):
+        import db.arbitrage.collect_orderbooks as co
+
+        path = tmp_path / "matches.json"
+        path.write_text(json.dumps([
+            {"id": "past", "kalshi_ticker": "K1", "polymarket_slug": "s1",
+             "direction": "kalshi_yes_eq_poly_yes", "event_date": "2000-01-01"},
+            {"id": "future", "kalshi_ticker": "K2", "polymarket_slug": "s2",
+             "direction": "kalshi_yes_eq_poly_yes", "event_date": "2100-01-01"},
+            {"id": "undated", "kalshi_ticker": "K3", "polymarket_slug": "s3",
+             "direction": "kalshi_yes_eq_poly_yes"},
+        ]))
+        monkeypatch.setattr(co, "_MATCHES_PATH", path)
+        ids = {m["id"] for m in co._load_matches()}
+        assert ids == {"future", "undated"}
+
+
+class TestCrossedBookPolicy:
+    def test_blacklists_at_threshold(self):
+        from db.arbitrage.collect_orderbooks import CrossedBookPolicy
+        p = CrossedBookPolicy(threshold=3)
+        assert p.record_crossed("T") is False
+        assert p.record_crossed("T") is False
+        assert p.record_crossed("T") is True  # threshold hit
+        assert "T" in p.blacklist
+        assert p.record_crossed("T") is False  # already blacklisted
+
+    def test_valid_book_resets_streak(self):
+        from db.arbitrage.collect_orderbooks import CrossedBookPolicy
+        p = CrossedBookPolicy(threshold=2)
+        p.record_crossed("T")
+        p.record_valid("T")
+        assert p.record_crossed("T") is False
+        assert "T" not in p.blacklist
+
+    def test_streaks_are_per_ticker(self):
+        from db.arbitrage.collect_orderbooks import CrossedBookPolicy
+        p = CrossedBookPolicy(threshold=2)
+        p.record_crossed("A")
+        p.record_crossed("B")
+        assert p.blacklist == set()
+        p.record_crossed("A")
+        assert p.blacklist == {"A"}
+
+
+class TestSleepBackoff:
+    def test_jittered_and_doubles(self, monkeypatch):
+        import asyncio
+
+        import db.arbitrage.collect_orderbooks as co
+
+        sleeps = []
+
+        async def fake_sleep(d):
+            sleeps.append(d)
+
+        monkeypatch.setattr(co.asyncio, "sleep", fake_sleep)
+        nxt = asyncio.run(co._sleep_backoff("X", Exception("boom"), 4.0))
+        assert nxt == 8.0
+        assert 4.0 <= sleeps[0] <= 8.0  # base + full jitter
+
+    def test_caps_at_60(self, monkeypatch):
+        import asyncio
+
+        import db.arbitrage.collect_orderbooks as co
+
+        async def fake_sleep(d):
+            pass
+
+        monkeypatch.setattr(co.asyncio, "sleep", fake_sleep)
+        assert asyncio.run(co._sleep_backoff("X", Exception("boom"), 60.0)) == 60.0

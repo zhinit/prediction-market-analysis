@@ -95,6 +95,25 @@ class TestKalshiAdapter:
         assert len(markets) == 2
         await adapter.close()
 
+    @pytest.mark.asyncio
+    async def test_fetch_events_skips_invalid(self, adapter):
+        resp = httpx.Response(200, request=_FAKE_REQUEST, json={
+            "events": [
+                {"event_ticker": "EV1", "title": "Event 1"},
+                {"title": "no ticker"},
+                {"event_ticker": ""},
+            ],
+            "cursor": None,
+        })
+
+        async def mock_request(*args, **kwargs):
+            return resp
+
+        adapter._client.request = mock_request
+        events = await adapter.fetch_events()
+        assert [e["event_ticker"] for e in events] == ["EV1"]
+        await adapter.close()
+
     def test_parse_kalshi_fixture(self):
         data = json.loads((FIXTURES / "kalshi_events.json").read_text())
         events = data["events"]
@@ -171,6 +190,23 @@ class TestPolyAdapter:
         await adapter.fetch_markets(end_date_min="2026-07-10T00:00:00Z")
         assert "endDateMin" in captured_params
         assert captured_params["endDateMin"] == "2026-07-10T00:00:00Z"
+        await adapter.close()
+
+    @pytest.mark.asyncio
+    async def test_fetch_markets_skips_invalid(self, adapter):
+        resp = httpx.Response(200, request=_FAKE_REQUEST, json=[
+            {"slug": "good-market", "question": "Q"},
+            {"question": "no slug"},
+            {"slug": ""},
+        ])
+        responses = iter([resp, httpx.Response(200, request=_FAKE_REQUEST, json=[])])
+
+        async def mock_request(*args, **kwargs):
+            return next(responses)
+
+        adapter._client.request = mock_request
+        markets = await adapter.fetch_markets(end_date_min="2026-07-10T00:00:00Z")
+        assert [m["slug"] for m in markets] == ["good-market"]
         await adapter.close()
 
     def test_parse_poly_fixture(self):

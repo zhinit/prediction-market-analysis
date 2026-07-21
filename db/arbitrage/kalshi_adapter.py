@@ -12,6 +12,12 @@ from tenacity import (
     wait_exponential_jitter,
 )
 
+from db.arbitrage.api_models import (
+    KalshiEvent,
+    KalshiMarket,
+    KalshiSeries,
+    validate_items,
+)
 from db.shared.auth import load_rsa_key, sign_rsa
 
 _BASE_URL = "https://external-api.kalshi.com/trade-api/v2"
@@ -75,7 +81,10 @@ class KalshiAdapter:
     async def fetch_series(self) -> list[dict[str, Any]]:
         resp = await self._request("GET", "/series")
         series_list = resp if isinstance(resp, list) else resp.get("series", [])
-        return series_list
+        return [
+            s.model_dump(exclude_none=True)
+            for s in validate_items(KalshiSeries, series_list, label="Kalshi series")
+        ]
 
     async def fetch_events(self, *, status: str = "open") -> list[dict[str, Any]]:
         events: list[dict[str, Any]] = []
@@ -89,12 +98,21 @@ class KalshiAdapter:
             cursor = resp.get("cursor")
             if not cursor:
                 break
-        return events
+        return [
+            e.model_dump(exclude_none=True)
+            for e in validate_items(KalshiEvent, events, label="Kalshi events")
+        ]
 
     async def fetch_event_markets(self, event_ticker: str) -> list[dict[str, Any]]:
         params: dict[str, Any] = {"event_ticker": event_ticker, "limit": 200}
         resp = await self._request("GET", "/markets", params=params)
-        return resp.get("markets", [])
+        return [
+            m.model_dump(exclude_none=True)
+            for m in validate_items(
+                KalshiMarket, resp.get("markets", []),
+                label=f"Kalshi markets ({event_ticker})",
+            )
+        ]
 
     async def close(self) -> None:
         await self._client.aclose()

@@ -7,14 +7,25 @@ Find and verify cross-platform market matches between Kalshi and Polymarket US.
    uv run python -m db.arbitrage.match_markets
    ```
 2. Read `db/arbitrage/candidates.json`. If empty or missing, report "no new candidates" and stop.
-3. For each candidate, review against this checklist. Scope is sports only (project decision, 2026-07-21) — any league, any bet type. Reject non-sports candidates as out of scope; reject sports candidates only if they fail the checklist:
+3. Run the verifier — it fetches the Poly YES sides, applies the checklist below mechanically, appends approvals to `matches.json` and rejections to `rejected_matches.json`, and writes anything it cannot decide to `flagged_candidates.json`:
+   ```
+   uv run python -m db.arbitrage.verify_candidates
+   ```
+4. Review `db/arbitrage/flagged_candidates.json`. For each flagged candidate, apply the checklist below manually and append to `matches.json` or `rejected_matches.json` yourself (schemas below). A flag usually means new wording or a new market type — if it recurs, extend `verify_candidates.py` rather than hand-processing it every run.
+5. Spot-check a few newly appended entries against the checklist before finishing.
+
+## Checklist
+
+Scope is sports only (project decision, 2026-07-21) — any league, any bet type. Reject non-sports candidates as out of scope; reject sports candidates only if they fail the checklist:
    - **Same event?** Do both sides refer to the same real-world event?
    - **Same date?** Check `strike_date` (Kalshi) vs slug/question date (Poly). Must match exactly.
    - **Same bet type?** Moneyline↔moneyline, spread↔spread, total↔total, prop↔prop, etc.
    - **Correct Kalshi sub-market / ticker?** Look at `kalshi_markets` — pick the ticker whose `yes_sub_title` matches the Polymarket YES side. For multi-outcome markets (e.g., "Person of the Year", Senate races), match each Poly market to the corresponding Kalshi sub-market by name.
    - **Direction**: follow the Direction section below — never inferred from slugs, home/away, or question wording alone.
-4. For sports games with 2 Kalshi sub-markets (one per team) and 1 Poly market, create TWO match entries — one per team. The sub-market naming the Poly YES side (see Direction) gets `kalshi_yes_eq_poly_yes`; the other gets `kalshi_yes_eq_poly_no`. Each pair must have one of each direction — two identical directions on a pair is always a bug.
-5. For each approved match, append to `db/arbitrage/matches.json`:
+
+For games with exactly 2 Kalshi sub-markets (one per team) and 1 Poly market, create TWO match entries — one per team. The sub-market naming the Poly YES side (see Direction) gets `kalshi_yes_eq_poly_yes`; the other gets `kalshi_yes_eq_poly_no`. Each pair must have one of each direction — two identical directions on a pair is always a bug. When a Tie/third-outcome sub-market exists (soccer, MLB F5), create only the YES-side entry: the other team's sub-market is not the complement of the Poly market.
+
+Approved match schema (`db/arbitrage/matches.json`):
    ```json
    {
      "id": "<polymarket_slug>-<team_or_outcome_suffix>",
@@ -27,7 +38,8 @@ Find and verify cross-platform market matches between Kalshi and Polymarket US.
    }
    ```
    `event_date` is the date of the real-world event (the matched date from the checklist); the matcher script uses it to prune expired matches automatically.
-6. For each rejected match, append to `db/arbitrage/rejected_matches.json` with a specific reason why it failed the checklist:
+
+Rejection schema (`db/arbitrage/rejected_matches.json`) — always include a specific reason:
    ```json
    {
      "kalshi_event_ticker": "<event_ticker>",

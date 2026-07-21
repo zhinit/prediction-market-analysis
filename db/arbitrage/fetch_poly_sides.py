@@ -18,11 +18,18 @@ from pathlib import Path
 from typing import Any
 
 import httpx
+from pydantic import ValidationError
 from tenacity import (
     retry,
     retry_if_exception_type,
     stop_after_attempt,
     wait_exponential_jitter,
+)
+
+from db.arbitrage.api_models import (
+    PolyMarketDetail,
+    PolyMarketDetailResponse,
+    PolySideTeam,
 )
 
 _BASE_URL = "https://gateway.polymarket.us"
@@ -37,20 +44,19 @@ _TRANSIENT = (
 )
 
 
-def extract_yes_side(market: dict[str, Any]) -> dict[str, Any]:
-    sides = market.get("marketSides") or []
-    long_sides = [s for s in sides if s.get("long") is True]
+def extract_yes_side(market: PolyMarketDetail) -> dict[str, Any]:
+    long_sides = [s for s in market.market_sides if s.long is True]
     if len(long_sides) != 1:
         raise ValueError(
             f"expected exactly one marketSides entry with long=true, "
             f"got {len(long_sides)}"
         )
     side = long_sides[0]
-    team = side.get("team") or {}
+    team = side.team or PolySideTeam()
     return {
-        "name": team.get("name"),
-        "abbreviation": team.get("abbreviation"),
-        "description": side.get("description"),
+        "name": team.name,
+        "abbreviation": team.abbreviation,
+        "description": side.description,
     }
 
 
@@ -98,14 +104,18 @@ async def fetch_sides(
                     resp = await _fetch_detail(client, base_url, slug)
                 except httpx.HTTPError as e:
                     return {"slug": slug, "error": str(e)}
-            market = resp.get("market") or {}
+            try:
+                detail = PolyMarketDetailResponse.model_validate(resp)
+            except ValidationError as e:
+                return {"slug": slug, "error": str(e)}
+            market = detail.market or PolyMarketDetail()
             try:
                 yes_side = extract_yes_side(market)
             except ValueError as e:
                 return {"slug": slug, "error": str(e)}
             return {
                 "slug": slug,
-                "question": market.get("question"),
+                "question": market.question,
                 "yes_side": yes_side,
             }
 

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import random
 import signal
 import time
 from datetime import datetime, timezone
@@ -9,8 +10,16 @@ from pathlib import Path
 
 import duckdb
 import websockets
+from datetime import date
 from dotenv import load_dotenv
+from pydantic import ValidationError
 
+from db.arbitrage.ws_models import (
+    KalshiDelta,
+    KalshiEnvelope,
+    KalshiSnapshot,
+    PolyEnvelope,
+)
 from db.shared.auth import load_ed25519_key, load_rsa_key, require_env, sign_ed25519, sign_rsa
 
 _MATCHES_PATH = Path("db/arbitrage/matches.json")
@@ -23,8 +32,34 @@ _BATCH_SIZE = 100
 _FLUSH_INTERVAL = 30.0
 
 # Consecutive crossed (best_bid >= best_ask) reconstructions on one market
-# before the connection is reset to pull fresh snapshots.
-_CROSSED_RESNAPSHOT = 25
+# before it is blacklisted for the session.
+_CROSSED_BLACKLIST = 25
+
+
+class CrossedBookPolicy:
+    """A book that stays crossed for _CROSSED_BLACKLIST consecutive
+    reconstructions is a dead market (settled/halted), not stale local
+    state: drop it for the session instead of reconnecting the whole feed,
+    which re-snapshots every market (observed thrashing 2026-07-21).
+    Session-only: a collector restart retries everything."""
+
+    def __init__(self, threshold: int = _CROSSED_BLACKLIST) -> None:
+        self._threshold = threshold
+        self._streaks: dict[str, int] = {}
+        self.blacklist: set[str] = set()
+
+    def record_crossed(self, ticker: str) -> bool:
+        """Count a crossed reconstruction; True when this crossing
+        blacklists the ticker."""
+        streak = self._streaks.get(ticker, 0) + 1
+        self._streaks[ticker] = streak
+        if streak >= self._threshold and ticker not in self.blacklist:
+            self.blacklist.add(ticker)
+            return True
+        return False
+
+    def record_valid(self, ticker: str) -> None:
+        self._streaks[ticker] = 0
 
 
 def _init_db(path: Path) -> duckdb.DuckDBPyConnection:
@@ -65,7 +100,19 @@ def _load_matches() -> list[dict]:
     matches = json.loads(_MATCHES_PATH.read_text())
     if not matches:
         raise SystemExit(f"{_MATCHES_PATH} is empty. Run /matcher first.")
-    return matches
+    # Skip finished events (same rule as the matcher's expiry pruning):
+    # their books are degenerate and, on Kalshi, permanently crossed,
+    # which thrashes the reconnect logic (observed 2026-07-21).
+    today = date.today().isoformat()
+    live = [
+        m for m in matches
+        if not m.get("event_date") or m["event_date"] >= today
+    ]
+    if skipped := len(matches) - len(live):
+        print(f"Skipping {skipped} matches with past event_date")
+    if not live:
+        raise SystemExit("All matches have past event dates. Run /matcher first.")
+    return live
 
 
 class SnapshotWriter:
@@ -129,32 +176,49 @@ def _now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
+async def _sleep_backoff(name: str, err: Exception, backoff: float) -> float:
+    """Jittered exponential reconnect delay; returns the next backoff base."""
+    delay = backoff + random.uniform(0, backoff)
+    print(f"{name} error: {err}. Reconnecting in {delay:.1f}s...", flush=True)
+    await asyncio.sleep(delay)
+    return min(backoff * 2, 60)
+
+
+def _auth_rejected(name: str, e: websockets.exceptions.InvalidStatus) -> bool:
+    """A 401/403 handshake is bad credentials: retrying cannot help."""
+    if e.response.status_code in (401, 403):
+        print(
+            f"{name}: handshake rejected ({e.response.status_code}); "
+            "check credentials. Stopping.",
+            flush=True,
+        )
+        return True
+    return False
+
+
 class KalshiOrderbook:
-    # Kalshi WS v2 payloads (captured 2026-07-11): snapshots carry the full
-    # book as [price_dollars_str, qty_str] pairs under yes_dollars_fp /
-    # no_dollars_fp; deltas adjust a single price level via side /
-    # price_dollars / delta_fp. seq lives on the message envelope and is
+    # Message shapes are validated by the ws_models pydantic models before
+    # they reach this book state. seq lives on the message envelope and is
     # per-connection, so it is tracked in _kalshi_ws, not here.
     def __init__(self) -> None:
         self.yes_bids: dict[float, float] = {}
         self.no_bids: dict[float, float] = {}
 
-    def apply_snapshot(self, data: dict) -> None:
+    def apply_snapshot(self, data: KalshiSnapshot) -> None:
         self.yes_bids.clear()
         self.no_bids.clear()
-        for price, qty in data.get("yes_dollars_fp", []):
-            self.yes_bids[float(price)] = float(qty)
-        for price, qty in data.get("no_dollars_fp", []):
-            self.no_bids[float(price)] = float(qty)
+        for price, qty in data.yes_dollars_fp:
+            self.yes_bids[price] = qty
+        for price, qty in data.no_dollars_fp:
+            self.no_bids[price] = qty
 
-    def apply_delta(self, data: dict) -> None:
-        book = self.yes_bids if data.get("side") == "yes" else self.no_bids
-        price = float(data["price_dollars"])
-        qty = book.get(price, 0.0) + float(data["delta_fp"])
+    def apply_delta(self, data: KalshiDelta) -> None:
+        book = self.yes_bids if data.side == "yes" else self.no_bids
+        qty = book.get(data.price_dollars, 0.0) + data.delta_fp
         if qty <= 0:
-            book.pop(price, None)
+            book.pop(data.price_dollars, None)
         else:
-            book[price] = qty
+            book[data.price_dollars] = qty
 
     def best_bid_ask(self) -> tuple[float, float, float, float]:
         best_bid = max(self.yes_bids, default=0.0)
@@ -184,8 +248,13 @@ async def _kalshi_ws(
     if not kalshi_tickers:
         return
 
+    policy = CrossedBookPolicy()
     backoff = 1.0
     while not shutdown.is_set():
+        live_tickers = [t for t in kalshi_tickers if t not in policy.blacklist]
+        if not live_tickers:
+            print("Kalshi WS: all tickers blacklisted, stopping feed", flush=True)
+            return
         try:
             timestamp, signature = sign_rsa(private_key, "GET", "/trade-api/ws/v2")
             headers = {
@@ -205,7 +274,7 @@ async def _kalshi_ws(
                     "cmd": "subscribe",
                     "params": {
                         "channels": ["orderbook_delta"],
-                        "market_tickers": list(kalshi_tickers.keys()),
+                        "market_tickers": live_tickers,
                     },
                 })
                 await ws.send(sub_msg)
@@ -214,62 +283,70 @@ async def _kalshi_ws(
                 # ticker without a snapshot yet are skipped.
                 orderbooks: dict[str, KalshiOrderbook] = {}
                 conn_seq: int | None = None
-                # A reconstructed book that reports best_bid >= best_ask is
-                # locked/crossed and therefore corrupt (a real book cannot
-                # cross). Never record such a state; if one market stays
-                # crossed, the local book is stale, so reconnect to force a
-                # fresh snapshot for every market on this connection.
-                crossed_streak: dict[str, int] = {}
 
                 async for raw in ws:
                     if shutdown.is_set():
                         break
-                    msg = json.loads(raw)
-                    msg_type = msg.get("type")
-                    if msg_type not in ("orderbook_snapshot", "orderbook_delta"):
+                    try:
+                        envelope = KalshiEnvelope.model_validate_json(raw)
+                    except ValidationError as e:
+                        print(f"Kalshi: invalid message skipped: {e}", flush=True)
+                        continue
+                    if envelope.type not in ("orderbook_snapshot", "orderbook_delta"):
                         continue
 
                     # seq is per-connection: any gap means missed messages for
                     # unknown tickers, so reconnect for fresh snapshots.
-                    seq = msg.get("seq")
-                    if seq is not None:
-                        if conn_seq is not None and seq != conn_seq + 1:
+                    if envelope.seq is not None:
+                        if conn_seq is not None and envelope.seq != conn_seq + 1:
                             print(
-                                f"Kalshi: seq gap ({conn_seq} -> {seq}),"
+                                f"Kalshi: seq gap ({conn_seq} -> {envelope.seq}),"
                                 " reconnecting for fresh snapshots",
                                 flush=True,
                             )
                             break
-                        conn_seq = seq
+                        conn_seq = envelope.seq
 
-                    ticker = msg.get("msg", {}).get("market_ticker", "")
-                    if ticker not in kalshi_tickers:
+                    try:
+                        if envelope.type == "orderbook_snapshot":
+                            payload = KalshiSnapshot.model_validate(envelope.msg)
+                        else:
+                            payload = KalshiDelta.model_validate(envelope.msg)
+                    except ValidationError as e:
+                        print(
+                            f"Kalshi: invalid {envelope.type} skipped: {e}",
+                            flush=True,
+                        )
                         continue
 
-                    if msg_type == "orderbook_snapshot":
+                    ticker = payload.market_ticker
+                    if ticker not in kalshi_tickers or ticker in policy.blacklist:
+                        continue
+
+                    if isinstance(payload, KalshiSnapshot):
                         ob = orderbooks.setdefault(ticker, KalshiOrderbook())
-                        ob.apply_snapshot(msg["msg"])
+                        ob.apply_snapshot(payload)
                     else:
                         ob = orderbooks.get(ticker)
                         if ob is None:
                             continue
-                        ob.apply_delta(msg["msg"])
+                        ob.apply_delta(payload)
 
                     bid, ask, bid_sz, ask_sz = ob.best_bid_ask()
 
-                    # Drop corrupt (crossed) states; reconnect if one persists.
+                    # Never record a crossed state; a persistently crossed
+                    # book is a dead market and gets dropped for the session.
                     if bid >= ask:
-                        streak = crossed_streak.get(ticker, 0) + 1
-                        crossed_streak[ticker] = streak
-                        if streak >= _CROSSED_RESNAPSHOT:
+                        if policy.record_crossed(ticker):
                             print(
-                                f"Kalshi: {ticker} crossed {streak}x, "
-                                "reconnecting for fresh snapshots",
+                                f"Kalshi: {ticker} crossed "
+                                f"{_CROSSED_BLACKLIST}x, blacklisting for "
+                                "this session",
                                 flush=True,
                             )
-                            break
+                            orderbooks.pop(ticker, None)
                         continue
-                    crossed_streak[ticker] = 0
+                    policy.record_valid(ticker)
 
                     mid = (bid + ask) / 2 if bid > 0 and ask < 1 else 0
                     writer.add({
@@ -277,19 +354,24 @@ async def _kalshi_ws(
                         "platform": "kalshi",
                         "market_id": ticker,
                         "match_id": kalshi_tickers[ticker],
-                        "best_bid": str(round(bid, 4)),
-                        "best_ask": str(round(ask, 4)),
-                        "bid_size": str(round(bid_sz, 2)),
-                        "ask_size": str(round(ask_sz, 2)),
-                        "mid_price": str(round(mid, 4)),
+                        "best_bid": str(bid),
+                        "best_ask": str(ask),
+                        "bid_size": str(bid_sz),
+                        "ask_size": str(ask_sz),
+                        "mid_price": str(mid),
                     })
 
+        except websockets.exceptions.InvalidStatus as e:
+            if shutdown.is_set():
+                break
+            if _auth_rejected("Kalshi WS", e):
+                shutdown.set()
+                break
+            backoff = await _sleep_backoff("Kalshi WS", e, backoff)
         except Exception as e:
             if shutdown.is_set():
                 break
-            print(f"Kalshi WS error: {e}. Reconnecting in {backoff:.0f}s...", flush=True)
-            await asyncio.sleep(backoff)
-            backoff = min(backoff * 2, 60)
+            backoff = await _sleep_backoff("Kalshi WS", e, backoff)
 
 
 async def _poly_ws(
@@ -341,63 +423,67 @@ async def _poly_ws(
                 async for raw in ws:
                     if shutdown.is_set():
                         break
-                    msg = json.loads(raw)
-
-                    if "error" in msg:
-                        print(f"Polymarket WS error msg: {msg['error']}", flush=True)
+                    try:
+                        envelope = PolyEnvelope.model_validate_json(raw)
+                    except ValidationError as e:
+                        print(f"Polymarket: invalid message skipped: {e}", flush=True)
                         continue
 
-                    md = msg.get("marketData", {})
-                    if not md:
+                    if envelope.error is not None:
+                        print(f"Polymarket WS error msg: {envelope.error}", flush=True)
                         continue
-                    slug = md.get("marketSlug", "")
+
+                    md = envelope.market_data
+                    if md is None:
+                        continue
+                    slug = md.market_slug
                     if slug not in slug_to_matches:
                         continue
 
+                    # Books are stored exactly as received (Poly's own YES
+                    # basis). Direction normalisation onto the Kalshi YES basis
+                    # happens in prepare_arb_analysis, so the raw capture stays
+                    # recoverable if a match's direction is ever corrected.
+                    best_bid = 0.0
+                    bid_size = 0.0
+                    if md.bids:
+                        top = max(md.bids, key=lambda level: level.px.value)
+                        best_bid = top.px.value
+                        bid_size = top.qty
+
+                    best_ask = 1.0
+                    ask_size = 0.0
+                    if md.offers:
+                        top = min(md.offers, key=lambda level: level.px.value)
+                        best_ask = top.px.value
+                        ask_size = top.qty
+
+                    mid = (best_bid + best_ask) / 2 if best_bid > 0 and best_ask < 1 else 0
+
                     for match_info in slug_to_matches[slug]:
-                        bids = md.get("bids", [])
-                        offers = md.get("offers", [])
-
-                        best_bid = 0.0
-                        bid_size = 0.0
-                        if bids:
-                            top = max(bids, key=lambda b: float(b.get("px", {}).get("value", "0")))
-                            best_bid = float(top.get("px", {}).get("value", "0"))
-                            bid_size = float(top.get("qty", "0"))
-
-                        best_ask = 1.0
-                        ask_size = 0.0
-                        if offers:
-                            top = min(offers, key=lambda a: float(a.get("px", {}).get("value", "1")))
-                            best_ask = float(top.get("px", {}).get("value", "1"))
-                            ask_size = float(top.get("qty", "0"))
-
-                        mid = (best_bid + best_ask) / 2 if best_bid > 0 and best_ask < 1 else 0
-
-                        direction = match_info.get("direction", "kalshi_yes_eq_poly_yes")
-                        if direction == "kalshi_yes_eq_poly_no":
-                            best_bid, best_ask = 1 - best_ask, 1 - best_bid
-                            bid_size, ask_size = ask_size, bid_size
-                            mid = (best_bid + best_ask) / 2
-
                         writer.add({
                             "timestamp": _now_iso(),
                             "platform": "polymarket",
                             "market_id": slug,
                             "match_id": match_info["id"],
-                            "best_bid": str(round(best_bid, 4)),
-                            "best_ask": str(round(best_ask, 4)),
-                            "bid_size": str(round(bid_size, 2)),
-                            "ask_size": str(round(ask_size, 2)),
-                            "mid_price": str(round(mid, 4)),
+                            "best_bid": str(best_bid),
+                            "best_ask": str(best_ask),
+                            "bid_size": str(bid_size),
+                            "ask_size": str(ask_size),
+                            "mid_price": str(mid),
                         })
 
+        except websockets.exceptions.InvalidStatus as e:
+            if shutdown.is_set():
+                break
+            if _auth_rejected("Polymarket WS", e):
+                shutdown.set()
+                break
+            backoff = await _sleep_backoff("Polymarket WS", e, backoff)
         except Exception as e:
             if shutdown.is_set():
                 break
-            print(f"Polymarket WS error: {e}. Reconnecting in {backoff:.0f}s...", flush=True)
-            await asyncio.sleep(backoff)
-            backoff = min(backoff * 2, 60)
+            backoff = await _sleep_backoff("Polymarket WS", e, backoff)
 
 
 async def _run() -> None:

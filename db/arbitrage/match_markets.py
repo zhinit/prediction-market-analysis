@@ -260,8 +260,22 @@ def sport_types_compatible(k_sport: str | None, p_sport: str | None) -> bool:
     return k_sport == p_sport
 
 
+# Series-ticker suffix -> bet type. Checked in order, so compound suffixes
+# (F5SPREAD, GSPREAD) must come before their generic tails (SPREAD).
 _KALSHI_BET_TYPES: list[tuple[str, str]] = [
-    ("EXACTMATCH", "prop"),
+    ("F5SPREAD", "f5_spread"),
+    ("F5TOTAL", "f5_total"),
+    ("F5", "f5_moneyline"),
+    ("GSPREAD", "game_spread"),
+    ("GTOTAL", "game_total"),
+    ("SETWINNER", "set_winner"),
+    ("EXACTMATCH", "exact_score"),
+    ("SCORE", "exact_score"),
+    ("EXTRAS", "extras"),
+    ("HRR", "player_hrr"),
+    ("TB", "player_tb"),
+    ("FTTS", "ftts"),
+    ("MAP", "map_winner"),
     ("GAME", "moneyline"),
     ("MATCH", "moneyline"),
     ("TOTAL", "total"),
@@ -277,30 +291,90 @@ def _extract_kalshi_bet_type(series_ticker: str) -> str | None:
     return None
 
 
-_POLY_BET_TYPE_MAP: dict[str, str] = {
-    "SPORTS_MARKET_TYPE_MONEYLINE": "moneyline",
-    "SPORTS_MARKET_TYPE_DRAWABLE_OUTCOME": "moneyline",
-    "SPORTS_MARKET_TYPE_TOTAL": "total",
-    "SPORTS_MARKET_TYPE_SPREAD": "spread",
-}
+# Poly slugs mark the bet variant after the event date: -f5- (first 5
+# innings), -fh-/-sh- (half), -gs-/-ss- (tennis games/sets spread),
+# -tg-/-st- (tennis games/sets total), -hrr-/-tb- (player props),
+# -mapN/-gameN (esports map winners), -btts. Only tokens after the date
+# count: team codes before it collide (e.g. Tampa Bay = tb).
+_SLUG_TAIL = re.compile(r"\d{4}-\d{2}-\d{2}-(.+)$")
 
 
-def _extract_poly_bet_type(sport_type: str | None) -> str | None:
-    if not sport_type:
+def _slug_tail_tokens(slug: str) -> set[str]:
+    m = _SLUG_TAIL.search(slug.lower())
+    return set(m.group(1).split("-")) if m else set()
+
+
+def _extract_poly_bet_type(sport_type: str | None, slug: str) -> str | None:
+    tail = _slug_tail_tokens(slug)
+    if sport_type in (
+        "SPORTS_MARKET_TYPE_MONEYLINE", "SPORTS_MARKET_TYPE_DRAWABLE_OUTCOME",
+    ):
+        return "moneyline"
+    if sport_type == "SPORTS_MARKET_TYPE_SPREAD":
+        if "gs" in tail:
+            return "game_spread"
+        if "ss" in tail:
+            return "set_spread"
+        if "fh" in tail or "sh" in tail:
+            return "half_spread"
+        if "f5" in tail:
+            return "f5_spread"
+        return "spread"
+    if sport_type == "SPORTS_MARKET_TYPE_TOTAL":
+        if "tg" in tail:
+            return "game_total"
+        if "st" in tail:
+            return "set_total"
+        if "fh" in tail or "sh" in tail:
+            return "half_total"
+        if "f5" in tail:
+            return "f5_total"
+        return "total"
+    if sport_type == "SPORTS_MARKET_TYPE_PROP":
+        if "hrr" in tail:
+            return "player_hrr"
+        if "f5" in tail:
+            return "f5_moneyline"
+        if "tb" in tail:
+            return "player_tb"
+        if any(t.startswith(("map", "game")) for t in tail):
+            return "map_winner"
+        if "btts" in tail:
+            return "btts"
         return None
-    return _POLY_BET_TYPE_MAP.get(sport_type)
+    return None
 
 
 def bet_types_compatible(
-    kalshi_series_ticker: str, poly_sport_type: str | None,
+    kalshi_series_ticker: str,
+    poly_sport_type: str | None,
+    poly_slug: str = "",
 ) -> bool:
+    # Strict: both sides must classify, and to the same type. An
+    # unclassified side means we cannot verify the bets are the same
+    # contract, which is exactly how correct-score events ended up matched
+    # to spreads (observed 2026-07-21).
     k_type = _extract_kalshi_bet_type(kalshi_series_ticker)
-    p_type = _extract_poly_bet_type(poly_sport_type)
-    if k_type is None or p_type is None:
-        if p_type == "moneyline" and k_type is None:
-            return False
+    p_type = _extract_poly_bet_type(poly_sport_type, poly_slug)
+    return k_type is not None and p_type is not None and k_type == p_type
+
+
+# Player-prop questions name only the player, so title tokens cannot
+# distinguish games. Both sides carry team codes for MLB props (Kalshi
+# ticker tail e.g. -26JUL211940SFKC, Poly slug astatc-mlb-nym-mil-...),
+# so require them to agree. Applied to player_hrr / player_tb only:
+# other sports' codes do not align across platforms.
+_TICKER_TEAMS = re.compile(r"-\d{2}[A-Z]{3}\d{2}\d*([A-Z]+?)(?:G\d)?$")
+
+_PLAYER_PROP_TYPES = frozenset({"player_hrr", "player_tb"})
+
+
+def player_prop_teams_match(kalshi_event_ticker: str, poly_slug: str) -> bool:
+    m = _TICKER_TEAMS.search(kalshi_event_ticker.upper())
+    parts = poly_slug.split("-")
+    if not m or len(parts) < 4:
         return True
-    return k_type == p_type
+    return m.group(1) == (parts[2] + parts[3]).upper()
 
 
 def _extract_date(text: str) -> date | None:
@@ -412,7 +486,12 @@ def find_candidates(
                 continue
             if not sport_types_compatible(ke.sport, pg.sport):
                 continue
-            if not bet_types_compatible(ke.series_ticker, pg.sport_type):
+            if not bet_types_compatible(ke.series_ticker, pg.sport_type, pg.slug):
+                continue
+            if (
+                _extract_kalshi_bet_type(ke.series_ticker) in _PLAYER_PROP_TYPES
+                and not player_prop_teams_match(ke.event_ticker, pg.slug)
+            ):
                 continue
             if not _dates_compatible(k_date, p_date, is_sports=True):
                 continue

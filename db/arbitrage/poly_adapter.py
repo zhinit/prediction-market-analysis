@@ -10,6 +10,7 @@ from tenacity import (
     wait_exponential_jitter,
 )
 
+from db.arbitrage.api_models import PolyMarket, validate_items
 from db.shared.auth import load_ed25519_key, sign_ed25519
 
 _PUBLIC_BASE_URL = "https://gateway.polymarket.us"
@@ -85,20 +86,17 @@ class PolyAdapter:
             items = resp if isinstance(resp, list) else resp.get("markets", [])
             if not items:
                 break
-            for m in items:
-                slug = m.get("slug", "")
-                if not slug:
-                    continue
+            for pm in validate_items(PolyMarket, items, label="Polymarket markets"):
                 markets.append({
-                    "slug": slug,
-                    "question": m.get("question") or m.get("title") or slug,
-                    "category": m.get("category", ""),
-                    "subcategory": m.get("subcategory", ""),
-                    "sportsMarketTypeV2": m.get("sportsMarketTypeV2"),
-                    "gameId": m.get("gameId") or m.get("game_id"),
-                    "line": m.get("line"),
-                    "gameStartTime": m.get("gameStartTime"),
-                    "endDate": m.get("endDate"),
+                    "slug": pm.slug,
+                    "question": pm.question or pm.title or pm.slug,
+                    "category": pm.category,
+                    "subcategory": pm.subcategory,
+                    "sportsMarketTypeV2": pm.sports_market_type,
+                    "gameId": pm.game_id,
+                    "line": pm.line,
+                    "gameStartTime": pm.game_start_time,
+                    "endDate": pm.end_date,
                 })
             offset += limit
             if len(items) < limit:

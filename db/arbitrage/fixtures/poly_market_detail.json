@@ -1,0 +1,28 @@
+{
+  "market": {
+    "slug": "aec-mlb-tex-nyy-2026-07-10-moneyline",
+    "question": "Rangers vs. Yankees",
+    "marketSides": [
+      {
+        "id": "side-1",
+        "long": true,
+        "description": "Texas Rangers",
+        "team": {
+          "name": "Texas Rangers",
+          "abbreviation": "tex",
+          "ordering": 2
+        }
+      },
+      {
+        "id": "side-2",
+        "long": false,
+        "description": "New York Yankees",
+        "team": {
+          "name": "New York Yankees",
+          "abbreviation": "nyy",
+          "ordering": 1
+        }
+      }
+    ]
+  }
+}

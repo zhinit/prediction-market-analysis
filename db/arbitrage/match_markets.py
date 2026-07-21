@@ -58,6 +58,8 @@ class PolyGame:
     sport_type: str | None
     slugs: tuple[str, ...]
     sport: str | None
+    line: str | None = None
+    game_start_time: str | None = None
 
 
 @dataclass(frozen=True)
@@ -102,9 +104,6 @@ _SPORT_FROM_TITLE: list[tuple[str, str]] = [
     ("epl", "epl"),
     ("ufc", "ufc"),
     ("pga", "pga"),
-    ("baseball", "mlb"),
-    ("hockey", "nhl"),
-    ("soccer", "mls"),
 ]
 
 
@@ -116,7 +115,9 @@ def _extract_sport_from_title(title: str) -> str | None:
     return None
 
 
-_SPORT_SLUG_PREFIXES = frozenset({"aec", "atc", "tec"})
+_SPORT_SLUG_PREFIXES = frozenset({
+    "aec", "arankc", "asc", "astatc", "atc", "tec", "tsc",
+})
 
 
 def _extract_sport_from_slug(slug: str) -> str | None:
@@ -168,6 +169,11 @@ def group_poly_markets(markets: list[dict]) -> list[PolyGame]:
     standalone: list[dict] = []
 
     for m in markets:
+        # Markets with a line (spreads, totals) match individually — grouping
+        # them by game would collapse distinct lines into one candidate.
+        if m.get("line") is not None:
+            standalone.append(m)
+            continue
         gid = m.get("gameId") or m.get("game_id")
         if not gid:
             gid = _slug_game_key(m.get("slug", ""))
@@ -179,6 +185,9 @@ def group_poly_markets(markets: list[dict]) -> list[PolyGame]:
     result: list[PolyGame] = []
 
     for gid, group in games.items():
+        # In live data groups are single-type (gameId is null and each market
+        # type has its own slug prefix), so this preference is a safety net
+        # for the case where a shared gameId ever bundles types together.
         moneylines = [m for m in group if _is_moneyline(m.get("sportsMarketTypeV2"))]
         rep = moneylines[0] if moneylines else group[0]
         rep_slug = rep.get("slug", "")
@@ -190,6 +199,8 @@ def group_poly_markets(markets: list[dict]) -> list[PolyGame]:
             sport_type=rep.get("sportsMarketTypeV2"),
             slugs=tuple(m.get("slug", "") for m in group),
             sport=_extract_sport_from_slug(rep_slug),
+            line=rep.get("line"),
+            game_start_time=rep.get("gameStartTime"),
         ))
 
     for m in standalone:
@@ -202,6 +213,8 @@ def group_poly_markets(markets: list[dict]) -> list[PolyGame]:
             sport_type=m.get("sportsMarketTypeV2"),
             slugs=(slug,),
             sport=_extract_sport_from_slug(slug),
+            line=m.get("line"),
+            game_start_time=m.get("gameStartTime"),
         ))
 
     return result
@@ -313,6 +326,27 @@ def _extract_date_from_ticker(ticker: str) -> date | None:
     return None
 
 
+def _kalshi_date(ke: KalshiEvent) -> date | None:
+    d = _extract_date(ke.strike_date) if ke.strike_date else None
+    if d is None:
+        d = _extract_date_from_ticker(ke.event_ticker)
+    return d
+
+
+def _poly_date(pg: PolyGame) -> date | None:
+    return _extract_date(pg.slug) or _extract_date(pg.question)
+
+
+def _dates_compatible(
+    k_date: date | None, p_date: date | None, *, is_sports: bool,
+) -> bool:
+    if k_date is not None and p_date is not None:
+        return k_date == p_date
+    if is_sports and (k_date is not None or p_date is not None):
+        return False
+    return True
+
+
 def dates_overlap(
     strike_date: str | None,
     poly_game: PolyGame,
@@ -323,46 +357,64 @@ def dates_overlap(
     kalshi_date = _extract_date(strike_date) if strike_date else None
     if kalshi_date is None and kalshi_event_ticker:
         kalshi_date = _extract_date_from_ticker(kalshi_event_ticker)
-    poly_date = _extract_date(poly_game.slug)
-    if poly_date is None:
-        poly_date = _extract_date(poly_game.question)
-    if kalshi_date is not None and poly_date is not None:
-        return kalshi_date == poly_date
-    if is_sports and (kalshi_date is not None or poly_date is not None):
-        return False
-    return True
+    return _dates_compatible(
+        kalshi_date, _poly_date(poly_game), is_sports=is_sports,
+    )
 
 
 # ---- Pipeline ----
+
+def _is_sports_category(cat: str) -> bool:
+    return _normalize_category(cat) == "sports"
+
 
 def find_candidates(
     kalshi_events: list[KalshiEvent],
     poly_games: list[PolyGame],
     threshold: float = 0.3,
 ) -> list[EventCandidate]:
-    poly_normalized = [
-        (pg, normalize_title(pg.question)) for pg in poly_games
+    # Project scope is sports only. The Kalshi side must be categorized
+    # Sports; Poly markets with a blank category are kept and resolved by the
+    # category gate against the Kalshi side.
+    kalshi_events = [
+        ke for ke in kalshi_events if _is_sports_category(ke.category)
     ]
+    poly_games = [
+        pg for pg in poly_games
+        if not pg.category or _is_sports_category(pg.category)
+    ]
+
+    # Block on event date: a pair whose dates are both known but different can
+    # never pass the date gate, so each Kalshi event only scores against Poly
+    # games on the same date (plus undated ones).
+    _PolyEntry = tuple[PolyGame, set[str], date | None]
+    dated_poly: dict[date, list[_PolyEntry]] = {}
+    undated_poly: list[_PolyEntry] = []
+    for pg in poly_games:
+        p_date = _poly_date(pg)
+        entry = (pg, normalize_title(pg.question), p_date)
+        if p_date is None:
+            undated_poly.append(entry)
+        else:
+            dated_poly.setdefault(p_date, []).append(entry)
+    all_poly = [e for grp in dated_poly.values() for e in grp] + undated_poly
 
     candidates: list[EventCandidate] = []
     for ke in kalshi_events:
         k_tokens = normalize_title(ke.title)
-        for pg, p_tokens in poly_normalized:
+        k_date = _kalshi_date(ke)
+        pool = (
+            dated_poly.get(k_date, []) + undated_poly
+            if k_date is not None else all_poly
+        )
+        for pg, p_tokens, p_date in pool:
             if not categories_compatible(ke.category, pg.category):
                 continue
             if not sport_types_compatible(ke.sport, pg.sport):
                 continue
             if not bet_types_compatible(ke.series_ticker, pg.sport_type):
                 continue
-            is_sports = (
-                _normalize_category(ke.category) == "sports"
-                or _normalize_category(pg.category) == "sports"
-            )
-            if not dates_overlap(
-                ke.strike_date, pg,
-                is_sports=is_sports,
-                kalshi_event_ticker=ke.event_ticker,
-            ):
+            if not _dates_compatible(k_date, p_date, is_sports=True):
                 continue
             score = jaccard_score(k_tokens, p_tokens)
             if score >= threshold:
@@ -383,6 +435,31 @@ def find_candidates(
     return deduped
 
 
+# ---- Match file maintenance ----
+
+def ensure_match_files(
+    paths: tuple[Path, ...] = (_MATCHES_PATH, _REJECTED_PATH),
+) -> None:
+    for path in paths:
+        if not path.exists():
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("[]")
+
+
+def prune_expired_matches(
+    today: date, path: Path = _MATCHES_PATH,
+) -> int:
+    matches = json.loads(path.read_text())
+    kept = [
+        m for m in matches
+        if not m.get("event_date")
+        or date.fromisoformat(m["event_date"]) >= today
+    ]
+    if len(kept) != len(matches):
+        path.write_text(json.dumps(kept, indent=2))
+    return len(matches) - len(kept)
+
+
 # ---- CLI ----
 
 def _load_known_slugs() -> set[str]:
@@ -399,6 +476,11 @@ def _load_known_slugs() -> set[str]:
 
 
 async def _run(threshold: float = 0.3) -> None:
+    ensure_match_files()
+    pruned = prune_expired_matches(date.today())
+    if pruned:
+        print(f"Pruned {pruned} expired matches")
+
     kalshi = KalshiAdapter(
         api_key_id=require_env("KALSHI_API_KEY_ID"),
         private_key_path=Path(require_env("KALSHI_PRIVATE_KEY_PATH")),
@@ -482,6 +564,8 @@ async def _run(threshold: float = 0.3) -> None:
                     "category": c.poly_game.category,
                     "sport_type": c.poly_game.sport_type,
                     "game_id": c.poly_game.game_id,
+                    "line": c.poly_game.line,
+                    "game_start_time": c.poly_game.game_start_time,
                 },
             })
 

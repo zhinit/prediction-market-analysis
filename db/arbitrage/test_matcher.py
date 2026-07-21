@@ -5,6 +5,8 @@ from pathlib import Path
 
 import pytest
 
+from datetime import date
+
 from db.arbitrage.match_markets import (
     EventCandidate,
     KalshiEvent,
@@ -12,11 +14,13 @@ from db.arbitrage.match_markets import (
     bet_types_compatible,
     categories_compatible,
     dates_overlap,
+    ensure_match_files,
     find_candidates,
     group_kalshi_events,
     group_poly_markets,
     jaccard_score,
     normalize_title,
+    prune_expired_matches,
     sport_types_compatible,
 )
 
@@ -157,17 +161,37 @@ class TestGrouping:
     def test_group_poly_markets(self):
         markets = json.loads((FIXTURES / "poly_markets.json").read_text())
         result = group_poly_markets(markets)
-        # Two games (mlb and nba) grouped by gameId, one standalone (politics)
+        # Two games (mlb and nba) grouped by gameId
         slugs_by_game = {g.game_id: g for g in result if g.game_id}
         assert "mlb-tex-nyy-2026-07-10" in slugs_by_game
         assert "nba-lal-bos-2026-07-10" in slugs_by_game
-        # MLB game should pick moneyline as representative
         mlb = slugs_by_game["mlb-tex-nyy-2026-07-10"]
         assert "moneyline" in mlb.slug
-        # Politics is standalone
-        politics = [g for g in result if g.game_id is None]
-        assert len(politics) == 1
-        assert "trump" in politics[0].slug
+        assert mlb.game_start_time == "2026-07-10T23:05:00Z"
+        # Standalone: politics, plus the spread (line markets never group)
+        standalone = {g.slug for g in result if g.game_id is None}
+        assert standalone == {
+            "will-trump-win-2028",
+            "aec-mlb-tex-nyy-2026-07-10-spread",
+        }
+        spread = next(g for g in result if "spread" in g.slug)
+        assert spread.line == "-1.5"
+
+    def test_line_markets_not_collapsed(self):
+        base = {
+            "question": "Will the Cardinals cover?",
+            "category": "sports",
+            "sportsMarketTypeV2": "SPORTS_MARKET_TYPE_SPREAD",
+            "gameId": None,
+            "gameStartTime": "2026-07-21T00:00:00Z",
+        }
+        markets = [
+            {**base, "slug": "asc-mlb-stl-laa-2026-07-21-neg-1pt5", "line": "-1.5"},
+            {**base, "slug": "asc-mlb-stl-laa-2026-07-21-neg-2pt5", "line": "-2.5"},
+        ]
+        result = group_poly_markets(markets)
+        assert len(result) == 2
+        assert {g.line for g in result} == {"-1.5", "-2.5"}
 
 
 class TestFindCandidates:
@@ -241,6 +265,37 @@ class TestFindCandidates:
         if len(results) >= 2:
             assert results[0].score >= results[1].score
 
+    def test_non_sports_kalshi_excluded(self):
+        ke = KalshiEvent(
+            event_ticker="KXPRES-2028", series_ticker="KXPRES",
+            title="Presidential Election Winner 2028", strike_date=None,
+            category="Politics", market_count=2, sport=None,
+        )
+        pg = PolyGame(
+            game_id=None, slug="will-trump-win-2028",
+            question="Will Trump win the 2028 presidential election?",
+            category="politics", sport_type=None,
+            slugs=("will-trump-win-2028",), sport=None,
+        )
+        results = find_candidates([ke], [pg], threshold=0.1)
+        assert results == []
+
+    def test_blank_poly_category_still_matches(self):
+        ke = self._ke(
+            "KXMLBGAME-26JUL10-TEX-NYY",
+            "Rangers vs. Yankees: July 10",
+        )
+        pg = PolyGame(
+            game_id=None,
+            slug="aec-mlb-tex-nyy-2026-07-10-moneyline",
+            question="Will the Texas Rangers beat the New York Yankees on July 10?",
+            category="",
+            sport_type="SPORTS_MARKET_TYPE_MONEYLINE",
+            slugs=("aec-mlb-tex-nyy-2026-07-10-moneyline",), sport="mlb",
+        )
+        results = find_candidates([ke], [pg], threshold=0.2)
+        assert len(results) == 1
+
     def test_known_matches_excluded(self):
         # This tests the _load_known_slugs path indirectly via find_candidates
         # find_candidates itself doesn't exclude; the CLI does. This test
@@ -252,6 +307,34 @@ class TestFindCandidates:
         )
         results = find_candidates([ke], [pg], threshold=0.2)
         assert len(results) == 1
+
+
+class TestMatchFileMaintenance:
+    def test_ensure_match_files_creates_empty_arrays(self, tmp_path):
+        matches = tmp_path / "matches.json"
+        rejected = tmp_path / "rejected_matches.json"
+        ensure_match_files((matches, rejected))
+        assert json.loads(matches.read_text()) == []
+        assert json.loads(rejected.read_text()) == []
+
+    def test_ensure_match_files_leaves_existing(self, tmp_path):
+        matches = tmp_path / "matches.json"
+        matches.write_text('[{"id": "x"}]')
+        ensure_match_files((matches,))
+        assert json.loads(matches.read_text()) == [{"id": "x"}]
+
+    def test_prune_expired_matches(self, tmp_path):
+        path = tmp_path / "matches.json"
+        path.write_text(json.dumps([
+            {"id": "past", "event_date": "2026-07-10"},
+            {"id": "today", "event_date": "2026-07-21"},
+            {"id": "future", "event_date": "2026-07-22"},
+            {"id": "undated"},
+        ]))
+        pruned = prune_expired_matches(date(2026, 7, 21), path)
+        assert pruned == 1
+        kept = {m["id"] for m in json.loads(path.read_text())}
+        assert kept == {"today", "future", "undated"}
 
 
 class TestIntegrationWithFixtures:

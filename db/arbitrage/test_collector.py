@@ -96,7 +96,10 @@ class TestSnapshotWriter:
         count = db_con.sql("SELECT count(*) FROM orderbook_snapshots").fetchone()[0]
         assert count == 5
 
-    def test_batch_auto_flush(self, db_con):
+    def test_add_does_no_io(self, db_con):
+        # add() must only buffer: a synchronous DB write inside the receive
+        # loop is what corrupted the Kalshi books under load. Nothing is
+        # persisted until the writer task (or an explicit flush) runs.
         writer = SnapshotWriter(db_con)
         for i in range(100):
             writer.add({
@@ -110,8 +113,21 @@ class TestSnapshotWriter:
                 "ask_size": "1.0",
                 "mid_price": "0.525",
             })
-        count = db_con.sql("SELECT count(*) FROM orderbook_snapshots").fetchone()[0]
-        assert count == 100
+        assert db_con.sql("SELECT count(*) FROM orderbook_snapshots").fetchone()[0] == 0
+        writer.flush()
+        assert db_con.sql("SELECT count(*) FROM orderbook_snapshots").fetchone()[0] == 100
+
+    def test_take_detaches_buffer(self, db_con):
+        writer = SnapshotWriter(db_con)
+        writer.add({"timestamp": "2026-07-10T12:00:00+00:00", "platform": "kalshi",
+                    "market_id": "T", "match_id": "m", "best_bid": "0.5",
+                    "best_ask": "0.6", "bid_size": "1", "ask_size": "1",
+                    "mid_price": "0.55"})
+        batch = writer.take()
+        assert len(batch) == 1
+        assert writer.take() == []  # buffer detached, nothing left
+        writer.insert(batch)
+        assert db_con.sql("SELECT count(*) FROM orderbook_snapshots").fetchone()[0] == 1
 
     def test_typed_view_idempotent(self, tmp_path):
         con1 = _init_db(tmp_path / "idem.db")

@@ -22,6 +22,10 @@ _POLY_WS_URL = "wss://api.polymarket.us/v1/ws/markets"
 _BATCH_SIZE = 100
 _FLUSH_INTERVAL = 30.0
 
+# Consecutive crossed (best_bid >= best_ask) reconstructions on one market
+# before the connection is reset to pull fresh snapshots.
+_CROSSED_RESNAPSHOT = 25
+
 
 def _init_db(path: Path) -> duckdb.DuckDBPyConnection:
     con = duckdb.connect(str(path))
@@ -65,29 +69,60 @@ def _load_matches() -> list[dict]:
 
 
 class SnapshotWriter:
+    # add() must never do I/O: it is called from inside the websocket receive
+    # loops, and a synchronous DuckDB insert there blocks the event loop long
+    # enough — on a hot market — that the local orderbook drifts into a stale,
+    # crossed state (best_ask decays and sticks below best_bid). Instead, add()
+    # only appends to an in-memory buffer; a dedicated writer task swaps the
+    # buffer out and flushes it in a worker thread (see write_loop / flush),
+    # so the receive loops are never blocked on the database.
     def __init__(self, con: duckdb.DuckDBPyConnection) -> None:
         self._con = con
         self._buffer: list[dict] = []
-        self._last_flush = time.monotonic()
 
     def add(self, snapshot: dict) -> None:
         self._buffer.append(snapshot)
-        if (
-            len(self._buffer) >= _BATCH_SIZE
-            or time.monotonic() - self._last_flush >= _FLUSH_INTERVAL
-        ):
-            self.flush()
 
-    def flush(self) -> None:
-        if not self._buffer:
+    def take(self) -> list[dict]:
+        """Atomically detach the pending buffer (safe on the loop thread)."""
+        batch, self._buffer = self._buffer, []
+        return batch
+
+    def insert(self, batch: list[dict]) -> None:
+        """Blocking DuckDB insert. Run off the event loop via asyncio.to_thread;
+        never call two inserts concurrently (the writer task awaits each)."""
+        if not batch:
             return
         import polars as pl
-        df = pl.DataFrame(self._buffer)
+        df = pl.DataFrame(batch)
         self._con.sql("INSERT INTO orderbook_snapshots BY NAME SELECT * FROM df")
-        count = len(self._buffer)
-        self._buffer.clear()
-        self._last_flush = time.monotonic()
-        print(f"  Flushed {count} snapshots", flush=True)
+        print(f"  Flushed {len(batch)} snapshots", flush=True)
+
+    def flush(self) -> None:
+        """Synchronous flush of whatever is buffered (used at shutdown)."""
+        self.insert(self.take())
+
+
+async def _write_loop(writer: SnapshotWriter, shutdown: asyncio.Event) -> None:
+    """Drain the writer buffer to DuckDB in a worker thread, off the event loop.
+    Polls frequently and flushes on size or interval so the receive loops only
+    ever append and the buffer cannot grow without bound under load."""
+    last_flush = time.monotonic()
+    while not shutdown.is_set():
+        try:
+            await asyncio.wait_for(shutdown.wait(), timeout=0.5)
+        except asyncio.TimeoutError:
+            pass
+        now = time.monotonic()
+        if len(writer._buffer) >= _BATCH_SIZE or now - last_flush >= _FLUSH_INTERVAL:
+            batch = writer.take()
+            if batch:
+                await asyncio.to_thread(writer.insert, batch)
+            last_flush = now
+    # final drain
+    batch = writer.take()
+    if batch:
+        await asyncio.to_thread(writer.insert, batch)
 
 
 def _now_iso() -> str:
@@ -160,7 +195,7 @@ async def _kalshi_ws(
             }
             print(f"Kalshi WS: connecting...", flush=True)
             async with websockets.connect(
-                _KALSHI_WS_URL, additional_headers=headers,
+                _KALSHI_WS_URL, additional_headers=headers, max_queue=None,
             ) as ws:
                 print(f"Kalshi WS: connected", flush=True)
                 backoff = 1.0
@@ -179,6 +214,12 @@ async def _kalshi_ws(
                 # ticker without a snapshot yet are skipped.
                 orderbooks: dict[str, KalshiOrderbook] = {}
                 conn_seq: int | None = None
+                # A reconstructed book that reports best_bid >= best_ask is
+                # locked/crossed and therefore corrupt (a real book cannot
+                # cross). Never record such a state; if one market stays
+                # crossed, the local book is stale, so reconnect to force a
+                # fresh snapshot for every market on this connection.
+                crossed_streak: dict[str, int] = {}
 
                 async for raw in ws:
                     if shutdown.is_set():
@@ -215,6 +256,21 @@ async def _kalshi_ws(
                         ob.apply_delta(msg["msg"])
 
                     bid, ask, bid_sz, ask_sz = ob.best_bid_ask()
+
+                    # Drop corrupt (crossed) states; reconnect if one persists.
+                    if bid >= ask:
+                        streak = crossed_streak.get(ticker, 0) + 1
+                        crossed_streak[ticker] = streak
+                        if streak >= _CROSSED_RESNAPSHOT:
+                            print(
+                                f"Kalshi: {ticker} crossed {streak}x, "
+                                "reconnecting for fresh snapshots",
+                                flush=True,
+                            )
+                            break
+                        continue
+                    crossed_streak[ticker] = 0
+
                     mid = (bid + ask) / 2 if bid > 0 and ask < 1 else 0
                     writer.add({
                         "timestamp": _now_iso(),
@@ -264,7 +320,7 @@ async def _poly_ws(
             }
             print(f"Polymarket WS: connecting...", flush=True)
             async with websockets.connect(
-                _POLY_WS_URL, additional_headers=headers,
+                _POLY_WS_URL, additional_headers=headers, max_queue=None,
             ) as ws:
                 print(f"Polymarket WS: connected", flush=True)
                 backoff = 1.0
@@ -361,18 +417,21 @@ async def _run() -> None:
     for sig in (signal.SIGINT, signal.SIGTERM):
         loop.add_signal_handler(sig, _signal_handler)
 
-    tasks = [
+    ws_tasks = [
         asyncio.create_task(_kalshi_ws(matches, writer, shutdown)),
         asyncio.create_task(_poly_ws(matches, writer, shutdown)),
     ]
+    # The writer owns the DuckDB connection; it is never cancelled, so its
+    # insert never races a second insert. It drains and returns on shutdown.
+    writer_task = asyncio.create_task(_write_loop(writer, shutdown))
 
     await shutdown.wait()
 
-    for t in tasks:
+    for t in ws_tasks:
         t.cancel()
-    await asyncio.gather(*tasks, return_exceptions=True)
+    await asyncio.gather(*ws_tasks, return_exceptions=True)
+    await writer_task  # graceful final drain
 
-    writer.flush()
     con.close()
     print("Done. Final flush complete.")
 

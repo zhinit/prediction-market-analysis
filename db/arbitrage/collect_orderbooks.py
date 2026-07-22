@@ -10,10 +10,10 @@ from pathlib import Path
 
 import duckdb
 import websockets
-from datetime import date
 from dotenv import load_dotenv
 from pydantic import ValidationError
 
+from db.arbitrage.match_markets import match_is_live
 from db.arbitrage.ws_models import (
     KalshiDelta,
     KalshiEnvelope,
@@ -34,6 +34,12 @@ _FLUSH_INTERVAL = 30.0
 # Consecutive crossed (best_bid >= best_ask) reconstructions on one market
 # before it is blacklisted for the session.
 _CROSSED_BLACKLIST = 25
+
+# Levels below this quantity are treated as empty. Delta application sums
+# floats, so an emptied level can retain ~1e-6 contracts of residue and then
+# be reported as top-of-book at a phantom price (observed in the 2026-07-21
+# capture: ~3% of Kalshi rows had a sub-contract best level).
+_DUST_QTY = 0.01
 
 
 class CrossedBookPolicy:
@@ -103,15 +109,12 @@ def _load_matches() -> list[dict]:
     # Skip finished events (same rule as the matcher's expiry pruning):
     # their books are degenerate and, on Kalshi, permanently crossed,
     # which thrashes the reconnect logic (observed 2026-07-21).
-    today = date.today().isoformat()
-    live = [
-        m for m in matches
-        if not m.get("event_date") or m["event_date"] >= today
-    ]
+    now = datetime.now(timezone.utc)
+    live = [m for m in matches if match_is_live(m, now)]
     if skipped := len(matches) - len(live):
-        print(f"Skipping {skipped} matches with past event_date")
+        print(f"Skipping {skipped} matches whose event is over")
     if not live:
-        raise SystemExit("All matches have past event dates. Run /matcher first.")
+        raise SystemExit("All matched events are over. Run /matcher first.")
     return live
 
 
@@ -164,12 +167,27 @@ async def _write_loop(writer: SnapshotWriter, shutdown: asyncio.Event) -> None:
         if len(writer._buffer) >= _BATCH_SIZE or now - last_flush >= _FLUSH_INTERVAL:
             batch = writer.take()
             if batch:
-                await asyncio.to_thread(writer.insert, batch)
+                try:
+                    await asyncio.to_thread(writer.insert, batch)
+                except Exception as e:
+                    # A transient DB error must not kill the writer task:
+                    # the feeds would keep buffering into RAM unobserved and
+                    # everything after the failure would be lost at shutdown.
+                    # Requeue and retry on the next flush tick.
+                    writer._buffer[:0] = batch
+                    print(
+                        f"Writer: insert failed, requeued {len(batch)} rows: {e}",
+                        flush=True,
+                    )
             last_flush = now
     # final drain
     batch = writer.take()
     if batch:
-        await asyncio.to_thread(writer.insert, batch)
+        try:
+            await asyncio.to_thread(writer.insert, batch)
+        except Exception as e:
+            print(f"Writer: final drain failed, {len(batch)} rows lost: {e}",
+                  flush=True)
 
 
 def _now_iso() -> str:
@@ -215,7 +233,7 @@ class KalshiOrderbook:
     def apply_delta(self, data: KalshiDelta) -> None:
         book = self.yes_bids if data.side == "yes" else self.no_bids
         qty = book.get(data.price_dollars, 0.0) + data.delta_fp
-        if qty <= 0:
+        if qty < _DUST_QTY:
             book.pop(data.price_dollars, None)
         else:
             book[data.price_dollars] = qty
@@ -244,14 +262,22 @@ async def _kalshi_ws(
     api_key_id = require_env("KALSHI_API_KEY_ID")
     private_key = load_rsa_key(Path(require_env("KALSHI_PRIVATE_KEY_PATH")))
 
-    kalshi_tickers = {m["kalshi_ticker"]: m["id"] for m in matches}
-    if not kalshi_tickers:
+    # Multiple matches can share a Kalshi ticker (one Kalshi market matched
+    # to several Poly slugs); a plain dict silently attributed every row to
+    # the last match and starved the others of their Kalshi leg (observed
+    # 2026-07-22).
+    ticker_to_matches: dict[str, list[dict]] = {}
+    for m in matches:
+        ticker_to_matches.setdefault(m["kalshi_ticker"], []).append(m)
+    if not ticker_to_matches:
         return
 
     policy = CrossedBookPolicy()
     backoff = 1.0
     while not shutdown.is_set():
-        live_tickers = [t for t in kalshi_tickers if t not in policy.blacklist]
+        live_tickers = [
+            t for t in ticker_to_matches if t not in policy.blacklist
+        ]
         if not live_tickers:
             print("Kalshi WS: all tickers blacklisted, stopping feed", flush=True)
             return
@@ -320,7 +346,7 @@ async def _kalshi_ws(
                         continue
 
                     ticker = payload.market_ticker
-                    if ticker not in kalshi_tickers or ticker in policy.blacklist:
+                    if ticker not in ticker_to_matches or ticker in policy.blacklist:
                         continue
 
                     if isinstance(payload, KalshiSnapshot):
@@ -349,17 +375,23 @@ async def _kalshi_ws(
                     policy.record_valid(ticker)
 
                     mid = (bid + ask) / 2 if bid > 0 and ask < 1 else 0
-                    writer.add({
-                        "timestamp": _now_iso(),
-                        "platform": "kalshi",
-                        "market_id": ticker,
-                        "match_id": kalshi_tickers[ticker],
-                        "best_bid": str(bid),
-                        "best_ask": str(ask),
-                        "bid_size": str(bid_sz),
-                        "ask_size": str(ask_sz),
-                        "mid_price": str(mid),
-                    })
+                    ts = _now_iso()
+                    for match_info in ticker_to_matches[ticker]:
+                        writer.add({
+                            "timestamp": ts,
+                            "platform": "kalshi",
+                            "market_id": ticker,
+                            "match_id": match_info["id"],
+                            "best_bid": str(bid),
+                            "best_ask": str(ask),
+                            "bid_size": str(bid_sz),
+                            "ask_size": str(ask_sz),
+                            "mid_price": str(mid),
+                        })
+
+            # Reached on seq-gap reconnects and clean server closes; without
+            # a pause a persistent failure hot-loops the connect.
+            await asyncio.sleep(1.0)
 
         except websockets.exceptions.InvalidStatus as e:
             if shutdown.is_set():
@@ -472,6 +504,10 @@ async def _poly_ws(
                             "ask_size": str(ask_size),
                             "mid_price": str(mid),
                         })
+
+            # Clean server close; pause so a persistent failure cannot
+            # hot-loop the connect.
+            await asyncio.sleep(1.0)
 
         except websockets.exceptions.InvalidStatus as e:
             if shutdown.is_set():

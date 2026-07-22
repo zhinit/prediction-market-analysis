@@ -84,6 +84,9 @@ class TestFetchSides:
         assert results == [{
             "slug": "aec-mlb-tex-nyy-2026-07-10-moneyline",
             "question": "Rangers vs. Yankees",
+            "description": "This market will settle to the winner of the "
+                           "Texas Rangers vs New York Yankees MLB game "
+                           "scheduled for Jul 10, 2026.",
             "yes_side": {
                 "name": "Texas Rangers",
                 "abbreviation": "tex",

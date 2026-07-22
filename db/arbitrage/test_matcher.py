@@ -5,15 +5,17 @@ from pathlib import Path
 
 import pytest
 
-from datetime import date
+from datetime import date, datetime, timezone
 
 from db.arbitrage.match_markets import (
-    EventCandidate,
     KalshiEvent,
     PolyGame,
+    _dates_compatible,
+    _extract_date_from_ticker,
+    _extract_sport_from_ticker,
+    _poly_date,
     bet_types_compatible,
     categories_compatible,
-    dates_overlap,
     ensure_match_files,
     find_candidates,
     group_kalshi_events,
@@ -89,6 +91,23 @@ class TestSportTypesCompatible:
         assert sport_types_compatible(None, None) is True
         assert sport_types_compatible("mlb", None) is True
         assert sport_types_compatible(None, "nba") is True
+
+
+class TestSportFromTicker:
+    def test_league_tickers(self):
+        assert _extract_sport_from_ticker("KXMLBSPREAD") == "mlb"
+        assert _extract_sport_from_ticker("KXMLSGAME") == "mls"
+        assert _extract_sport_from_ticker("KXWNBAGAME") == "wnba"
+
+    def test_esports_tickers(self):
+        # These carried sport=None and let cross-sport candidates through
+        # the fail-open gate (observed wrong matches 2026-07-22).
+        assert _extract_sport_from_ticker("KXCS2MAP") == "cs2"
+        assert _extract_sport_from_ticker("KXVALORANTMAP") == "valorant"
+        assert _extract_sport_from_ticker("KXDOTAMAP") == "dota2"
+
+    def test_unknown_ticker(self):
+        assert _extract_sport_from_ticker("KXT20MATCH") is None
 
 
 class TestBetTypesCompatible:
@@ -209,13 +228,15 @@ class TestPlayerPropTeamsMatch:
             "astatc-mlb-bal-det-2026-07-21-hrr-gunhen-gte2",
         ) is True
 
-    def test_unparseable_ticker_passes(self):
+    def test_unparseable_ticker_fails_closed(self):
+        # Format drift must surface as missing candidates, not as prop
+        # matches with the only wrong-game defense silently disabled.
         assert player_prop_teams_match(
             "KXSOMETHING-WEIRD", "astatc-mlb-nym-mil-2026-07-21-hrr-x-gte1",
-        ) is True
+        ) is False
 
 
-class TestDatesOverlap:
+class TestDateCompatibility:
     def _poly(self, slug="slug", question="q"):
         return PolyGame(
             game_id=None, slug=slug, question=question,
@@ -223,34 +244,31 @@ class TestDatesOverlap:
         )
 
     def test_same_date(self):
-        pg = self._poly(slug="aec-mlb-tex-nyy-2026-07-10")
-        assert dates_overlap("2026-07-10", pg, is_sports=True) is True
+        assert _dates_compatible(
+            date(2026, 7, 10), date(2026, 7, 10), is_sports=True) is True
 
     def test_different_date(self):
-        pg = self._poly(slug="aec-mlb-tex-nyy-2026-07-11")
-        assert dates_overlap("2026-07-10", pg, is_sports=True) is False
+        assert _dates_compatible(
+            date(2026, 7, 10), date(2026, 7, 11), is_sports=True) is False
 
     def test_missing_date_non_sports(self):
-        pg = self._poly(slug="will-trump-win")
-        assert dates_overlap(None, pg, is_sports=False) is True
+        assert _dates_compatible(None, None, is_sports=False) is True
 
     def test_missing_date_sports(self):
-        pg = self._poly(slug="will-team-win")
-        assert dates_overlap("2026-07-10", pg, is_sports=True) is False
+        assert _dates_compatible(
+            date(2026, 7, 10), None, is_sports=True) is False
 
     def test_date_from_ticker(self):
-        pg = self._poly(slug="aec-mlb-tex-nyy-2026-07-10")
-        assert dates_overlap(
-            None, pg, is_sports=True,
-            kalshi_event_ticker="KXMLBGAME-26JUL10-TEX-NYY",
-        ) is True
+        assert _extract_date_from_ticker(
+            "KXMLBGAME-26JUL10-TEX-NYY") == date(2026, 7, 10)
 
-    def test_date_from_question(self):
-        pg = self._poly(
-            slug="some-slug",
-            question="Will X happen on 2026-07-10?",
-        )
-        assert dates_overlap("2026-07-10", pg, is_sports=False) is True
+    def test_poly_date_from_slug(self):
+        pg = self._poly(slug="aec-mlb-tex-nyy-2026-07-10")
+        assert _poly_date(pg) == date(2026, 7, 10)
+
+    def test_poly_date_from_question(self):
+        pg = self._poly(question="Will X happen on 2026-07-10?")
+        assert _poly_date(pg) == date(2026, 7, 10)
 
 
 class TestGrouping:
@@ -304,7 +322,7 @@ class TestFindCandidates:
         return KalshiEvent(
             event_ticker=ticker, series_ticker=series,
             title=title, strike_date=date,
-            category="Sports", market_count=2, sport="mlb",
+            category="Sports", sport="mlb",
         )
 
     def _pg(self, slug, question, game_id=None):
@@ -357,24 +375,27 @@ class TestFindCandidates:
         assert len(results) == 1  # deduplicated by poly slug
 
     def test_ordering_by_score(self):
+        # Dated slugs so the sports date gate passes; ordering drives the
+        # keep-best-per-slug dedup, so it must be asserted unconditionally.
         ke = self._ke("EV1", "Rangers vs. Yankees")
         pg_high = self._pg(
-            "slug-high",
+            "aec-mlb-tex-nyy-2026-07-10-a",
             "Rangers vs. Yankees",
         )
         pg_low = self._pg(
-            "slug-low",
+            "aec-mlb-tex-nyy-2026-07-10-b",
             "Something completely different Rangers",
         )
-        results = find_candidates([ke], [pg_high, pg_low], threshold=0.1)
-        if len(results) >= 2:
-            assert results[0].score >= results[1].score
+        results = find_candidates([ke], [pg_low, pg_high], threshold=0.1)
+        assert len(results) == 2
+        assert results[0].score >= results[1].score
+        assert results[0].poly_game.slug == "aec-mlb-tex-nyy-2026-07-10-a"
 
     def test_non_sports_kalshi_excluded(self):
         ke = KalshiEvent(
             event_ticker="KXPRES-2028", series_ticker="KXPRES",
             title="Presidential Election Winner 2028", strike_date=None,
-            category="Politics", market_count=2, sport=None,
+            category="Politics", sport=None,
         )
         pg = PolyGame(
             game_id=None, slug="will-trump-win-2028",
@@ -430,16 +451,66 @@ class TestMatchFileMaintenance:
 
     def test_prune_expired_matches(self, tmp_path):
         path = tmp_path / "matches.json"
+        archive = tmp_path / "matches_archive.json"
         path.write_text(json.dumps([
             {"id": "past", "event_date": "2026-07-10"},
             {"id": "today", "event_date": "2026-07-21"},
             {"id": "future", "event_date": "2026-07-22"},
             {"id": "undated"},
         ]))
-        pruned = prune_expired_matches(date(2026, 7, 21), path)
+        # 2026-07-21 18:00 ET, so the ET-labelled "today" entry survives.
+        now = datetime(2026, 7, 21, 22, 0, tzinfo=timezone.utc)
+        pruned = prune_expired_matches(now, path, archive)
         assert pruned == 1
         kept = {m["id"] for m in json.loads(path.read_text())}
         assert kept == {"today", "future", "undated"}
+        # Pruned entries keep their metadata in the archive; deleting them
+        # made the pruned matches' snapshots unanalyzable.
+        archived = {m["id"] for m in json.loads(archive.read_text())}
+        assert archived == {"past"}
+
+    def test_prune_appends_to_existing_archive(self, tmp_path):
+        path = tmp_path / "matches.json"
+        archive = tmp_path / "matches_archive.json"
+        archive.write_text(json.dumps([{"id": "older"}]))
+        path.write_text(json.dumps([
+            {"id": "past", "event_date": "2026-07-10"},
+        ]))
+        now = datetime(2026, 7, 21, 22, 0, tzinfo=timezone.utc)
+        assert prune_expired_matches(now, path, archive) == 1
+        archived = [m["id"] for m in json.loads(archive.read_text())]
+        assert archived == ["older", "past"]
+
+    def test_prune_prefers_expires_over_event_date(self, tmp_path):
+        # The tennis case: labelled 07-21 but still trading on 07-22.
+        path = tmp_path / "matches.json"
+        path.write_text(json.dumps([
+            {"id": "still-live", "event_date": "2026-07-21",
+             "expires": "2026-07-22T14:00:00Z"},
+            {"id": "over", "event_date": "2026-07-22",
+             "expires": "2026-07-22T02:10:00Z"},
+        ]))
+        now = datetime(2026, 7, 22, 13, 0, tzinfo=timezone.utc)
+        pruned = prune_expired_matches(
+            now, path, tmp_path / "matches_archive.json")
+        assert pruned == 1
+        kept = {m["id"] for m in json.loads(path.read_text())}
+        assert kept == {"still-live"}
+
+    def test_naive_expires_assumed_utc(self, tmp_path):
+        # A naive expires timestamp must not crash the aware comparison
+        # (it aborted collector startup).
+        path = tmp_path / "matches.json"
+        path.write_text(json.dumps([
+            {"id": "naive-live", "expires": "2026-07-22T14:00:00"},
+            {"id": "naive-over", "expires": "2026-07-22T02:10:00"},
+        ]))
+        now = datetime(2026, 7, 22, 13, 0, tzinfo=timezone.utc)
+        pruned = prune_expired_matches(
+            now, path, tmp_path / "matches_archive.json")
+        assert pruned == 1
+        kept = {m["id"] for m in json.loads(path.read_text())}
+        assert kept == {"naive-live"}
 
 
 class TestIntegrationWithFixtures:

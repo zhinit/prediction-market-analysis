@@ -4,14 +4,18 @@ import asyncio
 import json
 import re
 from dataclasses import dataclass
-from datetime import date
+from datetime import date, datetime, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 from dotenv import load_dotenv
 
 from db.shared.auth import require_env
+from db.arbitrage.fetch_poly_sides import fetch_sides
 from db.arbitrage.kalshi_adapter import KalshiAdapter
 from db.arbitrage.poly_adapter import PolyAdapter
+
+_ET = ZoneInfo("America/New_York")
 
 _STOP_WORDS = frozenset({
     "a", "an", "and", "are", "as", "at", "be", "by", "for", "from",
@@ -34,6 +38,7 @@ _MONTH_ABBR = {
 _CANDIDATES_PATH = Path("db/arbitrage/candidates.json")
 _MATCHES_PATH = Path("db/arbitrage/matches.json")
 _REJECTED_PATH = Path("db/arbitrage/rejected_matches.json")
+_ARCHIVE_PATH = Path("db/arbitrage/matches_archive.json")
 
 
 # ---- Data types ----
@@ -45,7 +50,6 @@ class KalshiEvent:
     title: str
     strike_date: str | None
     category: str
-    market_count: int
     sport: str | None
 
 
@@ -115,6 +119,40 @@ def _extract_sport_from_title(title: str) -> str | None:
     return None
 
 
+# Kalshi series tickers embed the sport (KXMLBSPREAD, KXCS2MAP); used when
+# the series title has no sport keyword. Without this, esports and several
+# league events carried sport=None and the fail-open sport gate let
+# cross-sport candidates through (CS2 vs Valorant/Dota 2, MLB vs MLS —
+# observed wrong matches 2026-07-22). Ordered: WNBA before NBA.
+_SPORT_FROM_TICKER: list[tuple[str, str]] = [
+    ("WNBA", "wnba"),
+    ("NCAAF", "cfb"),
+    ("NCAAB", "cbb"),
+    ("NBA", "nba"),
+    ("NFL", "nfl"),
+    ("MLB", "mlb"),
+    ("NHL", "nhl"),
+    ("MLS", "mls"),
+    ("EPL", "epl"),
+    ("UFC", "ufc"),
+    ("PGA", "pga"),
+    ("ATP", "atp"),
+    ("WTA", "wta"),
+    ("CS2", "cs2"),
+    ("VALORANT", "valorant"),
+    ("DOTA", "dota2"),
+    ("LOL", "lol"),
+]
+
+
+def _extract_sport_from_ticker(series_ticker: str) -> str | None:
+    upper = series_ticker.upper()
+    for token, sport in _SPORT_FROM_TICKER:
+        if token in upper:
+            return sport
+    return None
+
+
 _SPORT_SLUG_PREFIXES = frozenset({
     "aec", "arankc", "asc", "astatc", "atc", "tec", "tsc",
 })
@@ -138,15 +176,16 @@ def group_kalshi_events(
         series = ev.get("series_ticker", "")
         series_info = series_map.get(series, {})
         category = series_info.get("category", "")
-        markets = ev.get("markets", [])
         result.append(KalshiEvent(
             event_ticker=ev["event_ticker"],
             series_ticker=series,
             title=ev.get("title", ev["event_ticker"]),
             strike_date=ev.get("strike_date"),
             category=category,
-            market_count=len(markets) if markets else 0,
-            sport=_extract_sport_from_title(series_info.get("title", "")),
+            sport=(
+                _extract_sport_from_title(series_info.get("title", ""))
+                or _extract_sport_from_ticker(series)
+            ),
         ))
     return result
 
@@ -373,7 +412,10 @@ def player_prop_teams_match(kalshi_event_ticker: str, poly_slug: str) -> bool:
     m = _TICKER_TEAMS.search(kalshi_event_ticker.upper())
     parts = poly_slug.split("-")
     if not m or len(parts) < 4:
-        return True
+        # Fail closed: this gate is the only wrong-game defense for props
+        # (questions name just the player), so a ticker-format drift must
+        # surface as missing candidates, not as unverified ones.
+        return False
     return m.group(1) == (parts[2] + parts[3]).upper()
 
 
@@ -419,21 +461,6 @@ def _dates_compatible(
     if is_sports and (k_date is not None or p_date is not None):
         return False
     return True
-
-
-def dates_overlap(
-    strike_date: str | None,
-    poly_game: PolyGame,
-    *,
-    is_sports: bool = False,
-    kalshi_event_ticker: str = "",
-) -> bool:
-    kalshi_date = _extract_date(strike_date) if strike_date else None
-    if kalshi_date is None and kalshi_event_ticker:
-        kalshi_date = _extract_date_from_ticker(kalshi_event_ticker)
-    return _dates_compatible(
-        kalshi_date, _poly_date(poly_game), is_sports=is_sports,
-    )
 
 
 # ---- Pipeline ----
@@ -525,18 +552,51 @@ def ensure_match_files(
             path.write_text("[]")
 
 
+def match_is_live(m: dict, now: datetime) -> bool:
+    """Whether a match's event is still ahead of us.
+
+    Prefers Kalshi's expected_expiration_time ("expires"), which is a real
+    timestamp for the underlying event. event_date is only a label parsed
+    from the Poly slug, and for events that run past their labelled ET date
+    (observed on tennis, 2026-07-22) it prunes a market that is still
+    trading. It stays as the fallback for entries written before "expires".
+    """
+    expires = m.get("expires")
+    if expires:
+        dt = datetime.fromisoformat(expires.replace("Z", "+00:00"))
+        if dt.tzinfo is None:
+            # Kalshi timestamps are UTC; a naive value must not crash the
+            # aware comparison (and with it collector startup).
+            dt = dt.replace(tzinfo=timezone.utc)
+        return dt >= now
+    if not m.get("event_date"):
+        return True
+    # event_date labels are ET on both platforms, so compare in ET.
+    return date.fromisoformat(m["event_date"]) >= now.astimezone(_ET).date()
+
+
 def prune_expired_matches(
-    today: date, path: Path = _MATCHES_PATH,
+    now: datetime,
+    path: Path = _MATCHES_PATH,
+    archive_path: Path = _ARCHIVE_PATH,
 ) -> int:
+    """Move expired matches to the archive instead of deleting them.
+
+    Deleting destroyed the direction metadata, which silently excluded the
+    pruned matches' snapshots from the analysis freeze (observed 2026-07-22:
+    74% of captured rows orphaned). prepare_arb_analysis reads the archive.
+    """
     matches = json.loads(path.read_text())
-    kept = [
-        m for m in matches
-        if not m.get("event_date")
-        or date.fromisoformat(m["event_date"]) >= today
-    ]
-    if len(kept) != len(matches):
+    kept = [m for m in matches if match_is_live(m, now)]
+    expired = [m for m in matches if not match_is_live(m, now)]
+    if expired:
+        archived = (
+            json.loads(archive_path.read_text())
+            if archive_path.exists() else []
+        )
+        archive_path.write_text(json.dumps(archived + expired, indent=2))
         path.write_text(json.dumps(kept, indent=2))
-    return len(matches) - len(kept)
+    return len(expired)
 
 
 # ---- CLI ----
@@ -556,7 +616,7 @@ def _load_known_slugs() -> set[str]:
 
 async def _run(threshold: float = 0.3) -> None:
     ensure_match_files()
-    pruned = prune_expired_matches(date.today())
+    pruned = prune_expired_matches(datetime.now(timezone.utc))
     if pruned:
         print(f"Pruned {pruned} expired matches")
 
@@ -613,12 +673,34 @@ async def _run(threshold: float = 0.3) -> None:
             )
             return
 
+        # The Poly market detail carries the settlement description and the
+        # YES side (marketSides long:true) — the verification evidence the
+        # /matcher review reads. The YES side is fetched mechanically, never
+        # inferred (see docs/market-matching.md, Direction).
+        print(f"Fetching Poly details for {len(new)} candidates...")
+        slugs = list({c.poly_game.slug for c in new})
+        sides = {s["slug"]: s for s in await fetch_sides(slugs)}
+
         print(f"Fetching Kalshi markets for {len(new)} candidates...")
         results = []
         for c in new:
             markets = await kalshi.fetch_event_markets(
                 c.kalshi_event.event_ticker,
             )
+            side = sides.get(c.poly_game.slug, {})
+            poly = {
+                "slug": c.poly_game.slug,
+                "question": c.poly_game.question,
+                "description": side.get("description"),
+                "yes_side": side.get("yes_side"),
+                "category": c.poly_game.category,
+                "sport_type": c.poly_game.sport_type,
+                "game_id": c.poly_game.game_id,
+                "line": c.poly_game.line,
+                "game_start_time": c.poly_game.game_start_time,
+            }
+            if side.get("error"):
+                poly["yes_side_error"] = side["error"]
             results.append({
                 "score": round(c.score, 4),
                 "kalshi_event": {
@@ -634,18 +716,12 @@ async def _run(threshold: float = 0.3) -> None:
                         "title": m.get(
                             "yes_sub_title", m.get("title", m["ticker"]),
                         ),
+                        "rules": m.get("rules_primary"),
+                        "expires": m.get("expected_expiration_time"),
                     }
                     for m in markets
                 ],
-                "polymarket": {
-                    "slug": c.poly_game.slug,
-                    "question": c.poly_game.question,
-                    "category": c.poly_game.category,
-                    "sport_type": c.poly_game.sport_type,
-                    "game_id": c.poly_game.game_id,
-                    "line": c.poly_game.line,
-                    "game_start_time": c.poly_game.game_start_time,
-                },
+                "polymarket": poly,
             })
 
         _CANDIDATES_PATH.parent.mkdir(parents=True, exist_ok=True)

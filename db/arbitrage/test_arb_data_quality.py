@@ -13,6 +13,7 @@ import pytest
 
 DB_PATH = Path(__file__).parent.parent / "pma.db"
 MATCHES_PATH = Path(__file__).parent / "matches.json"
+ARCHIVE_PATH = Path(__file__).parent / "matches_archive.json"
 
 
 @pytest.fixture(scope="module")
@@ -34,10 +35,13 @@ def con():
 
 @pytest.fixture(scope="module")
 def matches():
-    path = Path("db/arbitrage/matches.json")
-    if not path.exists():
+    """Live matches plus the archive (expired matches keep their metadata
+    there; entries without a direction record purged or pre-archive ids)."""
+    if not MATCHES_PATH.exists():
         pytest.skip("matches.json not found")
-    data = json.loads(path.read_text())
+    data = json.loads(MATCHES_PATH.read_text())
+    if ARCHIVE_PATH.exists():
+        data += json.loads(ARCHIVE_PATH.read_text())
     if not data:
         pytest.skip("matches.json is empty")
     return data
@@ -55,7 +59,10 @@ def test_bid_ask_valid(con):
 
 def test_market_ids_in_matches(con, matches):
     match_ids = {m["id"] for m in matches}
-    market_ids = {m["kalshi_ticker"] for m in matches} | {m["polymarket_slug"] for m in matches}
+    market_ids = (
+        {m["kalshi_ticker"] for m in matches if m.get("kalshi_ticker")}
+        | {m["polymarket_slug"] for m in matches if m.get("polymarket_slug")}
+    )
     db_match_ids = {
         r[0] for r in con.sql(
             "SELECT DISTINCT match_id FROM orderbook_snapshots"
@@ -80,25 +87,6 @@ def test_both_platforms_represented(con, matches):
     }
     assert "kalshi" in platforms, "No Kalshi snapshots"
     assert "polymarket" in platforms, "No Polymarket snapshots"
-
-
-def test_no_large_timestamp_gaps(con):
-    gaps = con.sql("""
-        WITH ordered AS (
-            SELECT
-                match_id,
-                CAST(timestamp AS TIMESTAMP) AS ts,
-                LAG(CAST(timestamp AS TIMESTAMP)) OVER (
-                    PARTITION BY match_id ORDER BY timestamp
-                ) AS prev_ts
-            FROM orderbook_snapshots
-        )
-        SELECT count(*) FROM ordered
-        WHERE prev_ts IS NOT NULL
-          AND ts - prev_ts > INTERVAL '10 minutes'
-    """).fetchone()[0]
-    if gaps > 0:
-        print(f"WARNING: {gaps} gaps > 10 minutes detected")
 
 
 def test_typed_view_returns_numeric(con):

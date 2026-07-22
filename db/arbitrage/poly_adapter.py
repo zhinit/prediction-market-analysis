@@ -91,12 +91,10 @@ class PolyAdapter:
                     "slug": pm.slug,
                     "question": pm.question or pm.title or pm.slug,
                     "category": pm.category,
-                    "subcategory": pm.subcategory,
                     "sportsMarketTypeV2": pm.sports_market_type,
                     "gameId": pm.game_id,
                     "line": pm.line,
                     "gameStartTime": pm.game_start_time,
-                    "endDate": pm.end_date,
                 })
             offset += limit
             if len(items) < limit:

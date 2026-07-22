@@ -116,6 +116,7 @@ async def fetch_sides(
             return {
                 "slug": slug,
                 "question": market.question,
+                "description": market.description,
                 "yes_side": yes_side,
             }
 

@@ -60,6 +60,15 @@ class TestKalshiOrderbook:
         ob.apply_delta(_delta("yes", "0.5500", "-100.00"))
         assert 0.55 not in ob.yes_bids
 
+    def test_apply_delta_removes_dust_residue(self):
+        # Float summation can leave ~1e-6 contracts on an emptied level,
+        # which then quotes a phantom top-of-book price.
+        ob = KalshiOrderbook()
+        ob.apply_snapshot(_snap(yes=[["0.5500", "100.00"], ["0.5000", "50.00"]]))
+        ob.apply_delta(_delta("yes", "0.5500", "-99.999999"))
+        assert 0.55 not in ob.yes_bids
+        assert ob.best_bid_ask()[0] == 0.50
+
     def test_apply_delta_no_side(self):
         ob = KalshiOrderbook()
         ob.apply_snapshot(_snap(no=[["0.3000", "200.00"]]))
@@ -148,14 +157,16 @@ class TestSnapshotWriter:
 
     def test_typed_view_idempotent(self, tmp_path):
         con1 = _init_db(tmp_path / "idem.db")
+        con1.close()
         con2 = _init_db(tmp_path / "idem.db")
         views = [
             r[0] for r in con2.sql(
-                "SELECT name FROM sqlite_master WHERE type='view'"
+                "SELECT view_name FROM duckdb_views()"
+                " WHERE NOT internal"
             ).fetchall()
         ]
-        con1.close()
         con2.close()
+        assert views == ["orderbook_snapshots_typed"]
 
 
 # Polymarket message parsing is covered by test_ws_models.py.
@@ -173,10 +184,16 @@ class TestLoadMatches:
              "direction": "kalshi_yes_eq_poly_yes", "event_date": "2100-01-01"},
             {"id": "undated", "kalshi_ticker": "K3", "polymarket_slug": "s3",
              "direction": "kalshi_yes_eq_poly_yes"},
+            # Past event_date, but "expires" says it is still trading.
+            {"id": "expires-later", "kalshi_ticker": "K4",
+             "polymarket_slug": "s4",
+             "direction": "kalshi_yes_eq_poly_yes",
+             "event_date": "2000-01-01",
+             "expires": "2100-01-01T00:00:00Z"},
         ]))
         monkeypatch.setattr(co, "_MATCHES_PATH", path)
         ids = {m["id"] for m in co._load_matches()}
-        assert ids == {"future", "undated"}
+        assert ids == {"future", "undated", "expires-later"}
 
 
 class TestCrossedBookPolicy:
@@ -205,6 +222,22 @@ class TestCrossedBookPolicy:
         assert p.blacklist == set()
         p.record_crossed("A")
         assert p.blacklist == {"A"}
+
+
+class TestAuthRejected:
+    def _err(self, status):
+        from types import SimpleNamespace
+        return SimpleNamespace(response=SimpleNamespace(status_code=status))
+
+    def test_401_and_403_stop(self):
+        from db.arbitrage.collect_orderbooks import _auth_rejected
+        assert _auth_rejected("X", self._err(401)) is True
+        assert _auth_rejected("X", self._err(403)) is True
+
+    def test_other_statuses_retry(self):
+        from db.arbitrage.collect_orderbooks import _auth_rejected
+        assert _auth_rejected("X", self._err(500)) is False
+        assert _auth_rejected("X", self._err(429)) is False
 
 
 class TestSleepBackoff:

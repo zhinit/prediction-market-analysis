@@ -3,6 +3,7 @@
 ## Polymarket US
 
 - [[polymarket-us-api]] — CFTC-regulated US prediction market API (REST, WebSocket, gRPC, FIX)
+- [[polymarket-us-websocket]] — WebSocket API: full book payloads, subscription types, private stream, enumerations, auth handshake
 - [[polymarket-us-market-object]] — Market object schema: 40+ fields, marketSides, order book, BBO, query params
 - [[polymarket-us-historical-data]] — Historical trade data: activities, report endpoints, ledger CSVs (no public trade tape)
 - [[polymarket-us-fees]] — Fee formula and schedule (Theta x C x p x (1-p), updated July 2026)
@@ -103,6 +104,17 @@
 - [[data-storytelling]] — Narrative structure, text's role in visualization, audience awareness, message dimensions
 - [[portfolio-presentation]] — Portfolio design patterns, anti-patterns, project template
 - [[github-repo-presentation]] — README structure, repo hygiene, GitHub profile optimization, hiring manager priorities
+
+## Cross-Platform Arbitrage
+
+- [[cross-platform-arbitrage]] — Price divergence mechanics, magnitude (2-4%), persistence, naive strategy returns, speed of closure, $40M extraction study
+- [[polymarket-taker-delay]] — 1-second matching delay on Polymarket sports markets, order lifecycle, FOK/FAK behavior
+- [[polymarket-dynamic-fees]] — Dynamic taker fees on 15-minute crypto markets to curb latency arbitrage
+- [[cross-platform-settlement-differences]] — Divergent resolution examples (Cardi B, Venezuela), Kalshi vs Polymarket dispute processes
+- [[cross-platform-matching]] — Kalshi ticker parsing, Polymarket slug construction, team code caching, sports API endpoints
+- [[prediction-market-orderbook-microstructure]] — 30B order-book events study: spreads, depth, maker concentration, trade-direction inference problem
+- [[kalshi-orderbook-reconstruction]] — Snapshot-anchored delta replay for reconstructing Kalshi LOBs from WebSocket streams
+- [[nba-arbitrage-study]] — UCLA study: 7 executable arb episodes across 3,042 NBA markets, shallow liquidity as binding constraint
 
 ## pybaseball
 

@@ -1,5 +1,21 @@
 # Wiki Log
 
+## 2026-07-23 (cross-platform arbitrage)
+
+- **Source**: Copied from poka-arb raw sources — academic papers, practitioner guides, API docs
+- **Pages created**: cross-platform-arbitrage, polymarket-taker-delay, polymarket-dynamic-fees, cross-platform-settlement-differences, cross-platform-matching, prediction-market-orderbook-microstructure, kalshi-orderbook-reconstruction, nba-arbitrage-study
+- **Pages updated**: index
+- **Raw sources copied from poka-arb**: polymarket-order-lifecycle-docs-2026.md, arxiv-semantic-non-fungibility-cross-platform-spreads.md, financemagnates-polymarket-dynamic-fees-latency-arbitrage.md, flashbots-arbitrage-prediction-markets.md (+ HTML), arxiv-polymarket-microstructure-orderbook.md, kalshi-websocket-delta-application.md, speedyhughes-matching-logic.md, polymarket-us-sports-api.md, ssrn-kalshi-lob-reconstruction.md, clawarbs-kalshi-polymarket-arbitrage-guide.md, insidersignal-prediction-market-arbitrage-guide.md, settlement-differences-defirate.md, arxiv-arbitrage-polymarket-nba-markets.md
+- **Coverage**: Cross-platform arbitrage mechanics (2-4% persistent deviations, semantic non-fungibility, ~6% event overlap, $40M extraction over one year, arb window decay from 12.3s to 2.7s, 73% profits to sub-100ms bots). Polymarket taker delay (1s matching delay on sports, order statuses, FOK/FAK behavior). Dynamic fees on 15-min crypto markets ($313→$414K latency arb example). Settlement differences (Cardi B divergent resolution, Kalshi centralized vs Polymarket UMA oracle, documented errors on both platforms). Cross-platform matching approaches (Kalshi ticker parsing, Polymarket slug construction, team code caching, sports API endpoints). Orderbook microstructure (30B events study: longshot spread premium, depth concentration, maker concentration ~32 per market, trade-direction inference only 59% accurate from feed). Kalshi LOB reconstruction (snapshot-anchored delta replay, BTreeMap data structure, YES/NO price conversion). NBA arbitrage study (7 executable episodes across 3,042 markets, median 3.6s persistence, shallow liquidity as binding constraint).
+
+## 2026-07-23
+
+- **Source**: Polymarket US official docs (docs.polymarket.us/api-reference/websocket/overview, docs.polymarket.us/api-reference/websocket/markets, docs.polymarket.us/api-reference/websocket/private, docs.polymarket.us/api-reference/authentication, docs.polymarket.us/api-reference/sdks/typescript/websocket)
+- **Pages created**: polymarket-us-websocket
+- **Pages updated**: polymarket-us-api (WebSocket section expanded, cross-link added), index
+- **Raw sources archived**: polymarket-us-ws-markets-stream.md, polymarket-us-ws-overview.md, polymarket-us-ws-private-stream.md, polymarket-us-ws-authentication.md, polymarket-us-sdk-typescript-websocket.md
+- **Coverage**: Complete WebSocket API reference for both endpoints. Markets stream: three subscription types (MARKET_DATA full book, MARKET_DATA_LITE BBO, TRADE), exact JSON payloads for subscription requests and all three response types, full book delivery model (complete book on every update, no snapshot+delta), optional debouncing, px/qty field formats, 100-market subscription limit. Private stream: four subscription types (ORDER, ORDER_SNAPSHOT, POSITION, ACCOUNT_BALANCE), snapshot and update payloads with decimal position fields, execution report format. Connection: Ed25519 auth handshake (3 headers, signature = timestamp+GET+path), 30s timestamp window, heartbeat protocol. Enumerations: 7 market states, 7 execution types, 9 ledger entry types, 10 order states, 4 order intents. TypeScript SDK wrapper methods and event names. Wire format discrepancy noted (overview page shows snake_case/numeric types vs per-endpoint pages show camelCase/string enums). Comparison with Kalshi WebSocket (snapshot+delta vs full book; unauthenticated vs authenticated market data).
+
 ## 2026-07-10
 
 - **Source**: GitHub Docs (profile enhancement guide), freeCodeCamp (README guide), Dataquest (data science portfolio on GitHub), Bulldogjob (README best practices), Medium/TDS Archive — S. T. Lanier (GitHub cleanup for data science), Hakia (Developer Portfolio Guide 2026, 500+ hiring manager survey)

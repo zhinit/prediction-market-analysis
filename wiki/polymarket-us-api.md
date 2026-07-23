@@ -98,11 +98,16 @@ quantity (source: polymarket-us-api-orders.md).
 
 ## WebSocket
 
-Two streams, both requiring auth. Markets stream supports full book (type 1),
-lite pricing (type 2), and trade feed (type 3) — max 100 markets per
-subscription. Private stream delivers order (type 1), position (type 3), and
-balance (type 4) updates. Server sends heartbeats; reconnect with exponential
-backoff if they stop (source: polymarket-us-api-websocket.md).
+Two streams, both requiring Ed25519 auth in the connection handshake. Markets
+stream supports full book (`SUBSCRIPTION_TYPE_MARKET_DATA`), lite pricing
+(`SUBSCRIPTION_TYPE_MARKET_DATA_LITE`), and trade feed
+(`SUBSCRIPTION_TYPE_TRADE`) — max 100 markets per subscription. Full book
+delivers the complete order book on every update (no snapshot + delta mode).
+Private stream delivers order, position, and balance updates. Server sends
+heartbeat messages; reconnect with exponential backoff if they stop. See
+[[polymarket-us-websocket]] for complete message formats, JSON payloads, and
+enumerations (source: polymarket-us-ws-overview.md,
+polymarket-us-ws-markets-stream.md).
 
 ## Fees
 
@@ -144,6 +149,7 @@ Both are US prediction market platforms offering REST and WebSocket APIs
 
 ## Related pages
 
+- [[polymarket-us-websocket]] — WebSocket API: message formats, full book payloads, private stream, enumerations
 - [[polymarket-us-market-object]] — market object schema, order book, BBO, query params
 - [[polymarket-us-historical-data]] — historical trade data, report endpoints, ledger CSVs
 - [[polymarket-international-api]] — the crypto-based international platform

@@ -277,19 +277,26 @@ async def main() -> None:
     )
 
     shutdown = asyncio.Event()
+    tasks: list[asyncio.Task] = []
 
     def handle_signal() -> None:
         log.info("Shutdown signal received")
         shutdown.set()
+        for t in tasks:
+            t.cancel()
 
     loop = asyncio.get_running_loop()
     for sig in (signal.SIGINT, signal.SIGTERM):
         loop.add_signal_handler(sig, handle_signal)
 
-    await asyncio.gather(
-        run_kalshi(con, kalshi_tickers, shutdown),
-        run_polymarket(con, poly_slugs, shutdown),
-    )
+    tasks = [
+        asyncio.create_task(run_kalshi(con, kalshi_tickers, shutdown)),
+        asyncio.create_task(run_polymarket(con, poly_slugs, shutdown)),
+    ]
+    try:
+        await asyncio.gather(*tasks)
+    except asyncio.CancelledError:
+        pass
 
     con.close()
     log.info("Collector shut down cleanly")

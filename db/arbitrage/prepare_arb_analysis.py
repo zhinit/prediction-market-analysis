@@ -14,7 +14,9 @@ outcome. Two directions checked: buy_poly (buy on Poly, offset on Kalshi)
 and buy_kalshi (the reverse).
 
 Tables created:
-- arb_bbo: BBO per book side, deduplicated to state changes only
+- arb_bbo: BBO per book side, change detection: a row is kept when the top of
+  the book changed (price, size, or the side going empty — empty sides emit a
+  NULL-price row so downstream forward-fills stop serving vanished quotes)
 - arb_states: cross-platform state at each change, with arb/fee/size
 - arb_episodes: contiguous arb windows with duration and metrics
 - arb_build_info: dataset metadata
@@ -27,14 +29,26 @@ import duckdb
 
 DB_PATH = "db/arb_orderbooks.db"
 
-KALSHI_LAST_PRICE = """CAST(json_extract_string(o.book_json,
-    '$[' || (json_array_length(o.book_json) - 1) || '][0]') AS DOUBLE)"""
+# Top-of-book extractors. An empty book side yields NULL price/size — that row
+# still enters arb_bbo so the disappearance of a quote is itself a recorded
+# state change.
+KALSHI_LAST_PRICE = """CASE WHEN json_array_length(o.book_json) > 0
+    THEN CAST(json_extract_string(o.book_json,
+        '$[' || (json_array_length(o.book_json) - 1) || '][0]') AS DOUBLE)
+    END"""
 
-KALSHI_LAST_SIZE = """CAST(json_extract_string(o.book_json,
-    '$[' || (json_array_length(o.book_json) - 1) || '][1]') AS DOUBLE)"""
+KALSHI_LAST_SIZE = """CASE WHEN json_array_length(o.book_json) > 0
+    THEN CAST(json_extract_string(o.book_json,
+        '$[' || (json_array_length(o.book_json) - 1) || '][1]') AS DOUBLE)
+    END"""
 
-POLY_FIRST_PRICE = "CAST(json_extract_string(o.book_json, '$[0][0]') AS DOUBLE)"
-POLY_FIRST_SIZE = "CAST(json_extract_string(o.book_json, '$[0][1]') AS DOUBLE)"
+POLY_FIRST_PRICE = """CASE WHEN json_array_length(o.book_json) > 0
+    THEN CAST(json_extract_string(o.book_json, '$[0][0]') AS DOUBLE)
+    END"""
+
+POLY_FIRST_SIZE = """CASE WHEN json_array_length(o.book_json) > 0
+    THEN CAST(json_extract_string(o.book_json, '$[0][1]') AS DOUBLE)
+    END"""
 
 GAME_KEY = "m.away_team || '@' || m.home_team || '-' || m.game_date::VARCHAR"
 
@@ -44,7 +58,14 @@ BLACKOUT_SECONDS = 30
 
 
 def create_bbo(con: duckdb.DuckDBPyConnection) -> None:
-    """Extract best bid/offer from each orderbook snapshot, dedup to changes."""
+    """Extract best bid/offer from each orderbook snapshot.
+
+    Change detection: a row is kept when the top of the book changed — price,
+    size, or the side going empty (NULL price/size). Without the empty rows,
+    the ASOF join downstream would forward-fill quotes that no longer exist;
+    without size in the change key, sizes would freeze at whatever they were
+    when the price level first appeared.
+    """
     con.sql(f"""
         CREATE OR REPLACE TABLE arb_bbo AS
         WITH raw_bbo AS (
@@ -55,7 +76,6 @@ def create_bbo(con: duckdb.DuckDBPyConnection) -> None:
             FROM orderbook_snapshots o
             JOIN matched_markets m ON o.market_id = m.kalshi_ticker_away
             WHERE o.platform = 'kalshi' AND o.side = 'yes'
-              AND json_array_length(o.book_json) > 0
 
             UNION ALL
 
@@ -66,7 +86,6 @@ def create_bbo(con: duckdb.DuckDBPyConnection) -> None:
             FROM orderbook_snapshots o
             JOIN matched_markets m ON o.market_id = m.kalshi_ticker_away
             WHERE o.platform = 'kalshi' AND o.side = 'no'
-              AND json_array_length(o.book_json) > 0
 
             UNION ALL
 
@@ -77,7 +96,6 @@ def create_bbo(con: duckdb.DuckDBPyConnection) -> None:
             FROM orderbook_snapshots o
             JOIN matched_markets m ON o.market_id = m.poly_slug
             WHERE o.platform = 'polymarket' AND o.side = 'bids'
-              AND json_array_length(o.book_json) > 0
 
             UNION ALL
 
@@ -88,20 +106,29 @@ def create_bbo(con: duckdb.DuckDBPyConnection) -> None:
             FROM orderbook_snapshots o
             JOIN matched_markets m ON o.market_id = m.poly_slug
             WHERE o.platform = 'polymarket' AND o.side = 'offers'
-              AND json_array_length(o.book_json) > 0
         )
         SELECT timestamp, game_key, game_date, update_type, price, size
         FROM (
             SELECT *,
                    LAG(price) OVER (
                        PARTITION BY game_key, update_type ORDER BY timestamp
-                   ) AS prev_price
+                   ) AS prev_price,
+                   LAG(size) OVER (
+                       PARTITION BY game_key, update_type ORDER BY timestamp
+                   ) AS prev_size,
+                   ROW_NUMBER() OVER (
+                       PARTITION BY game_key, update_type ORDER BY timestamp
+                   ) AS rn
             FROM raw_bbo
         )
-        WHERE prev_price IS NULL OR abs(price - prev_price) > 1e-10
+        WHERE rn = 1
+           OR price IS DISTINCT FROM prev_price
+           OR size IS DISTINCT FROM prev_size
     """)
-    n = con.execute("SELECT count(*) FROM arb_bbo").fetchone()[0]
-    print(f"  arb_bbo: {n:,} BBO changes")
+    n, n_empty = con.execute("""
+        SELECT count(*), count(*) FILTER (price IS NULL) FROM arb_bbo
+    """).fetchone()
+    print(f"  arb_bbo: {n:,} top-of-book changes ({n_empty:,} empty-side rows)")
 
 
 def create_states(con: duckdb.DuckDBPyConnection) -> None:
@@ -152,8 +179,13 @@ def create_states(con: duckdb.DuckDBPyConnection) -> None:
                                 + {pt} * (1 - p_bid) * p_bid
                        ELSE 0
                    END AS total_fee,
-                   LEAST(k_bid_size, k_ask_size, p_bid_size, p_ask_size)
-                       AS min_size
+                   CASE
+                       WHEN k_bid - p_ask >= p_bid - k_ask AND k_bid - p_ask > 0
+                           THEN LEAST(p_ask_size, k_bid_size)
+                       WHEN p_bid - k_ask > 0
+                           THEN LEAST(k_ask_size, p_bid_size)
+                       ELSE LEAST(k_bid_size, k_ask_size, p_bid_size, p_ask_size)
+                   END AS min_size
             FROM joined
             WHERE k_bid IS NOT NULL AND k_ask IS NOT NULL
               AND p_bid IS NOT NULL AND p_ask IS NOT NULL
@@ -210,7 +242,7 @@ def create_episodes(con: duckdb.DuckDBPyConnection) -> None:
                    AVG(net_arb) AS avg_net_arb,
                    MAX(direction) AS direction,
                    COUNT(*) AS n_states,
-                   MIN(min_size) AS min_size_at_touch,
+                   MIN(min_size) AS bottleneck_liquidity,
                    AVG(total_fee) AS avg_fee
             FROM grouped
             WHERE gross_arb > 0
@@ -237,7 +269,7 @@ def create_episodes(con: duckdb.DuckDBPyConnection) -> None:
             a.max_gross_arb, a.avg_gross_arb,
             a.max_net_arb, a.avg_net_arb,
             a.direction, a.n_states,
-            a.min_size_at_touch, a.avg_fee
+            a.bottleneck_liquidity, a.avg_fee
         FROM agg a
         LEFT JOIN closings c
           ON c.game_key = a.game_key AND c.ep_grp = a.ep_grp

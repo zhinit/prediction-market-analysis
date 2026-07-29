@@ -58,6 +58,11 @@ Sign: `timestamp + "GET" + "/trade-api/ws/v2"` and pass the three
 The `orderbook_delta` type includes an optional `client_order_id` field
 indicating user-caused changes. (source: kalshi-api-websocket.md)
 
+Quantity fields use the `_fp` suffix and are fixed-point strings supporting
+fractional contract sizes (minimum 0.01 contracts). See
+[[kalshi-fractional-contracts]] for details.
+(source: kalshi-fixed-point-migration.md)
+
 ## Limits
 
 - Max 500,000 market subscriptions

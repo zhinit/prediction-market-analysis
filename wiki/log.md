@@ -1,5 +1,19 @@
 # Wiki Log
 
+## 2026-07-28 (Kalshi tick sizes)
+
+- **Sources**: kalshi-fixed-point-migration.md, kalshi-changelog-tick-sizes-2026.md
+- **Pages created**: kalshi-tick-sizes
+- **Pages updated**: kalshi-fractional-contracts (added link to tick sizes page), index
+- **Coverage**: Kalshi assigns per-market tick sizes via `price_level_structure`. 3 original structures (linear_cent, tapered_deci_cent, deci_cent) plus 7 new center/edge structures announced July 23 2026. MLB markets use `linear_cent` (1¢ everywhere), meaning Kalshi cannot express sub-cent prices on these markets. This is structural and explains why apparent sub-cent arbs appear against Polymarket (which supports 0.5¢ pricing). New structures rolling out week of July 27 (pilot) and August 3 (higher volume).
+
+## 2026-07-28 (fractional contracts)
+
+- **Sources**: kalshi-fixed-point-migration.md, polymarket-us-fractional-contracts.md, polymarket-us-markets-websocket.md, polymarket-orderbook.md
+- **Pages created**: kalshi-fractional-contracts, polymarket-us-contract-sizing
+- **Pages updated**: kalshi-api-websocket (added `_fp` suffix note), polymarket-us-websocket (added fractional qty note and link), index
+- **Coverage**: Kalshi supports fractional contracts with 0.01 minimum granularity via fixed-point `_fp` fields (part of fixed-point migration that also added subpenny pricing). Polymarket US user-facing docs say whole contracts only, but API websocket docs show fractional `qty` values and describe them as valid "for partial-contract markets" — contradiction not resolved by sources.
+
 ## 2026-07-23 (cross-platform arbitrage)
 
 - **Source**: Copied from poka-arb raw sources — academic papers, practitioner guides, API docs

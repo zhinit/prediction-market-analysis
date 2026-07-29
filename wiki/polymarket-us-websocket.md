@@ -119,7 +119,11 @@ polymarket-us-ws-markets-stream.md).
 ```
 
 Price fields use `{"value": "string", "currency": "USD"}` format. Quantity
-fields (`qty`) are strings (source: polymarket-us-ws-markets-stream.md).
+fields (`qty`) are strings and may contain decimals for partial-contract
+markets (source: polymarket-us-ws-markets-stream.md,
+polymarket-us-markets-websocket.md). See [[polymarket-us-contract-sizing]]
+for the contradiction between the whole-contract user-facing policy and
+fractional quantities in the order book data.
 
 ### Lite Response (SUBSCRIPTION_TYPE_MARKET_DATA_LITE)
 

@@ -7,6 +7,7 @@
 - [[polymarket-us-market-object]] — Market object schema: 40+ fields, marketSides, order book, BBO, query params
 - [[polymarket-us-historical-data]] — Historical trade data: activities, report endpoints, ledger CSVs (no public trade tape)
 - [[polymarket-us-fees]] — Fee formula and schedule (Theta x C x p x (1-p), updated July 2026)
+- [[polymarket-us-contract-sizing]] — Whole-contract user policy vs fractional quantities in order book API data
 - [[polymarket-us-geographic-restrictions]] — US state-level access: Minnesota ban, 11+ cease-and-desist states
 - [[polymarket-international-api]] — Crypto-based international Polymarket API (Polygon/pUSD)
 
@@ -24,6 +25,8 @@
 - [[kalshi-api-pagination]] — Cursor-based pagination across list endpoints
 - [[kalshi-api-historical]] — Historical data tier: cutoff timestamps, archived markets/trades/orders/candlesticks
 - [[kalshi-fees]] — Probability-weighted taker/maker fee formula, fee schedule by price point, deposit/withdrawal fees
+- [[kalshi-fractional-contracts]] — Fixed-point migration: fractional contracts (min 0.01), subpenny pricing, `_fp` suffix fields
+- [[kalshi-tick-sizes]] — Per-market tick sizes: 10 price_level_structure values, edge/center bands, MLB uses linear_cent (1¢)
 
 ## MLB Stats API
 

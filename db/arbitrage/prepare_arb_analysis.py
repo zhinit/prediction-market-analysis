@@ -2,6 +2,15 @@
 
 Reads from db/arb_orderbooks.db. Writes analysis tables to the same database.
 
+Timestamps: all analysis tables are built on EXCHANGE event time
+(`source_timestamp`), normalized to naive UTC — Kalshi stores epoch
+milliseconds as a string ("1669149841000"), Polymarket stores ISO UTC
+strings ("2026-07-24T23:25:21Z"). The local DB-insert `timestamp` column
+(naive US/Eastern wall time) is kept only as `recv_ts` for lag diagnostics
+and as an ordering tiebreaker. Rows without a source timestamp are dropped
+and reported. Data before NEW_DATA_START (the July 23-24 collection, which
+lacked Kalshi source timestamps) is excluded.
+
 Book structure:
 - Kalshi: separate YES/NO books per team ticker, sorted ascending by price.
   All entries are resting buy orders. Best bid = last element (highest price).
@@ -28,6 +37,19 @@ Run:
 import duckdb
 
 DB_PATH = "db/arb_orderbooks.db"
+
+# First day of the recollection (see plans/arb-recollection.md). Everything
+# earlier — the July 23-24 local-timestamp collection — is excluded.
+NEW_DATA_START = "2026-07-25"
+
+# source_timestamp → naive UTC event time, per platform.
+EVENT_TS = """CASE WHEN o.platform = 'kalshi'
+    THEN epoch_ms(CAST(o.source_timestamp AS BIGINT))
+    ELSE CAST(o.source_timestamp AS TIMESTAMPTZ) AT TIME ZONE 'UTC'
+    END"""
+
+# Local collector timestamps are naive US/Eastern wall time → naive UTC.
+LOCAL_TO_UTC = "(({col} AT TIME ZONE 'America/New_York') AT TIME ZONE 'UTC')"
 
 # Top-of-book extractors. An empty book side yields NULL price/size — that row
 # still enters arb_bbo so the disappearance of a quote is itself a recorded
@@ -60,66 +82,90 @@ BLACKOUT_SECONDS = 30
 def create_bbo(con: duckdb.DuckDBPyConnection) -> None:
     """Extract best bid/offer from each orderbook snapshot.
 
+    Timestamps are exchange event time (see module docstring); `recv_ts`
+    (local insert time) breaks ordering ties between updates that share an
+    event millisecond.
+
     Change detection: a row is kept when the top of the book changed — price,
     size, or the side going empty (NULL price/size). Without the empty rows,
     the ASOF join downstream would forward-fill quotes that no longer exist;
     without size in the change key, sizes would freeze at whatever they were
     when the price level first appeared.
     """
+    (n_null,) = con.execute(f"""
+        SELECT count(*) FROM orderbook_snapshots
+        WHERE source_timestamp IS NULL AND timestamp >= DATE '{NEW_DATA_START}'
+    """).fetchone()
+    if n_null > 0:
+        print(f"  WARNING: {n_null:,} post-cutoff snapshots have no "
+              f"source_timestamp and are dropped")
+
     con.sql(f"""
         CREATE OR REPLACE TABLE arb_bbo AS
-        WITH raw_bbo AS (
-            SELECT o.timestamp, {GAME_KEY} AS game_key, m.game_date,
+        WITH snaps AS (
+            SELECT {EVENT_TS} AS event_ts,
+                   o.timestamp AS recv_ts,
+                   o.platform, o.market_id, o.side, o.book_json
+            FROM orderbook_snapshots o
+            WHERE o.source_timestamp IS NOT NULL
+        ),
+        raw_bbo AS (
+            SELECT o.event_ts, o.recv_ts, {GAME_KEY} AS game_key, m.game_date,
                    'k_bid' AS update_type,
                    {KALSHI_LAST_PRICE} AS price,
                    {KALSHI_LAST_SIZE} AS size
-            FROM orderbook_snapshots o
+            FROM snaps o
             JOIN matched_markets m ON o.market_id = m.kalshi_ticker_away
             WHERE o.platform = 'kalshi' AND o.side = 'yes'
 
             UNION ALL
 
-            SELECT o.timestamp, {GAME_KEY}, m.game_date,
+            SELECT o.event_ts, o.recv_ts, {GAME_KEY}, m.game_date,
                    'k_ask',
                    1.0 - {KALSHI_LAST_PRICE},
                    {KALSHI_LAST_SIZE}
-            FROM orderbook_snapshots o
+            FROM snaps o
             JOIN matched_markets m ON o.market_id = m.kalshi_ticker_away
             WHERE o.platform = 'kalshi' AND o.side = 'no'
 
             UNION ALL
 
-            SELECT o.timestamp, {GAME_KEY}, m.game_date,
+            SELECT o.event_ts, o.recv_ts, {GAME_KEY}, m.game_date,
                    'p_bid',
                    {POLY_FIRST_PRICE},
                    {POLY_FIRST_SIZE}
-            FROM orderbook_snapshots o
+            FROM snaps o
             JOIN matched_markets m ON o.market_id = m.poly_slug
             WHERE o.platform = 'polymarket' AND o.side = 'bids'
 
             UNION ALL
 
-            SELECT o.timestamp, {GAME_KEY}, m.game_date,
+            SELECT o.event_ts, o.recv_ts, {GAME_KEY}, m.game_date,
                    'p_ask',
                    {POLY_FIRST_PRICE},
                    {POLY_FIRST_SIZE}
-            FROM orderbook_snapshots o
+            FROM snaps o
             JOIN matched_markets m ON o.market_id = m.poly_slug
             WHERE o.platform = 'polymarket' AND o.side = 'offers'
         )
-        SELECT timestamp, game_key, game_date, update_type, price, size
+        SELECT event_ts AS timestamp, recv_ts, game_key, game_date,
+               update_type, price, size
         FROM (
             SELECT *,
                    LAG(price) OVER (
-                       PARTITION BY game_key, update_type ORDER BY timestamp
+                       PARTITION BY game_key, update_type
+                       ORDER BY event_ts, recv_ts
                    ) AS prev_price,
                    LAG(size) OVER (
-                       PARTITION BY game_key, update_type ORDER BY timestamp
+                       PARTITION BY game_key, update_type
+                       ORDER BY event_ts, recv_ts
                    ) AS prev_size,
                    ROW_NUMBER() OVER (
-                       PARTITION BY game_key, update_type ORDER BY timestamp
+                       PARTITION BY game_key, update_type
+                       ORDER BY event_ts, recv_ts
                    ) AS rn
             FROM raw_bbo
+            WHERE event_ts >= DATE '{NEW_DATA_START}'
         )
         WHERE rn = 1
            OR price IS DISTINCT FROM prev_price
@@ -212,8 +258,12 @@ def create_episodes(con: duckdb.DuckDBPyConnection) -> None:
     con.sql(f"""
         CREATE OR REPLACE TABLE arb_episodes AS
         WITH blackout_windows AS (
-            SELECT timestamp - INTERVAL {BLACKOUT_SECONDS} SECOND AS win_start,
-                   timestamp + INTERVAL {BLACKOUT_SECONDS} SECOND AS win_end
+            -- collection_metadata only has local (US/Eastern) wall time;
+            -- convert to naive UTC to compare against event-time episodes.
+            SELECT {LOCAL_TO_UTC.format(col="timestamp")}
+                       - INTERVAL {BLACKOUT_SECONDS} SECOND AS win_start,
+                   {LOCAL_TO_UTC.format(col="timestamp")}
+                       + INTERVAL {BLACKOUT_SECONDS} SECOND AS win_end
             FROM collection_metadata
             WHERE event IN ('start', 'reconnect')
         ),

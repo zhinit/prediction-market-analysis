@@ -61,15 +61,30 @@ def init_db(path: str = DB_PATH) -> duckdb.DuckDBPyConnection:
 def save_matched_markets(
     con: duckdb.DuckDBPyConnection, matches: list[MatchedMarket],
 ) -> None:
+    """Upsert matched pairs keyed on kalshi_event_ticker. Pairs matched by
+    an earlier run the same day are kept, so a restart never orphans
+    snapshots already collected for games that have since closed."""
     if not matches:
         return
     rows = [m.model_dump() for m in matches]
     df = pl.DataFrame(rows)
     con.sql("""
         DELETE FROM matched_markets
-        WHERE game_date = (SELECT DISTINCT game_date FROM df LIMIT 1)
+        WHERE kalshi_event_ticker IN (SELECT kalshi_event_ticker FROM df)
     """)
     con.sql("INSERT INTO matched_markets BY NAME SELECT * FROM df")
+
+
+def load_matched_markets(
+    con: duckdb.DuckDBPyConnection, game_date,
+) -> list[tuple[str, str, str]]:
+    """All of today's pairs (this run's and earlier runs'), as
+    (kalshi_ticker_away, kalshi_ticker_home, poly_slug)."""
+    return con.execute(
+        "SELECT kalshi_ticker_away, kalshi_ticker_home, poly_slug"
+        " FROM matched_markets WHERE game_date = $1",
+        [game_date],
+    ).fetchall()
 
 
 def save_snapshot(

@@ -13,7 +13,13 @@ import websockets
 from dotenv import load_dotenv
 
 from db.arbitrage.matcher import EASTERN, match_markets
-from db.arbitrage.storage import init_db, log_event, save_matched_markets, save_snapshot
+from db.arbitrage.storage import (
+    init_db,
+    load_matched_markets,
+    log_event,
+    save_matched_markets,
+    save_snapshot,
+)
 from db.shared.auth import (
     load_ed25519_key,
     load_rsa_key,
@@ -112,6 +118,7 @@ async def run_kalshi(con, tickers: list[str], shutdown: asyncio.Event) -> None:
                     if msg_type == "orderbook_snapshot":
                         data = msg["msg"]
                         ticker = data["market_ticker"]
+                        source_ts = data.get("ts_ms")
                         books.apply_snapshot(
                             ticker,
                             data.get("yes_dollars_fp", []),
@@ -121,6 +128,7 @@ async def run_kalshi(con, tickers: list[str], shutdown: asyncio.Event) -> None:
                             save_snapshot(
                                 con, "kalshi", ticker, side,
                                 books.get_book_json(ticker, side),
+                                str(source_ts) if source_ts is not None else None,
                             )
                         count += 1
                         if count <= len(tickers):
@@ -130,12 +138,14 @@ async def run_kalshi(con, tickers: list[str], shutdown: asyncio.Event) -> None:
                         data = msg["msg"]
                         ticker = data["market_ticker"]
                         side = data["side"]
+                        source_ts = data.get("ts_ms")
                         if books.apply_delta(
                             ticker, side, data["price_dollars"], data["delta_fp"],
                         ):
                             save_snapshot(
                                 con, "kalshi", ticker, side,
                                 books.get_book_json(ticker, side),
+                                str(source_ts) if source_ts is not None else None,
                             )
                             count += 1
 
@@ -256,20 +266,31 @@ async def main() -> None:
     for msg in match_log:
         log.info(msg)
 
-    if not matched:
-        log.error("No matched markets — nothing to collect")
-        return
-
     con = init_db()
     save_matched_markets(con, matched)
     log.info("Saved %d matched market pairs", len(matched))
 
+    # Subscribe to the union of today's pairs, including ones matched by an
+    # earlier run whose markets may no longer be discoverable.
+    pairs = load_matched_markets(con, today)
+    if len(pairs) > len(matched):
+        log.info(
+            "Including %d pairs carried over from earlier runs today",
+            len(pairs) - len(matched),
+        )
+    if not pairs:
+        log.error("No matched markets — nothing to collect")
+        con.close()
+        return
+
     kalshi_tickers: list[str] = []
     poly_slugs: list[str] = []
-    for m in matched:
-        kalshi_tickers.extend([m.kalshi_ticker_away, m.kalshi_ticker_home])
-        if m.poly_slug not in poly_slugs:
-            poly_slugs.append(m.poly_slug)
+    for away_ticker, home_ticker, poly_slug in pairs:
+        for ticker in (away_ticker, home_ticker):
+            if ticker not in kalshi_tickers:
+                kalshi_tickers.append(ticker)
+        if poly_slug not in poly_slugs:
+            poly_slugs.append(poly_slug)
 
     log.info(
         "Subscribing: %d Kalshi tickers, %d Polymarket slugs",

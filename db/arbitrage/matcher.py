@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
 import httpx
@@ -42,6 +42,11 @@ TICKER_RE = re.compile(
     r"^KXMLBGAME-(?P<yy>\d{2})(?P<mon>[A-Z]{3})(?P<dd>\d{2})"
     r"(?P<hhmm>\d{4})?(?P<pair>[A-Z]+?)(?:G?(?P<gamenum>\d))?$"
 )
+
+# Doubleheaders share a team pair and date, so candidates are disambiguated
+# by scheduled start time (same approach as db/game_winners). The tolerance
+# only guards against nonsense pairings; nearest-start does the real work.
+START_TIME_TOLERANCE = timedelta(hours=6)
 
 
 def is_retryable(exc: BaseException) -> bool:
@@ -87,8 +92,8 @@ def fetch_all_kalshi(
 @dataclass(frozen=True)
 class ParsedKalshiTicker:
     et_date: date
-    away: str
-    home: str
+    start_utc: datetime | None  # from the ticker's HHMM (ET), 2026 format
+    game_number: int | None  # from the 2025 G1/G2 doubleheader suffix
 
 
 def parse_kalshi_event_ticker(ticker: str) -> ParsedKalshiTicker | None:
@@ -98,11 +103,25 @@ def parse_kalshi_event_ticker(ticker: str) -> ParsedKalshiTicker | None:
     mon = MONTHS.get(m["mon"])
     if mon is None:
         return None
+    hhmm = m["hhmm"]
     try:
-        et_date = date(2000 + int(m["yy"]), mon, int(m["dd"]))
+        if hhmm is not None:
+            start_et = datetime(
+                2000 + int(m["yy"]), mon, int(m["dd"]),
+                int(hhmm[:2]), int(hhmm[2:]), tzinfo=EASTERN,
+            )
+            start_utc = start_et.astimezone(timezone.utc)
+            et_date = start_et.date()
+        else:
+            start_utc = None
+            et_date = date(2000 + int(m["yy"]), mon, int(m["dd"]))
     except ValueError:
         return None
-    return ParsedKalshiTicker(et_date=et_date, away="", home="", )
+    return ParsedKalshiTicker(
+        et_date=et_date,
+        start_utc=start_utc,
+        game_number=int(m["gamenum"]) if m["gamenum"] else None,
+    )
 
 
 def discover_kalshi_markets(
@@ -171,6 +190,20 @@ class PolyMoneyline:
     slug: str
     away_abbr: str
     home_abbr: str
+    start_utc: datetime | None
+
+
+def parse_poly_start(market, event: PolyEvent) -> datetime | None:
+    raw = market.game_start_time or event.start_date
+    if not raw:
+        return None
+    try:
+        parsed = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return parsed
 
 
 def discover_poly_markets(
@@ -209,11 +242,42 @@ def discover_poly_markets(
                 results.append(PolyMoneyline(
                     event=event, slug=market.slug,
                     away_abbr=away, home_abbr=home,
+                    start_utc=parse_poly_start(market, event),
                 ))
     return results
 
 
 # ── Matching ──────────────────────────────────────────────────────────
+
+@dataclass(frozen=True)
+class KalshiCandidate:
+    event: KalshiEvent
+    away: str
+    home: str
+    away_ticker: str
+    home_ticker: str
+    start_utc: datetime | None
+
+
+def pick_kalshi(
+    candidates: list[KalshiCandidate], poly_start: datetime | None,
+) -> KalshiCandidate | None:
+    """Choose the Kalshi event for a Polymarket market. A single candidate
+    matches directly; a doubleheader (two events sharing the team pair)
+    is resolved by nearest scheduled start time."""
+    if len(candidates) == 1:
+        return candidates[0]
+    if poly_start is None:
+        return None
+    timed = [
+        c for c in candidates
+        if c.start_utc is not None
+        and abs(c.start_utc - poly_start) <= START_TIME_TOLERANCE
+    ]
+    if not timed:
+        return None
+    return min(timed, key=lambda c: abs(c.start_utc - poly_start))
+
 
 def match_markets(target_date: date) -> tuple[list[MatchedMarket], list[str]]:
     """Discover and match today's markets. Returns (matched, log_messages)."""
@@ -226,44 +290,62 @@ def match_markets(target_date: date) -> tuple[list[MatchedMarket], list[str]]:
     log.append(f"Kalshi: {len(kalshi_pairs)} events for {target_date}")
     log.append(f"Polymarket: {len(poly_markets)} moneyline markets for {target_date}")
 
-    # Build Kalshi lookup: frozenset({away, home}) → (event, away_ticker, home_ticker)
-    kalshi_by_teams: dict[frozenset[str], tuple[KalshiEvent, str, str, str, str]] = {}
+    # Build Kalshi lookup: frozenset({away, home}) → candidates. A team pair
+    # holds two candidates on doubleheader days.
+    kalshi_by_teams: dict[frozenset[str], list[KalshiCandidate]] = {}
     for event, markets in kalshi_pairs:
         teams = extract_kalshi_teams(event, markets)
         if teams is None:
             log.append(f"  Kalshi skip (can't parse teams): {event.event_ticker}")
             continue
         away, home, away_ticker, home_ticker = teams
-        key = frozenset({away, home})
-        kalshi_by_teams[key] = (event, away, home, away_ticker, home_ticker)
+        parsed = parse_kalshi_event_ticker(event.event_ticker)
+        kalshi_by_teams.setdefault(frozenset({away, home}), []).append(
+            KalshiCandidate(
+                event=event, away=away, home=home,
+                away_ticker=away_ticker, home_ticker=home_ticker,
+                start_utc=parsed.start_utc if parsed else None,
+            )
+        )
 
     matched: list[MatchedMarket] = []
     for pm in poly_markets:
         key = frozenset({pm.away_abbr, pm.home_abbr})
-        if key not in kalshi_by_teams:
+        candidates = kalshi_by_teams.get(key, [])
+        if not candidates:
             log.append(
                 f"  Polymarket no Kalshi match: {pm.slug} "
                 f"({pm.away_abbr} @ {pm.home_abbr})"
             )
             continue
 
-        k_event, k_away, k_home, k_away_ticker, k_home_ticker = kalshi_by_teams[key]
+        chosen = pick_kalshi(candidates, pm.start_utc)
+        if chosen is None:
+            log.append(
+                f"  Polymarket doubleheader ambiguous (no start time): {pm.slug}"
+            )
+            continue
+
         matched.append(MatchedMarket(
             game_date=target_date,
             away_team=pm.away_abbr,
             home_team=pm.home_abbr,
-            kalshi_ticker_away=k_away_ticker,
-            kalshi_ticker_home=k_home_ticker,
+            kalshi_ticker_away=chosen.away_ticker,
+            kalshi_ticker_home=chosen.home_ticker,
             poly_slug=pm.slug,
-            kalshi_event_ticker=k_event.event_ticker,
+            kalshi_event_ticker=chosen.event.event_ticker,
             poly_event_slug=pm.event.slug,
         ))
-        kalshi_by_teams.pop(key)
+        candidates.remove(chosen)
+        if not candidates:
+            kalshi_by_teams.pop(key)
 
-    for key, (event, away, home, _, _) in kalshi_by_teams.items():
-        log.append(
-            f"  Kalshi no Polymarket match: {event.event_ticker} ({away} @ {home})"
-        )
+    for candidates in kalshi_by_teams.values():
+        for c in candidates:
+            log.append(
+                f"  Kalshi no Polymarket match: {c.event.event_ticker} "
+                f"({c.away} @ {c.home})"
+            )
 
     log.append(f"Matched: {len(matched)} market pairs")
     return matched, log

@@ -51,8 +51,8 @@ Fixes already made (2026-07-29, all verified):
 
 Day 0 (before first collection) — code prep:
 
-- [ ] Commit the current state (collector/matcher/storage/prepare fixes +
-      notebook + this plan).
+- [x] Commit the current state (collector/matcher/storage/prepare fixes +
+      notebook + this plan). Done as 85d3a36.
 - [x] Rework `db/arbitrage/prepare_arb_analysis.py` per rule 2 (done
       2026-07-29): `arb_bbo` is built on `source_timestamp` normalized to
       naive UTC (Kalshi `epoch_ms`, Polymarket ISO cast), with the local
@@ -64,10 +64,14 @@ Day 0 (before first collection) — code prep:
       cutoff exclusion, epoch-ms/ISO alignment at the same instant,
       a 2.000s episode measured from exchange time, and blackout exclusion
       through the timezone conversion.
-- [ ] After day 1's data exists, sanity-check: every kalshi row has non-null
+- [x] After day 1's data exists, sanity-check: every kalshi row has non-null
       `source_timestamp`; lag distributions (local minus source) look like
       tens to hundreds of ms on both platforms; doubleheader days match 2
-      distinct Kalshi events for the shared team pair.
+      distinct Kalshi events for the shared team pair. Done 2026-07-31:
+      68 of 5.9M kalshi rows null (dropped by prepare); lag after removing
+      the -4h naive-Eastern offset is Kalshi p50 17ms / p99 235ms,
+      Polymarket p50 67ms / p99 273ms; no doubleheaders on the July 30
+      slate so that check was vacuous.
 
 Each collection day (user runs the collector; then, in a session):
 
@@ -110,13 +114,16 @@ When the user says collection is done (target: at least 3-5 days):
 
 ## Status
 
-**Current state: Day 0 prep — code is ready, nothing committed.** All code
-work is done (collector timestamps, doubleheader matching, upsert, prepare
-rework). Next steps: commit everything, then the user starts collecting.
-IMPORTANT: running `prepare_arb_analysis.py` now would wipe the July 23-24
-`arb_*` tables the current notebook reads (it rebuilds them empty, since no
-post-cutoff data exists yet) — do not run it until there is new data, and
-re-execute the notebook only against tables that match its data window.
+**Current state: Day 1 refresh done (July 30 data).** The notebook is
+rebuilt on 1 day / 10 games of exchange-timestamped data.
+IMPORTANT: the real `db/arb_orderbooks.db` still holds the OLD July 23-24
+`arb_*` tables. The day-1 refresh ran against a scratchpad copy because the
+collector held the DB lock (day-2 collection was in progress); the copy had
+July 31 partial rows deleted. On the next refresh, run
+`prepare_arb_analysis.py` against the real DB (collector stopped) — until
+then the notebook's outputs and the real DB's `arb_*` tables disagree.
+The notebook's DB path now honors an `ARB_DB` env var (defaults to
+`../db/arb_orderbooks.db`), which is how it was executed against the copy.
 
 Log (append one line per session that advances this plan):
 
@@ -126,3 +133,10 @@ Log (append one line per session that advances this plan):
   added).
 - 2026-07-29 — Prepare script reworked to exchange time and verified on a
   synthetic DB (scratchpad test, not committed). Real DB untouched.
+- 2026-07-31 — Day 1 refresh: 1 day (July 30), 10 games, 2,682 gross /
+  123 net episodes, $211.48 total theoretical value, 20 episodes ≥1s worth
+  $7.08 ($0.71/game). Direction counts 66 buy_kalshi / 57 buy_poly but
+  value $176 vs $35, driven by 4 large-bottleneck buy_kalshi episodes.
+  New case study: TEX@TB 11.83¢ × 41 contracts, 13ms. Ran against a
+  trimmed DB copy (collector held the lock; see Current state) — real DB's
+  arb_* tables still stale. Sanity checks passed (see Day 0 checklist).

@@ -114,16 +114,20 @@ When the user says collection is done (target: at least 3-5 days):
 
 ## Status
 
-**Current state: Day 1 refresh done (July 30 data).** The notebook is
-rebuilt on 1 day / 10 games of exchange-timestamped data.
+**Current state: Day 2 refresh done (July 30-31 data).** The notebook is
+rebuilt on 2 days / 25 games of exchange-timestamped data.
 IMPORTANT: the real `db/arb_orderbooks.db` still holds the OLD July 23-24
-`arb_*` tables. The day-1 refresh ran against a scratchpad copy because the
-collector held the DB lock (day-2 collection was in progress); the copy had
-July 31 partial rows deleted. On the next refresh, run
-`prepare_arb_analysis.py` against the real DB (collector stopped) — until
-then the notebook's outputs and the real DB's `arb_*` tables disagree.
-The notebook's DB path now honors an `ARB_DB` env var (defaults to
+`arb_*` tables. Both refreshes ran against a scratchpad copy because the
+collector held the DB lock; on the next refresh with the collector stopped,
+run `prepare_arb_analysis.py` against the real DB — until then the
+notebook's outputs and the real DB's `arb_*` tables disagree. The
+notebook's DB path honors an `ARB_DB` env var (defaults to
 `../db/arb_orderbooks.db`), which is how it was executed against the copy.
+LESSON for trimming a copy: never cut at local midnight — West-coast games
+run past midnight ET, so a midnight cut truncates live games (this
+truncated 3 games in the day-1 refresh; healed in day 2). Cut at a real
+collection gap instead (e.g. day-2 trim was at 08:00 Aug 1: overnight
+collection ended 01:15, the day-3 collector started 08:26).
 
 Log (append one line per session that advances this plan):
 
@@ -140,3 +144,11 @@ Log (append one line per session that advances this plan):
   New case study: TEX@TB 11.83¢ × 41 contracts, 13ms. Ran against a
   trimmed DB copy (collector held the lock; see Current state) — real DB's
   arb_* tables still stale. Sanity checks passed (see Day 0 checklist).
+- 2026-08-01 — Day 2 refresh: 2 days (July 30-31), 25 games, 5,814 gross /
+  321 net episodes, $287.03 total value, 52 episodes ≥1s worth $10.14
+  ($0.41/game). Direction 157 buy_kalshi / 164 buy_poly, value $210 vs
+  $77 (same 4 July-30 episodes ≈ $152). Case study unchanged (TEX@TB
+  still largest with size). July 31: 15 pairs, 112 null-src rows, lag
+  p50 19ms/79ms, no doubleheaders. Ran against a copy again (day-3
+  collection was live); trimmed at Aug 1 08:00 — see the midnight-trim
+  lesson in Current state.

@@ -114,8 +114,9 @@ When the user says collection is done (target: at least 3-5 days):
 
 ## Status
 
-**Current state: Day 2 refresh done (July 30-31 data).** The notebook is
-rebuilt on 2 days / 25 games of exchange-timestamped data.
+**Current state: Day 3 refresh done (July 30 - August 1 data).** The
+notebook is rebuilt on 3 days / 40 games of exchange-timestamped data —
+the collection target of 3-5 days is now within reach.
 IMPORTANT: the real `db/arb_orderbooks.db` still holds the OLD July 23-24
 `arb_*` tables. Both refreshes ran against a scratchpad copy because the
 collector held the DB lock; on the next refresh with the collector stopped,
@@ -152,3 +153,11 @@ Log (append one line per session that advances this plan):
   p50 19ms/79ms, no doubleheaders. Ran against a copy again (day-3
   collection was live); trimmed at Aug 1 08:00 — see the midnight-trim
   lesson in Current state.
+- 2026-08-02 — Day 3 refresh: 3 days (July 30 - Aug 1), 40 games, 8,871
+  gross / 480 net episodes, $405.89 total value, 71 episodes ≥1s worth
+  $27.38 ($0.68/game). Direction dead even 240/240, value $257 vs $149.
+  New case study: NYY@CHC (Aug 1) 19.41¢ × 138 contracts, 42ms. The
+  Aug-1 collector ran overnight and never re-matched Aug 2, so the copy
+  needed NO trim (data ends 00:55 Aug 2 local, all belonging to Aug 1
+  games). Aug 1 checks passed: 15 pairs, 140 null-src rows dropped, lag
+  p50 14ms/68ms, no doubleheaders. Real DB arb_* tables still stale.

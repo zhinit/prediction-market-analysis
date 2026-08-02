@@ -114,16 +114,17 @@ When the user says collection is done (target: at least 3-5 days):
 
 ## Status
 
-**Current state: Day 3 refresh done (July 30 - August 1 data).** The
-notebook is rebuilt on 3 days / 40 games of exchange-timestamped data —
-the collection target of 3-5 days is now within reach.
-IMPORTANT: the real `db/arb_orderbooks.db` still holds the OLD July 23-24
-`arb_*` tables. Both refreshes ran against a scratchpad copy because the
-collector held the DB lock; on the next refresh with the collector stopped,
-run `prepare_arb_analysis.py` against the real DB — until then the
-notebook's outputs and the real DB's `arb_*` tables disagree. The
-notebook's DB path honors an `ARB_DB` env var (defaults to
-`../db/arb_orderbooks.db`), which is how it was executed against the copy.
+**Current state: Day 3 refresh done (July 30 - August 1 data), real DB
+synced.** The notebook is rebuilt on 3 days / 40 games of
+exchange-timestamped data — the collection target of 3-5 days is within
+reach. The collector was stopped 2026-08-02 and `prepare_arb_analysis.py`
+was run against the real DB, so its `arb_*` tables are now current and
+the notebook runs with no env var. (The rebuild differed from the copy's
+by 9 of 3.5M states / 1 of 8,871 sub-fee gross episodes — tie-order
+noise on equal timestamps; all net results identical. Notebook
+re-executed against the real DB.) The notebook's DB path honors an
+`ARB_DB` env var (defaults to `../db/arb_orderbooks.db`) for future
+locked-DB refreshes.
 LESSON for trimming a copy: never cut at local midnight — West-coast games
 run past midnight ET, so a midnight cut truncates live games (this
 truncated 3 games in the day-1 refresh; healed in day 2). Cut at a real
